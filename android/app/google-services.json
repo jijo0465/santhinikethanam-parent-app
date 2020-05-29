@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "144613953563",
+    "firebase_url": "https://santhinikethanam-f9111.firebaseio.com",
+    "project_id": "santhinikethanam-f9111",
+    "storage_bucket": "santhinikethanam-f9111.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:144613953563:android:ed4834e6e6b17b2981e8be",
+        "android_client_info": {
+          "package_name": "com.monkmind.digicampus.santhinikethanam.parent_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "144613953563-a97nrebg9avpk1ddtcu42jvgq4v1a9vp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA98qBuTvjTuW9WRyRlXossWEctfOECTak"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "144613953563-a97nrebg9avpk1ddtcu42jvgq4v1a9vp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
