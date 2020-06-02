@@ -24,11 +24,11 @@ class _CallPageState extends State<CallPage> {
   static final _users = <int>[];
   final _infoStrings = <String>[];
   bool muted = true;
-  final broadcasterUid = 3001;
   final bool isflag = true;
-  // Firestore firestore = Firestore.instance;
+   Firestore firestore = Firestore.instance;
   Grade grade = Grade.empty();
   int id = 4001;
+  int broadcasterUid = 3001;
   // int userid;
   // int id;
 
@@ -275,12 +275,21 @@ class _CallPageState extends State<CallPage> {
   /// VideoView layout
   Widget _viewVideo() {
     return Container(child: AgoraRtcEngine.createNativeView((viewId) {
+      firestore.collection('live').document('broadcast').get().then((DocumentSnapshot value) {
+        broadcasterUid = value.data['uid'];
+        print('USER BROADCAST ID-------->>>> : $broadcasterUid');
+        AgoraRtcEngine.setupRemoteVideo(viewId, VideoRenderMode.Fit,
+            broadcasterUid);
+      });
+//      print('USER BROADCAST ID-------->>>>>${_users.first}');
+//      AgoraRtcEngine.setupRemoteVideo(viewId, VideoRenderMode.Fit,
+//          _users.first);
+
       // _viewId = viewId;
       // print(widget.uid);
       // AgoraRtcEngine.setupLocalVideo(_viewId, VideoRenderMode.Fit);
       // AgoraRtcEngine.startPreview();
-      AgoraRtcEngine.setupRemoteVideo(viewId, VideoRenderMode.Fit,
-          broadcasterUid); //widget.uid  --> Broadcaster Uid
+       //widget.uid  --> Broadcaster Uid
       // AgoraRtcEngine.startPreview();
       // AgoraRtcEngine.joinChannel(null, 'flutter', null, 0);
     }));
