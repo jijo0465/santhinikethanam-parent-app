@@ -29,6 +29,8 @@ class _CallPageState extends State<CallPage> {
   Grade grade = Grade.empty();
   int id = 4001;
   int broadcasterUid = 3001;
+  int participantUid;
+  List<int> participants= [];
   // int userid;
   // int id;
 
@@ -107,19 +109,25 @@ class _CallPageState extends State<CallPage> {
       int uid,
       int elapsed,
     ) {
-      setState(() {
-        final info = 'onJoinChannel: $channel, uid: $uid';
-        _infoStrings.add(info);
+      participantUid = uid;
+      firestore.collection('live').document('user').get().then((value) {
+        print('FIREBASE>>>>><<<<< FIREBASE <<<<>>>>>');
+        if(value['users'] != null)  {
+          for(int i=0; i<value['users'].length; i++)  {
+            participants.insert(i,value['users'][i]);
+          }
+          participants.add(uid);
+        }
+        else
+          participants.add(uid);
+          firestore.collection('live').document('user').updateData({'users': FieldValue.arrayUnion(participants)}).then((value) {
+          print('PARTICIPANTS : $participants');
+          setState(() {
+            final info = 'onJoinChannel: $channel, uid: $uid';
+            _infoStrings.add(info);
+          });
+        });
       });
-      // userid = uid;
-      // DocumentReference documentReference = firestore
-      //     .collection('classroom_${grade.id}')
-      //     .document('live_session');
-      // firestore.runTransaction((transaction) async {
-      //   await transaction.update(documentReference, {
-      //     'userid': FieldValue.arrayUnion([uid])
-      //   });
-      // });
 
       Future.delayed(Duration(seconds: 3)).then((value) {
         setState(() {
@@ -134,15 +142,6 @@ class _CallPageState extends State<CallPage> {
         _users.clear();
       });
 
-      // DocumentReference documentReference = firestore
-      //     .collection('classroom_${grade.id}')
-      //     .document('live_session');
-      // firestore.runTransaction((transaction) async {
-      //   await transaction.update(documentReference, {
-      //     'userid': FieldValue.arrayRemove([userid])
-      //   });
-      // });
-
       Future.delayed(Duration(seconds: 3)).then((value) {
         setState(() {
           _infoStrings.removeLast();
@@ -156,12 +155,7 @@ class _CallPageState extends State<CallPage> {
         _infoStrings.add(info);
         if (isflag) _users.add(uid);
       });
-      //   DocumentReference documentReference =
-      //     firestore.collection('classroom_${grade.id}').document('live_session');
-      // firestore.runTransaction((transaction) async {
-      //   await transaction.update(
-      //       documentReference, {'userid': FieldValue.arrayUnion([uid])});
-      // });
+
       Future.delayed(Duration(seconds: 3)).then((value) {
         setState(() {
           _infoStrings.removeLast();
@@ -175,15 +169,6 @@ class _CallPageState extends State<CallPage> {
         _infoStrings.add(info);
         _users.remove(uid);
       });
-
-      // DocumentReference documentReference = firestore
-      //     .collection('classroom_${grade.id}')
-      //     .document('live_session');
-      // firestore.runTransaction((transaction) async {
-      //   await transaction.update(documentReference, {
-      //     'userid': FieldValue.arrayRemove([userid])
-      //   });
-      // });
 
       Future.delayed(Duration(seconds: 3)).then((value) {
         setState(() {
@@ -479,6 +464,7 @@ class _CallPageState extends State<CallPage> {
     //     'userid': FieldValue.arrayRemove([userid])
     //   });
     // });
+    firestore.collection('live').document('user').updateData({'users': FieldValue.arrayRemove([participantUid])});
     Navigator.pop(context);
   }
 
@@ -507,7 +493,14 @@ class _CallPageState extends State<CallPage> {
             children: <Widget>[
               // SizedBox(height: 8),
               // _viewRows(),
-              _viewVideo(),
+              GestureDetector(
+                  onLongPress: _onToggleMute,
+
+                  onLongPressEnd: (_) {
+                    _onToggleMute();
+                  },
+                  behavior: HitTestBehavior.translucent,
+                  child: _viewVideo()),
               _panel(),
               _toolbar(),
               DigiCampusAppbar(

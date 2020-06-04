@@ -285,12 +285,5 @@ class _DiscussionsScreenState extends State<DiscussionsScreen> {
       await transaction.update(
           documentReference, {'disussion': FieldValue.arrayUnion(comment)});
     });
-    // documentReference.get().then((doc){
-    //   if(doc.exists){
-    //     documentReference.updateData({'disussion':FieldValue.arrayUnion(comment)});
-    //   }else{
-    //     documentReference.setData({'disussion':FieldValue.arrayUnion(comment)});
-    //   }
-    // });
   }
 }
