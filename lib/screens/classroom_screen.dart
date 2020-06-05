@@ -57,46 +57,36 @@ class _ClassroomScreenState extends State<ClassroomScreen> {
     String formattedDay = _dateFormatDay.format(date);
     String formattedDate = _dateFormat.format(date);
     List<Map<String, dynamic>> timeTableList = [
-    {
-      '0': 'Period 1',
-      '1': 'Period 2',
-      '2': 'Period 3',
-      '3': 'Period 4',
-      '4': 'Period 5',
-      '5': 'Period 6',
-    },
-    {
-      '0': 'Period 1',
-      '1': 'Period 2',
-      '2': 'Period 3',
-      '3': 'Period 4',
-      '4': 'Period 5',
-      '5': 'Period 6',
-    },
-    {
-      '0': 'Period 1',
-      '1': 'Period 2',
-      '2': 'Period 3',
-      '3': 'Period 4',
-      '4': 'Period 5',
-      '5': 'Period 6',
-    },
-    {
-      '0': 'Period 1',
-      '1': 'Period 2',
-      '2': 'Period 3',
-      '3': 'Period 4',
-      '4': 'Period 5',
-      '5': 'Period 6',
-    },
-    {
-      '0': 'Period 1',
-      '1': 'Period 2',
-      '2': 'Period 3',
-      '3': 'Period 4',
-      '4': 'Period 5',
-      '5': 'Period 6',
-    }
+      {
+      'day': 'Monday',
+      'periods': [{'pdno': 1, 'subject': 'Maths', 'startTime': '9:00', 'endTime': '11:00'},
+                  {'pdno': 2, 'subject': 'English', 'startTime': '11:00', 'endTime': '1:00'},
+                  {'pdno': 3, 'subject': 'Science', 'startTime': '2:00', 'endTime': '3:30'}],
+      },
+      {
+        'day': 'Tuesday',
+        'periods': [{'pdno': 1, 'subject': 'Science', 'startTime': '9:00', 'endTime': '11:00'},
+                    {'pdno': 2, 'subject': 'Social', 'startTime': '11:00', 'endTime': '1:00'},
+                    {'pdno': 3, 'subject': 'Hindi', 'startTime': '2:00', 'endTime': '3:30'}],
+      },
+      {
+        'day': 'Wednesday',
+        'periods': [{'pdno': 1, 'subject': 'Maths', 'startTime': '9:00', 'endTime': '11:00'},
+                    {'pdno': 2, 'subject': 'Social', 'startTime': '11:00', 'endTime': '1:00'},
+                    {'pdno': 3, 'subject': 'Science', 'startTime': '2:00', 'endTime': '3:30'}],
+      },
+      {
+        'day': 'Thursday',
+        'periods': [{'pdno': 1, 'subject': 'Hindi', 'startTime': '9:00', 'endTime': '11:00'},
+                    {'pdno': 2, 'subject': 'Maths', 'startTime': '11:00', 'endTime': '1:00'},
+                    {'pdno': 3, 'subject': 'Science', 'startTime': '2:00', 'endTime': '3:30'}],
+      },
+      {
+        'day': 'Friday',
+        'periods': [{'pdno': 1, 'subject': 'Maths', 'startTime': '9:00', 'endTime': '11:00'},
+                    {'pdno': 2, 'subject': 'Malayalam', 'startTime': '11:00', 'endTime': '1:00'},
+                    {'pdno': 3, 'subject': 'English', 'startTime': '2:00', 'endTime': '3:30'}],
+      },
   ];
     Map<String, dynamic> timeTable;
     print(formattedDay);
@@ -117,7 +107,7 @@ class _ClassroomScreenState extends State<ClassroomScreen> {
         timeTable = timeTableList[4];
         break;
       default:
-        timeTable = timeTableList[2];
+        return Container();
     }
     print('num: ${timeTable['0']}');
 
@@ -207,22 +197,6 @@ class _ClassroomScreenState extends State<ClassroomScreen> {
                                             textAlign: TextAlign.center,
                                             overflow: TextOverflow.clip,
                                           ),
-                                          hrs == (9+index) && i == 0
-                                          ?Align(
-                                            alignment: Alignment.bottomRight,
-                                            child: IntrinsicWidth(
-                                              child: Row(
-                                                mainAxisAlignment: MainAxisAlignment.end,
-                                                children: <Widget>[
-                                                  Icon(Icons.my_location,color: Colors.red[800],),
-                                                  SizedBox(width: 8,),
-                                                  Text('Live' ,style: TextStyle(color: Colors.red[900],fontWeight: FontWeight.w700),),
-                                                  SizedBox(width: 8,),
-                                                ],
-                                              ),
-                                            ),
-                                          )
-                                          :Container()
                                         ],
                                       ),
                                     )),
