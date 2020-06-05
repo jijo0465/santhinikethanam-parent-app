@@ -1,6 +1,6 @@
 class Student {
   int id;
-  int studentId;
+  int _studentId;
   int age;
   double rewards;
   Map<int, String> grade;
@@ -11,9 +11,11 @@ class Student {
   String dateOfBirth;
   String photoUrl;
 
+  get studentId => _studentId;
+
   Student(
       this.id,
-      this.studentId,
+      this._studentId,
       this.name,
       //this.parentName,
       //this.classTeacher,

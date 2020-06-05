@@ -139,175 +139,175 @@ class _DiscussionsScreenState extends State<DiscussionsScreen> {
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
-//          Container(
-//            height: 40,
-//            width: MediaQuery.of(context).size.width - 60,
-//            // decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
-//            child: TextField(
-//              onChanged: (text) {
-//                if (text == '') {
-//                  setState(() {
-//                    color = Colors.grey;
-//                  });
-//                } else {
-//                  setState(() {
-//                    color = Colors.deepOrange[300];
-//                  });
-//                }
-//              },
-//              controller: _textFieldController,
-//              // textAlignVertical: TextAlignVertical.center,
-//              textAlign: TextAlign.start,
-//              cursorColor: Colors.blue,
-//              decoration: InputDecoration(
-//                hintText: 'add to discussions...',
-//                contentPadding: EdgeInsets.symmetric(horizontal: 12),
-//                border: OutlineInputBorder(
-//                  borderRadius: BorderRadius.circular(20),
-//                ),
-//                suffixIcon: IconButton(
-//                  onPressed: () {
-//                    _addToDiscussions(_textFieldController.text);
-//                    _textFieldController.clear();
-//                  },
-//                  icon: Icon(Icons.camera_alt),
-//                  color: Colors.blue,
-//                ),
-//              ),
-//
-//              // autofocus: true,
-//              // onSubmitted: (text) {
-//              //   // print(text);
-//              //   _addToDiscussions(text);
-//              //   _textFieldController.clear();
-//              //   // text = '';
-//              // },
-//            ),
-//          ),
-//          Container(
-//              height: 40,
-//              width: 40,
-//              decoration: BoxDecoration(
-//                  shape: BoxShape.circle, color: Colors.grey[300]),
-//              child: GestureDetector(
-//                child: Icon(Icons.send, color: color),
-//                behavior: HitTestBehavior.translucent,
-//                onTap: () {
-//                  _addToDiscussions(_textFieldController.text);
-//                  _textFieldController.clear();
-//                  setState(() {
-//                    color = Colors.grey;
-//                  });
-//                },
-//              ))
-//        ],
-//      ),
+          Container(
+            height: 40,
+            width: MediaQuery.of(context).size.width - 60,
+            // decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
+            child: TextField(
+              onChanged: (text) {
+                if (text == '') {
+                  setState(() {
+                    color = Colors.grey;
+                  });
+                } else {
+                  setState(() {
+                    color = Colors.deepOrange[300];
+                  });
+                }
+              },
+              controller: _textFieldController,
+              // textAlignVertical: TextAlignVertical.center,
+              textAlign: TextAlign.start,
+              cursorColor: Colors.blue,
+              decoration: InputDecoration(
+                hintText: 'add to discussions...',
+                contentPadding: EdgeInsets.symmetric(horizontal: 12),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                suffixIcon: IconButton(
+                  onPressed: () {
+                    _addToDiscussions(_textFieldController.text);
+                    _textFieldController.clear();
+                  },
+                  icon: Icon(Icons.camera_alt),
+                  color: Colors.blue,
+                ),
+              ),
+
+              // autofocus: true,
+              // onSubmitted: (text) {
+              //   // print(text);
+              //   _addToDiscussions(text);
+              //   _textFieldController.clear();
+              //   // text = '';
+              // },
+            ),
+          ),
+          Container(
+              height: 40,
+              width: 40,
+              decoration: BoxDecoration(
+                  shape: BoxShape.circle, color: Colors.grey[300]),
+              child: GestureDetector(
+                child: Icon(Icons.send, color: color),
+                behavior: HitTestBehavior.translucent,
+                onTap: () {
+                  _addToDiscussions(_textFieldController.text);
+                  _textFieldController.clear();
+                  setState(() {
+                    color = Colors.grey;
+                  });
+                },
+              ))
+        ],
+      ),
       SizedBox(height: 12),
-//      StreamBuilder<QuerySnapshot>(
-//          // key: _key,
-//          stream: firestore.collection('classroom_${grade.id}').snapshots(),
-//          builder:
-//              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-//            if (!snapshot.hasData)
-//              return Center(
-//                child: CircularProgressIndicator(
-//                  valueColor: AlwaysStoppedAnimation<Color>(
-//                      Theme.of(context).primaryColor),
-//                ),
-//              );
-//            else {
-//              _items = snapshot.data.documents;
-//              listItem(_items);
-//              // print('item: ${_items[0]}');
-//              // setState(() {
-//              // AnimatedList.of(context).insertItem(0);
-//              // Future.delayed(Duration(milliseconds: 200))
-//              //     .then((value) => _listKey.currentState.insertItem(0));
-//
-//              // });
-//              // return listItem(_items[0]);'
-//              // commentData.addAll(_items[0]['']['']);
-//              return (_items.isNotEmpty)
-//                  ? Expanded(
-//                      child: SingleChildScrollView(
-//                          child: Column(
-//                              children: discussionListWidget.reversed.toList())
-//                          // child: listItem(_items[0]['disussion'])
-//                          ))
-//                  : Container(child: Text('No Discussions yet!!'));
-//            }
-//          }),
-    ])]));
+      StreamBuilder<QuerySnapshot>(
+          // key: _key,
+          stream: firestore.collection('classroom_${grade.id}').snapshots(),
+          builder:
+              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+            if (!snapshot.hasData)
+              return Center(
+                child: CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(
+                      Theme.of(context).primaryColor),
+                ),
+              );
+            else {
+              _items = snapshot.data.documents;
+              listItem(_items);
+              // print('item: ${_items[0]}');
+              // setState(() {
+              // AnimatedList.of(context).insertItem(0);
+              // Future.delayed(Duration(milliseconds: 200))
+              //     .then((value) => _listKey.currentState.insertItem(0));
+
+              // });
+              // return listItem(_items[0]);'
+              // commentData.addAll(_items[0]['']['']);
+              return (_items.isNotEmpty)
+                  ? Expanded(
+                      child: SingleChildScrollView(
+                          child: Column(
+                              children: discussionListWidget.reversed.toList())
+                          // child: listItem(_items[0]['disussion'])
+                          ))
+                  : Container(child: Text('No Discussions yet!!'));
+            }
+          }),
+    ]));
   }
 
-//  listItem(List<DocumentSnapshot> item) {
-//    for (; widgetIndex < item[0]['disussion'].length; widgetIndex++) {
-//      commentData.insert(widgetIndex, {
-//        'comment': item[0]['disussion'][widgetIndex]['comment'],
-//        'date': item[0]['disussion'][widgetIndex]['date']
-//      });
-//
-//      print(commentData[widgetIndex]['comment']);
-//      // print('itemval: ${item[0]['disussion'][widgetIndex]['comment']}');
-//      discussionListWidget.add(Column(children: <Widget>[
-//        Container(
-//          height: 50,
-//          width: MediaQuery.of(context).size.width * 5 / 6,
-//          child: Row(
-//            children: <Widget>[
-//              Container(
-//                height: 40,
-//                width: 40,
-//                // margin: EdgeInsets.only(left: 20),
-//                decoration: BoxDecoration(
-//                  shape: BoxShape.circle,
-//                  image: DecorationImage(
-//                      image:
-//                          // AssetImage(''),
-//                          NetworkImage(
-//                              item[0]['disussion'][widgetIndex]['url']),
-//                      fit: BoxFit.fill),
-//                ),
-//              ),
-//              Expanded(
-//                  child: Container(
-//                padding: EdgeInsets.only(left: 20, right: 20),
-//                height: 50,
-//                width: MediaQuery.of(context).size.width,
-//                child: Align(
-//                  alignment: Alignment.centerLeft,
-//                  child: Text(item[0]['disussion'][widgetIndex]['comment']),
-//                ),
-//              )),
-//            ],
-//          ),
-//        ),
-//        Divider(
-//          indent: 5,
-//          endIndent: 5,
-//          color: Colors.black38,
-//          // thickness: 2,
-//        )
-//      ]));
-//    }
-//  }
-//
-//  _addToDiscussions(String text) async {
-//    var comment = [
-//      {'comment': text, 'date': DateTime.now().toUtc(),'url':'https://neatoday.org/wp-content/uploads/2016/08/young_student-e1472643979755.jpg'}
-//    ];
-//    DocumentReference documentReference =
-//        firestore.collection('classroom_${grade.id}').document('Session_1');
-//    firestore.runTransaction((transaction) async {
-//      await transaction.update(
-//          documentReference, {'disussion': FieldValue.arrayUnion(comment)});
-//    });
-//    // documentReference.get().then((doc){
-//    //   if(doc.exists){
-//    //     documentReference.updateData({'disussion':FieldValue.arrayUnion(comment)});
-//    //   }else{
-//    //     documentReference.setData({'disussion':FieldValue.arrayUnion(comment)});
-//    //   }
-//    // });
-//  }
+  listItem(List<DocumentSnapshot> item) {
+    for (; widgetIndex < item[0]['disussion'].length; widgetIndex++) {
+      commentData.insert(widgetIndex, {
+        'comment': item[0]['disussion'][widgetIndex]['comment'],
+        'date': item[0]['disussion'][widgetIndex]['date']
+      });
+
+      print(commentData[widgetIndex]['comment']);
+      // print('itemval: ${item[0]['disussion'][widgetIndex]['comment']}');
+      discussionListWidget.add(Column(children: <Widget>[
+        Container(
+          height: 50,
+          width: MediaQuery.of(context).size.width * 5 / 6,
+          child: Row(
+            children: <Widget>[
+              Container(
+                height: 40,
+                width: 40,
+                // margin: EdgeInsets.only(left: 20),
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  image: DecorationImage(
+                      image:
+                          // AssetImage(''),
+                          NetworkImage(
+                              item[0]['disussion'][widgetIndex]['url']),
+                      fit: BoxFit.fill),
+                ),
+              ),
+              Expanded(
+                  child: Container(
+                padding: EdgeInsets.only(left: 20, right: 20),
+                height: 50,
+                width: MediaQuery.of(context).size.width,
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(item[0]['disussion'][widgetIndex]['comment']),
+                ),
+              )),
+            ],
+          ),
+        ),
+        Divider(
+          indent: 5,
+          endIndent: 5,
+          color: Colors.black38,
+          // thickness: 2,
+        )
+      ]));
+    }
+  }
+
+  _addToDiscussions(String text) async {
+    var comment = [
+      {'comment': text, 'date': DateTime.now().toUtc(),'url':'https://neatoday.org/wp-content/uploads/2016/08/young_student-e1472643979755.jpg'}
+    ];
+    DocumentReference documentReference =
+        firestore.collection('classroom_${grade.id}').document('Session_1');
+    firestore.runTransaction((transaction) async {
+      await transaction.update(
+          documentReference, {'disussion': FieldValue.arrayUnion(comment)});
+    });
+    // documentReference.get().then((doc){
+    //   if(doc.exists){
+    //     documentReference.updateData({'disussion':FieldValue.arrayUnion(comment)});
+    //   }else{
+    //     documentReference.setData({'disussion':FieldValue.arrayUnion(comment)});
+    //   }
+    // });
+  }
 }

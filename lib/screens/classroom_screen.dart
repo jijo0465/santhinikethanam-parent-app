@@ -60,31 +60,36 @@ class _ClassroomScreenState extends State<ClassroomScreen> {
     String formattedDate = _dateFormat.format(date);
     String saveFormattedDate = DateFormat('dd-MM-yyyy').format(date);
     List<Map<String, dynamic>> timeTableList = [
-    {
-      '0': 'Period 1',
-      '1': 'Period 2',
-      '2': 'Period 3',
-    },
-    {
-      '0': 'Period 1',
-      '1': 'Period 2',
-      '2': 'Period 3',
-    },
-    {
-      '0': 'Period 1',
-      '1': 'Period 2',
-      '2': 'Period 3',
-    },
-    {
-      '0': 'Period 1',
-      '1': 'Period 2',
-      '2': 'Period 3',
-    },
-    {
-      '0': 'Period 1',
-      '1': 'Period 2',
-      '2': 'Period 3',
-    }
+      {
+      'day': 'Monday',
+      'periods': [{'pdno': 1, 'subject': 'Maths', 'startTime': '9:00', 'endTime': '11:00'},
+                  {'pdno': 2, 'subject': 'English', 'startTime': '11:00', 'endTime': '1:00'},
+                  {'pdno': 3, 'subject': 'Science', 'startTime': '2:00', 'endTime': '3:30'}],
+      },
+      {
+        'day': 'Tuesday',
+        'periods': [{'pdno': 1, 'subject': 'Science', 'startTime': '9:00', 'endTime': '11:00'},
+                    {'pdno': 2, 'subject': 'Social', 'startTime': '11:00', 'endTime': '1:00'},
+                    {'pdno': 3, 'subject': 'Hindi', 'startTime': '2:00', 'endTime': '3:30'}],
+      },
+      {
+        'day': 'Wednesday',
+        'periods': [{'pdno': 1, 'subject': 'Maths', 'startTime': '9:00', 'endTime': '11:00'},
+                    {'pdno': 2, 'subject': 'Social', 'startTime': '11:00', 'endTime': '1:00'},
+                    {'pdno': 3, 'subject': 'Science', 'startTime': '2:00', 'endTime': '3:30'}],
+      },
+      {
+        'day': 'Thursday',
+        'periods': [{'pdno': 1, 'subject': 'Hindi', 'startTime': '9:00', 'endTime': '11:00'},
+                    {'pdno': 2, 'subject': 'Maths', 'startTime': '11:00', 'endTime': '1:00'},
+                    {'pdno': 3, 'subject': 'Science', 'startTime': '2:00', 'endTime': '3:30'}],
+      },
+      {
+        'day': 'Friday',
+        'periods': [{'pdno': 1, 'subject': 'Maths', 'startTime': '9:00', 'endTime': '11:00'},
+                    {'pdno': 2, 'subject': 'Malayalam', 'startTime': '11:00', 'endTime': '1:00'},
+                    {'pdno': 3, 'subject': 'English', 'startTime': '2:00', 'endTime': '3:30'}],
+      },
   ];
     Map<String, dynamic> timeTable;
     print(formattedDay);
