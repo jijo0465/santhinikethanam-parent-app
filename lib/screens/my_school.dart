@@ -174,7 +174,7 @@ class _MySchoolScreenState extends State<MySchoolScreen> {
                                         child: Container(
                                             alignment: Alignment.center,
                                             child: Text(
-                                              'A J Central',
+                                              'Santhinikethanam',
                                               style: TextStyle(
                                                   fontSize: 19,
                                                   color: Colors.white,

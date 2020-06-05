@@ -2,6 +2,7 @@ import 'package:dash_chat/dash_chat.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:parent_app/components/digicampus_appbar.dart';
+import 'package:parent_app/screens/discussions_screen.dart';
 
 class ClassroomScreen extends StatefulWidget {
   const ClassroomScreen({Key key}) : super(key: key);
@@ -52,50 +53,37 @@ class _ClassroomScreenState extends State<ClassroomScreen> {
     DateFormat _dateFormatDay = DateFormat.E();
     var date = DateTime.now().subtract(Duration(days: i));
     int hrs = 11;
+    String grade = '6';
     // print(hrs);
     // int mts = date.minute;
     String formattedDay = _dateFormatDay.format(date);
     String formattedDate = _dateFormat.format(date);
+    String saveFormattedDate = DateFormat('dd-MM-yyyy').format(date);
     List<Map<String, dynamic>> timeTableList = [
     {
       '0': 'Period 1',
       '1': 'Period 2',
       '2': 'Period 3',
-      '3': 'Period 4',
-      '4': 'Period 5',
-      '5': 'Period 6',
     },
     {
       '0': 'Period 1',
       '1': 'Period 2',
       '2': 'Period 3',
-      '3': 'Period 4',
-      '4': 'Period 5',
-      '5': 'Period 6',
     },
     {
       '0': 'Period 1',
       '1': 'Period 2',
       '2': 'Period 3',
-      '3': 'Period 4',
-      '4': 'Period 5',
-      '5': 'Period 6',
     },
     {
       '0': 'Period 1',
       '1': 'Period 2',
       '2': 'Period 3',
-      '3': 'Period 4',
-      '4': 'Period 5',
-      '5': 'Period 6',
     },
     {
       '0': 'Period 1',
       '1': 'Period 2',
       '2': 'Period 3',
-      '3': 'Period 4',
-      '4': 'Period 5',
-      '5': 'Period 6',
     }
   ];
     Map<String, dynamic> timeTable;
@@ -117,7 +105,7 @@ class _ClassroomScreenState extends State<ClassroomScreen> {
         timeTable = timeTableList[4];
         break;
       default:
-        timeTable = timeTableList[2];
+        return Container();
     }
     print('num: ${timeTable['0']}');
 
@@ -168,17 +156,15 @@ class _ClassroomScreenState extends State<ClassroomScreen> {
                           Colors.greenAccent[400]
                         ])),
                         child: Row(
-                            children: List.generate(6, (index) {
+                            children: List.generate(timeTableList[i%5].length, (index) {
                           // print(timeTable['$index'].toString());
                           return Row(
                             children: <Widget>[
                               GestureDetector(
                                 behavior: HitTestBehavior.translucent,
                                 onTap: (){
-                                  print(hrs);
-                                  hrs == (9+index) && i == 0
-                                  ? Navigator.of(context).pushNamed('/call')
-                                  : Navigator.of(context).pushNamed('/discussions');
+                                  Navigator.of(context).push(MaterialPageRoute(builder: (context) =>
+                                      DiscussionsScreen(date: saveFormattedDate, grade: grade,period: index)));
                                 },
                                 child: Container(
                                     height: 80,
@@ -207,22 +193,6 @@ class _ClassroomScreenState extends State<ClassroomScreen> {
                                             textAlign: TextAlign.center,
                                             overflow: TextOverflow.clip,
                                           ),
-                                          hrs == (9+index) && i == 0
-                                          ?Align(
-                                            alignment: Alignment.bottomRight,
-                                            child: IntrinsicWidth(
-                                              child: Row(
-                                                mainAxisAlignment: MainAxisAlignment.end,
-                                                children: <Widget>[
-                                                  Icon(Icons.my_location,color: Colors.red[800],),
-                                                  SizedBox(width: 8,),
-                                                  Text('Live' ,style: TextStyle(color: Colors.red[900],fontWeight: FontWeight.w700),),
-                                                  SizedBox(width: 8,),
-                                                ],
-                                              ),
-                                            ),
-                                          )
-                                          :Container()
                                         ],
                                       ),
                                     )),

@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:nima/nima_actor.dart';
+import 'package:parent_app/components/digi_alert.dart';
 import 'package:parent_app/components/digicampus_appbar.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:syncfusion_flutter_core/core.dart';
 import 'package:parent_app/components/digi_gauge.dart';
 
 class Student360Screen extends StatelessWidget {
-  const Student360Screen({Key key}) : super(key: key);
+  Student360Screen({Key key}) : super(key: key);
+  bool showSubscribeAlert = true;
 
   @override
   Widget build(BuildContext context) {
@@ -18,12 +20,12 @@ class Student360Screen extends StatelessWidget {
           Container(color: Theme.of(context).primaryColor.withOpacity(0.15)),
           Column(
             children: <Widget>[
-              DigiCampusAppbar(
+              !showSubscribeAlert? DigiCampusAppbar(
                 icon: Icons.close,
                 onDrawerTapped: () {
                   Navigator.of(context).pop();
                 },
-              ),
+              ):Container(),
               SizedBox(height: 8),
               Expanded(
                 child: Container(
@@ -115,6 +117,7 @@ class Student360Screen extends StatelessWidget {
                           ),
                         ),
                       ),
+                      showSubscribeAlert?DigiAlert():Container()
                       
                     ],
                   ),

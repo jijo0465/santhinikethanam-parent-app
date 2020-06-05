@@ -59,7 +59,7 @@ class DigiAppbar extends StatelessWidget {
                         Container(
                             padding: EdgeInsets.only(left: 12),
                             child: Text(
-                              'A J Central',
+                              'Santhinikethanam',
                               style: TextStyle(
                                   fontSize: 17,
                                   color: Colors.white,

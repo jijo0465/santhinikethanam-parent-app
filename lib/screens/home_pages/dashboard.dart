@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:parent_app/components/digi_alert.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:parent_app/components/digi_drawer.dart';
 import 'package:parent_app/components/digi_navbar.dart';
@@ -18,6 +19,7 @@ import 'package:provider/provider.dart';
 import 'package:parent_app/screens/knowledge_base.dart';
 import 'package:parent_app/screens/chat_screen.dart';
 import 'package:parent_app/screens/call.dart';
+import 'package:parent_app/screens/icons.dart';
 
 class HomePage extends DrawerContent {
   const HomePage({this.onPressed, this.title, Key key}) : super(key: key);
@@ -35,6 +37,8 @@ class _HomePageState extends State<HomePage> {
   bool isLoading = true;
   Student selectedStudent;
   PageController _pageController;
+  bool showSubscribeAlert = false;
+
   @override
   void initState() {
     _pageController = PageController(initialPage: 0, keepPage: true);
@@ -158,7 +162,7 @@ class _HomePageState extends State<HomePage> {
                                             SizedBox(width: 4),
                                             HomeCard(
                                               icon: Icon(
-                                                CupertinoIcons.profile_circled,
+                                                DigiIcons.student360_alt,
                                                 size: 35,
                                                 color: Color(0xff00739e),
                                               ),
@@ -173,8 +177,8 @@ class _HomePageState extends State<HomePage> {
                                             ),
                                             SizedBox(width: 0),
                                             HomeCard(
-                                              icon: Icon(Icons.view_carousel,
-                                                  size: 35,
+                                              icon: Icon(DigiIcons.virtual_class,
+                                                  size: 40,
                                                   color: Color(0xff00739e)),
                                               text: 'Virtual Classroom',
                                               isImportant: false,
@@ -235,7 +239,7 @@ class _HomePageState extends State<HomePage> {
                                               },
                                             ),
                                             HomeCard(
-                                              icon: Icon(Icons.school,
+                                              icon: Icon(DigiIcons.school,
                                                   size: 35,
                                                   color: Color(0xff00739e)),
                                               text: 'My School',
@@ -257,7 +261,7 @@ class _HomePageState extends State<HomePage> {
                                             SizedBox(width: 4),
                                             HomeCard(
                                               icon: Icon(
-                                                  CupertinoIcons.eye_solid,
+                                                  DigiIcons.noun_analytics_1014757,
                                                   size: 40,
                                                   color: Color(0xff00739e)),
                                               text: 'Academic Reports',
@@ -271,8 +275,8 @@ class _HomePageState extends State<HomePage> {
                                             ),
                                             HomeCard(
                                               icon: Icon(
-                                                  Icons.accessibility_new,
-                                                  size: 35,
+                                                  DigiIcons.school_alt,
+                                                  size: 45,
                                                   color: Color(0xff00739e)),
                                               text: 'Scholorships',
                                               isImportant: false,
@@ -317,7 +321,8 @@ class _HomePageState extends State<HomePage> {
                             navState = value;
                           });
                         },
-                      ))
+                      )),
+
                 ],
               ));
   }
