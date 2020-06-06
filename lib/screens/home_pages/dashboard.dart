@@ -32,7 +32,7 @@ class HomePage extends DrawerContent {
 
 class _HomePageState extends State<HomePage> {
   int navState = 0;
-  double _height = 270.0;
+  double _height = 260.0;
   bool stateChanged = false;
   bool isLoading = true;
   Student selectedStudent;
@@ -71,14 +71,14 @@ class _HomePageState extends State<HomePage> {
                           selectedStudent = studentState.selectedstudent;
                           return Stack(
                             children: <Widget>[
-//                              Container(
-//                                decoration: BoxDecoration(
-//                                    gradient: LinearGradient(colors: [
-//                                  Colors.grey[300],
-//                                  Colors.grey[100],
-//                                  Colors.grey[300]
-//                                ])),
-//                              ),
+                              Container(
+                                decoration: BoxDecoration(
+                                    gradient: LinearGradient(colors: [
+                                  Colors.grey[300],
+                                  Colors.grey[100],
+                                  Colors.grey[300]
+                                ])),
+                              ),
                               Container(
                                   child: Column(children: <Widget>[
                                 HomeHeader(
