@@ -11,7 +11,7 @@ class DigiBottomNavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 52,
+      height: 46,
       width: MediaQuery.of(context).size.width,
       color: Colors.white30,
       child: ClipRRect(
@@ -19,7 +19,7 @@ class DigiBottomNavBar extends StatelessWidget {
         child: BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
           child: Container(
-              padding: EdgeInsets.all(6),
+              padding: EdgeInsets.all(4),
               alignment: Alignment.bottomCenter,
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,

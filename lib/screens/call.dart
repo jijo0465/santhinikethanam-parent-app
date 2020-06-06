@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:parent_app/components/digicampus_appbar.dart';
 import 'package:parent_app/components/live_call_settings.dart';
 import 'package:parent_app/states/student_state.dart';
+import 'package:wakelock/wakelock.dart';
 
 class CallPage extends StatefulWidget {
   /// non-modifiable channel name of the page
@@ -47,6 +48,7 @@ class _CallPageState extends State<CallPage> {
   @override
   void initState() {
     super.initState();
+    Wakelock.enable();
     grade.setId(id);
     // print('${StudentState.instance().selectedstudent.id}');
     // StudentState state = Provider.of<StudentState>(context, listen: true);

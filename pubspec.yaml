@@ -65,6 +65,8 @@ dependencies:
   expandable: ^4.1.4
   agora_rtc_engine: ^1.0.12
   permission_handler: ^5.0.0+hotfix.6
+  flutter_youtube: ^2.0.0
+  wakelock: ^0.1.4+1
   chewie: ^0.9.10
 #  youtube_player_flutter: ^6.1.1
 
@@ -112,6 +114,9 @@ flutter:
     - assets/images/1001.jpg
     - assets/images/1002.jpg
     - assets/images/1003.jpg
+    - assets/images/2001.png
+    - assets/images/2002.png
+    - assets/images/2003.png
     - assets/images/school.jpg
     - assets/images/digi_campus_logo.png
     - assets/images/ucevents.png

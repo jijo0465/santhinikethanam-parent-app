@@ -1,4 +1,5 @@
 import 'package:dash_chat/dash_chat.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:parent_app/components/digicampus_appbar.dart';
@@ -13,6 +14,8 @@ class ClassroomScreen extends StatefulWidget {
 
 class _ClassroomScreenState extends State<ClassroomScreen> {
   ScrollController _scrollController = new ScrollController();
+  DateTime launchDate = DateTime(2020,6,1);
+//  StorageReference ref;
   // ScrollController _controller2;
   // double iconOffset;
   // double offset;
@@ -52,7 +55,7 @@ class _ClassroomScreenState extends State<ClassroomScreen> {
     DateFormat _dateFormat = DateFormat.yMMMd();
     DateFormat _dateFormatDay = DateFormat.E();
     var date = DateTime.now().subtract(Duration(days: i));
-    int hrs = 11;
+//    int hrs = 11;
     String grade = '6';
     // print(hrs);
     // int mts = date.minute;
@@ -62,33 +65,33 @@ class _ClassroomScreenState extends State<ClassroomScreen> {
     List<Map<String, dynamic>> timeTableList = [
       {
       'day': 'Monday',
-      'periods': [{'pdno': 1, 'subject': 'Maths', 'startTime': '9:00', 'endTime': '11:00'},
-                  {'pdno': 2, 'subject': 'English', 'startTime': '11:00', 'endTime': '1:00'},
-                  {'pdno': 3, 'subject': 'Science', 'startTime': '2:00', 'endTime': '3:30'}],
+      'periods': [{'pdno': 1, 'subject': 'Maths', 'startTime': '10:00', 'endTime': '10:30'},
+                  {'pdno': 2, 'subject': 'English', 'startTime': '10:45', 'endTime': '11:15'},
+                  {'pdno': 3, 'subject': 'Science', 'startTime': '11:30', 'endTime': '12:00'}],
       },
       {
         'day': 'Tuesday',
-        'periods': [{'pdno': 1, 'subject': 'Science', 'startTime': '9:00', 'endTime': '11:00'},
-                    {'pdno': 2, 'subject': 'Social', 'startTime': '11:00', 'endTime': '1:00'},
-                    {'pdno': 3, 'subject': 'Hindi', 'startTime': '2:00', 'endTime': '3:30'}],
+        'periods': [{'pdno': 1, 'subject': 'Science', 'startTime': '10:00', 'endTime': '10:30'},
+                    {'pdno': 2, 'subject': 'Social', 'startTime': '10:45', 'endTime': '11:15'},
+                    {'pdno': 3, 'subject': 'Hindi', 'startTime': '11:30', 'endTime': '12:00'}],
       },
       {
         'day': 'Wednesday',
-        'periods': [{'pdno': 1, 'subject': 'Maths', 'startTime': '9:00', 'endTime': '11:00'},
-                    {'pdno': 2, 'subject': 'Social', 'startTime': '11:00', 'endTime': '1:00'},
-                    {'pdno': 3, 'subject': 'Science', 'startTime': '2:00', 'endTime': '3:30'}],
+        'periods': [{'pdno': 1, 'subject': 'Maths', 'startTime': '10:00', 'endTime': '10:30'},
+                    {'pdno': 2, 'subject': 'Social', 'startTime': '10:45', 'endTime': '11:15'},
+                    {'pdno': 3, 'subject': 'Science', 'startTime': '11:30', 'endTime': '12:00'}],
       },
       {
         'day': 'Thursday',
-        'periods': [{'pdno': 1, 'subject': 'Hindi', 'startTime': '9:00', 'endTime': '11:00'},
-                    {'pdno': 2, 'subject': 'Maths', 'startTime': '11:00', 'endTime': '1:00'},
-                    {'pdno': 3, 'subject': 'Science', 'startTime': '2:00', 'endTime': '3:30'}],
+        'periods': [{'pdno': 1, 'subject': 'Hindi', 'startTime': '10:00', 'endTime': '10:30'},
+                    {'pdno': 2, 'subject': 'Maths', 'startTime': '10:45', 'endTime': '11:15'},
+                    {'pdno': 3, 'subject': 'Science', 'startTime': '11:30', 'endTime': '12:00'}],
       },
       {
         'day': 'Friday',
-        'periods': [{'pdno': 1, 'subject': 'Maths', 'startTime': '9:00', 'endTime': '11:00'},
-                    {'pdno': 2, 'subject': 'Malayalam', 'startTime': '11:00', 'endTime': '1:00'},
-                    {'pdno': 3, 'subject': 'English', 'startTime': '2:00', 'endTime': '3:30'}],
+        'periods': [{'pdno': 1, 'subject': 'Maths', 'startTime': '10:00', 'endTime': '10:30'},
+                    {'pdno': 2, 'subject': 'Malayalam', 'startTime': '10:45', 'endTime': '11:15'},
+                    {'pdno': 3, 'subject': 'English', 'startTime': '11:30', 'endTime': '12:00'}],
       },
   ];
     Map<String, dynamic> timeTable;
@@ -112,7 +115,7 @@ class _ClassroomScreenState extends State<ClassroomScreen> {
       default:
         return Container();
     }
-    print('num: ${timeTable['0']}');
+    print('num: $timeTable');
 
     // List<Widget> _periods = [];
     // for (int i = 0; i < 7; i++) _periods.add(periodWidgets(i, formattedDay));
@@ -161,7 +164,10 @@ class _ClassroomScreenState extends State<ClassroomScreen> {
                           Colors.greenAccent[400]
                         ])),
                         child: Row(
-                            children: List.generate(timeTableList[i%5].length, (index) {
+                            children: List.generate(timeTable['periods'].length, (index) {
+//                              ref = FirebaseStorage.instance.ref()
+//                                      .child("videos/$grade/$saveFormattedDate/${timeTable['periods'][index]['pdno']}");
+//                              ref!=null;
                           // print(timeTable['$index'].toString());
                           return Row(
                             children: <Widget>[
@@ -169,7 +175,7 @@ class _ClassroomScreenState extends State<ClassroomScreen> {
                                 behavior: HitTestBehavior.translucent,
                                 onTap: (){
                                   Navigator.of(context).push(MaterialPageRoute(builder: (context) =>
-                                      DiscussionsScreen(date: saveFormattedDate, grade: grade,period: index)));
+                                      DiscussionsScreen(date: saveFormattedDate, grade: grade,period: timeTable['periods'][index]['pdno'])));
                                 },
                                 child: Container(
                                     height: 80,
@@ -191,7 +197,7 @@ class _ClassroomScreenState extends State<ClassroomScreen> {
                                         crossAxisAlignment: CrossAxisAlignment.center,
                                         children: <Widget>[
                                           Text(
-                                            timeTable['$index'].toString(),
+                                            '${timeTable['periods'][index]['subject'].toString()}\n${timeTable['periods'][index]['startTime'].toString()}-${timeTable['periods'][index]['endTime'].toString()}' ,
                                             style: TextStyle(
                                               fontSize: 12,
                                             ),
@@ -222,7 +228,8 @@ class _ClassroomScreenState extends State<ClassroomScreen> {
   Widget build(BuildContext context) {
     int hr;
     List<Widget> _dateTileWidgets = [];
-    for (int i = 0; i < 20; i++) _dateTileWidgets.add(dateTiles(i));
+//    int i = DateTime.now().difference(launchDate).inDays;
+    for (int i = 0; i <= DateTime.now().difference(launchDate).inDays; i++) _dateTileWidgets.add(dateTiles(i));
     return Scaffold(
         body: Column(
       children: <Widget>[
