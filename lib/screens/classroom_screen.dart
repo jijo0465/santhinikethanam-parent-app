@@ -120,17 +120,18 @@ class _ClassroomScreenState extends State<ClassroomScreen> {
     // List<Widget> _periods = [];
     // for (int i = 0; i < 7; i++) _periods.add(periodWidgets(i, formattedDay));
     return Container(
+      decoration: BoxDecoration(),
         child: Column(children: [
       Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.only(left:8.0,top: 8),
           child: Card(
               elevation: 8,
               color: Colors.grey[200],
               child: IntrinsicHeight(
                   child: Row(children: <Widget>[
                 Container(
-                  width: 60,
-                  color: Colors.orange[200],
+                  width: 70,
+                  color: Colors.orange[100],
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -234,14 +235,15 @@ class _ClassroomScreenState extends State<ClassroomScreen> {
         body: Column(
       children: <Widget>[
         DigiCampusAppbar(
+          title: 'Virtual Classroom',
           icon: Icons.close,
           onDrawerTapped: () {
             Navigator.of(context).pop();
           },
         ),
-        SizedBox(height: 12),
+        SizedBox(height: 8),
         Container(
-          margin: EdgeInsets.symmetric(horizontal: 10.0),
+          margin: EdgeInsets.symmetric(horizontal: 0.0),
           height: 50,
           child: SingleChildScrollView(
             // controller: _controller2,

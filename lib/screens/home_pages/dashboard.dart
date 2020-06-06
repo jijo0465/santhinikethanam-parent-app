@@ -3,6 +3,9 @@ import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:parent_app/components/digi_alert.dart';
+import 'package:parent_app/components/digi_appbar.dart';
+import 'package:parent_app/components/digicampus_appbar.dart';
+import 'package:parent_app/screens/student_profile_screen.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:parent_app/components/digi_drawer.dart';
 import 'package:parent_app/components/digi_navbar.dart';
@@ -38,7 +41,7 @@ class _HomePageState extends State<HomePage> {
   Student selectedStudent;
   PageController _pageController;
   bool showSubscribeAlert = false;
-
+  double roundnessFactor = 40.0;
   @override
   void initState() {
     _pageController = PageController(initialPage: 0, keepPage: true);
@@ -82,6 +85,7 @@ class _HomePageState extends State<HomePage> {
                               Container(
                                   child: Column(children: <Widget>[
                                 HomeHeader(
+                                  roundnessFactor: roundnessFactor,
                                   onStudentTapped: () {
                                     isLoading = true;
                                     Navigator.push(
@@ -103,18 +107,21 @@ class _HomePageState extends State<HomePage> {
                                     print(_height);
                                     if (_height < 600) {
                                       setState(() {
+                                        roundnessFactor = 40;
                                         _height = 300;
                                       });
                                     }
                                   },
                                   onDrag: (dragUpdateDetails) {
-                                    // print(dragUpdateDetails.globalPosition.distance);
+
+                                     print(dragUpdateDetails.globalPosition.distance);
                                     // print(dragUpdateDetails.globalPosition.dy);
                                     if (dragUpdateDetails.delta.dy > 0) {
                                       if (dragUpdateDetails
                                               .globalPosition.distance >
                                           MediaQuery.of(context).size.height *
                                               0.7) {
+//                                        roundnessFactor = 40;
                                         Navigator.push(
                                           context,
                                           PageRouteBuilder(
@@ -122,6 +129,7 @@ class _HomePageState extends State<HomePage> {
                                                 Duration(milliseconds: 400),
                                             pageBuilder: (_, __, ___) =>
                                                 StudentDetailsScreen(),
+//                                          StudentProfileScreen()
                                           ),
                                         ).then((value) {
                                           // setState(() {
@@ -130,6 +138,7 @@ class _HomePageState extends State<HomePage> {
                                         });
                                       } else {
                                         setState(() {
+                                          roundnessFactor = roundnessFactor - dragUpdateDetails.delta.dy;
                                           _height +=
                                               dragUpdateDetails.delta.dy *
                                                   log(dragUpdateDetails
@@ -293,7 +302,7 @@ class _HomePageState extends State<HomePage> {
                                           ],
                                         ),
                                       ),
-                                      SizedBox(height: 64)
+                                      SizedBox(height: 42)
                                     ],
                                   ),
                                 )),
@@ -306,9 +315,10 @@ class _HomePageState extends State<HomePage> {
                       ChatScreen()
                     ],
                   ),
-                  PageHeader(
-                    onPressed: widget.onPressed,
-                  ),
+//                  PageHeader(
+//                    onPressed: widget.onPressed,
+//                  ),
+                  DigiCampusAppbar(icon: null,onDrawerTapped: widget.onPressed,title: 'Santhinikethanam',),
                   Positioned(
                       bottom: 4,
                       child: DigiBottomNavBar(

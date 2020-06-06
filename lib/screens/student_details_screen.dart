@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:parent_app/components/digicampus_appbar.dart';
 import 'package:parent_app/components/digi_key_value_display.dart';
 import 'package:parent_app/models/student.dart';
+import 'package:parent_app/services/digi_attendance.dart';
+import 'package:parent_app/states/login_state.dart';
 import 'package:parent_app/states/student_state.dart';
 import 'package:provider/provider.dart';
 
@@ -44,12 +46,12 @@ class _StudentDetailsScreenState extends State<StudentDetailsScreen> {
         body: Stack(
       children: <Widget>[
         Container(
-          padding: EdgeInsets.only(top: 35),
+//          padding: EdgeInsets.only(top: 35),
           height: 400,
           width: double.infinity,
           child: Image.asset(
             'assets/images/school.jpg',
-            fit: BoxFit.fill,
+            fit: BoxFit.cover,
           ),
         ),
         BackdropFilter(
@@ -58,20 +60,21 @@ class _StudentDetailsScreenState extends State<StudentDetailsScreen> {
             color: Colors.black.withOpacity(0.3),
             child: Column(
               children: <Widget>[
-                DigiCampusAppbar(
-                  icon: Icons.home,
-//                  trailing: Icon(Icons.notifications_active),
-                  onDrawerTapped: () {
-                    Navigator.of(context).pop();
-                  },
-                ),
-                SizedBox(height: 6),
+//                DigiCampusAppbar(
+//                  icon: Icons.home,
+////                  trailing: Icon(Icons.notifications_active),
+//                  onDrawerTapped: () {
+//                    Navigator.of(context).pop();
+//                  },
+//                ),
+                SizedBox(height: MediaQuery.of(context).padding.top+12),
                 AnimatedOpacity(
                   opacity: isFading ? 0 : 1,
                   duration: Duration(milliseconds: isFading ? 400 : 100),
                   child: AnimatedContainer(
+
                       //color: Colors.blue,
-                      height: isFading ? 4 : 25,
+                      height: isFading ? 4 : 38,
                       width: isFading ? 4 : 200,
                       alignment: Alignment.center,
                       duration: Duration(milliseconds: isFading ? 400 : 100),
@@ -146,62 +149,81 @@ class _StudentDetailsScreenState extends State<StudentDetailsScreen> {
                     //width:MediaQuery.of(context).size.width,
                     child: Consumer<StudentState>(
                       builder: (context,studentState,_) {
-                        return Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            SizedBox(height: 6),
-                            Container(
-                              child: Text(
-                                'Student ID : S-${studentState.selectedstudent.id}',
-                                style: TextStyle(fontSize: 16, color: Colors.white),
-                              ),
-                            ),
-                            SizedBox(height: 6),
-                            DigiKeyValueDisplay(
-                                textKey: 'Student Name',
-                                textValue: '${studentState.selectedstudent.name}',
-                                textColor: Colors.white),
-                            DigiKeyValueDisplay(
-                                textKey: 'Parent Name',
-                                textValue: '<P_Name>',
-                                textColor: Colors.white),
-                            DigiKeyValueDisplay(
-                                textKey: 'Class Teacher',
-                                textValue: '<T_Name>',
-                                textColor: Colors.white),
-                            DigiKeyValueDisplay(
-                                textKey: 'Class',
-                                textValue: '<CLASS>',
-                                textColor: Colors.white),
-                            DigiKeyValueDisplay(
-                                textKey: 'Date of Birth',
-                                textValue: '<D-O-B>',
-                                textColor: Colors.white),
-                            DigiKeyValueDisplay(
-                                textKey: 'Age',
-                                textValue: '<Age>',
-                                textColor: Colors.white),
-                            DigiKeyValueDisplay(
-                                textKey: 'Blood Group',
-                                textValue: '<Type>',
-                                textColor: Colors.white),
-                            DigiKeyValueDisplay(
-                                textKey: 'Rewards',
-                                textValue: '<**@*@*@**>',
-                                textColor: Colors.white),
+                        return Container(
+//                          color: Colors.white,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              SizedBox(height: 60),
+                              Container(
 
-                            // DigiKeyValueDisplay(),
-                            // DigiKeyValueDisplay(),
-                            SizedBox(height: 6),
-                          ],
+                                child: Text(
+                                  'Student ID : S-${studentState.selectedstudent.id}',
+                                  style: TextStyle(fontSize: 16, color: Colors.white),
+                                ),
+                              ),
+                              SizedBox(height: 6),
+                              DigiKeyValueDisplay(
+                                  textKey: 'Name',
+                                  textValue: '${studentState.selectedstudent.name}',
+                                  textColor: Colors.white),
+//                            DigiKeyValueDisplay(
+//                                textKey: 'Parent Name',
+//                                textValue: '<P_Name>',
+//                                textColor: Colors.white),
+//                            DigiKeyValueDisplay(
+//                                textKey: 'Class Teacher',
+//                                textValue: '<T_Name>',
+//                                textColor: Colors.white),
+                              DigiKeyValueDisplay(
+                                  textKey: 'Class',
+                                  textValue: '<CLASS>',
+                                  textColor: Colors.white),
+                              DigiKeyValueDisplay(
+                                  textKey: 'Div',
+                                  textValue: 'A',
+                                  textColor: Colors.white),
+//                            DigiKeyValueDisplay(
+//                                textKey: 'Age',
+//                                textValue: '<Age>',
+//                                textColor: Colors.white),
+//                            DigiKeyValueDisplay(
+//                                textKey: 'Blood Group',
+//                                textValue: '<Type>',
+//                                textColor: Colors.white),
+//                            DigiKeyValueDisplay(
+//                                textKey: 'Rewards',
+//                                textValue: '<**@*@*@**>',
+//                                textColor: Colors.white),
+
+                              // DigiKeyValueDisplay(),
+                              // DigiKeyValueDisplay(),
+                              SizedBox(height: 6),
+                              Expanded(
+                                child: Container(),
+                              ),
+                              Container(
+                                width: MediaQuery.of(context).size.width*0.5,
+                                child: RaisedButton(
+                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
+                                  hoverColor: Theme.of(context).primaryColor.withOpacity(0.7),
+                                  splashColor: Theme.of(context).primaryColor.withOpacity(0.4),
+                                  color: Colors.white.withOpacity(0.9),
+                                  onPressed: ()async{
+                                    Navigator.of(context).pop();
+                                    LoginState.instance().signOut();
+                                  },
+                                  child: Text('Logout'),),
+                              ),
+                              SizedBox(height: 8,)
+                            ],
+                          ),
                         );
                       }
                     ),
                     decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          begin: Alignment.topRight,
-                          end: Alignment.bottomLeft,
-                          colors: [Theme.of(context).primaryColor,Theme.of(context).primaryColor.withOpacity(0.85)]),
+                        color: Theme.of(context).primaryColor,
                         borderRadius: BorderRadius.only(
                             topLeft: Radius.circular(50),
                             topRight: Radius.circular(50))),
@@ -213,43 +235,43 @@ class _StudentDetailsScreenState extends State<StudentDetailsScreen> {
             ),
           ),
         ),
-        Container(
-          height: 395,
-          child: Row(
-            children: <Widget>[
-              Expanded(
-                child: Container(
-                  alignment: Alignment.centerLeft,
-                  child: GestureDetector(
-                    behavior: HitTestBehavior.translucent,
-                    child: Icon(CupertinoIcons.left_chevron,
-                        size: 30, color: Colors.white.withOpacity(0.9)),
-                    onTap: () async {
-                      _pageController.previousPage(
-                          duration: Duration(milliseconds: 500),
-                          curve: Curves.linear);
-                    },
-                  ),
-                ),
-              ),
-              Expanded(
-                child: Container(
-                  alignment: Alignment.centerRight,
-                  child: GestureDetector(
-                    behavior: HitTestBehavior.translucent,
-                    child: Icon(CupertinoIcons.right_chevron,
-                        size: 30, color: Colors.white.withOpacity(0.9)),
-                    onTap: () {
-                      _pageController.nextPage(
-                          duration: Duration(milliseconds: 500),
-                          curve: Curves.linear);
-                    },
-                  ),
-                ),
-              )
-            ],
-          ),
-        )
+//        Container(
+//          height: 395,
+//          child: Row(
+//            children: <Widget>[
+//              Expanded(
+//                child: Container(
+//                  alignment: Alignment.centerLeft,
+//                  child: GestureDetector(
+//                    behavior: HitTestBehavior.translucent,
+//                    child: Icon(CupertinoIcons.left_chevron,
+//                        size: 30, color: Colors.white.withOpacity(0.9)),
+//                    onTap: () async {
+//                      _pageController.previousPage(
+//                          duration: Duration(milliseconds: 500),
+//                          curve: Curves.linear);
+//                    },
+//                  ),
+//                ),
+//              ),
+//              Expanded(
+//                child: Container(
+//                  alignment: Alignment.centerRight,
+//                  child: GestureDetector(
+//                    behavior: HitTestBehavior.translucent,
+//                    child: Icon(CupertinoIcons.right_chevron,
+//                        size: 30, color: Colors.white.withOpacity(0.9)),
+//                    onTap: () {
+//                      _pageController.nextPage(
+//                          duration: Duration(milliseconds: 500),
+//                          curve: Curves.linear);
+//                    },
+//                  ),
+//                ),
+//              )
+//            ],
+//          ),
+//        )
       ],
     ));
   }

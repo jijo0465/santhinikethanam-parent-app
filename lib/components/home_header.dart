@@ -11,6 +11,7 @@ class HomeHeader extends StatelessWidget {
   final ValueChanged<DragEndDetails> onDragEnd;
   final ValueChanged<DragUpdateDetails> onDrag;
   final double height;
+  final double roundnessFactor;
   final VoidCallback onStudentTapped;
   const HomeHeader(
       {Key key,
@@ -18,7 +19,8 @@ class HomeHeader extends StatelessWidget {
       this.onDragEnd,
       this.onDrag,
       this.height,
-      this.onStudentTapped})
+      this.onStudentTapped,
+        this.roundnessFactor})
       : super(key: key);
 
   @override
@@ -29,7 +31,7 @@ class HomeHeader extends StatelessWidget {
         onVerticalDragEnd: onDragEnd,
         onVerticalDragUpdate: onDrag,
         child: ClipPath(
-            clipper: BackgroundClipper(),
+            clipper: BackgroundClipper(roundnessFactor),
             child: AnimatedContainer(
               height: height,
               width: double.infinity,
@@ -46,7 +48,7 @@ class HomeHeader extends StatelessWidget {
                     mainAxisSize: MainAxisSize.max,
                     // mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
-                      SizedBox(height: 60+MediaQuery.of(context).padding.top),
+                      SizedBox(height: 30+MediaQuery.of(context).padding.top),
                       // Row(
                       //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       //   children: <Widget>[
@@ -181,9 +183,11 @@ class HomeHeader extends StatelessWidget {
 }
 
 class BackgroundClipper extends CustomClipper<Path> {
+  double roundnessFactor ;
+
+  BackgroundClipper(this.roundnessFactor);
   @override
   Path getClip(Size size) {
-    var roundnessFactor = 40.0;
     var path = Path();
     path.moveTo(0, 0);
     path.lineTo(0, size.height);

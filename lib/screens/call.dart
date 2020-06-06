@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'package:agora_rtc_engine/agora_rtc_engine.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:parent_app/components/raise_hand.dart';
 import 'package:parent_app/models/grade.dart';
 import 'package:provider/provider.dart';
 import 'package:parent_app/components/digicampus_appbar.dart';
@@ -21,12 +23,12 @@ class CallPage extends StatefulWidget {
   _CallPageState createState() => _CallPageState();
 }
 
-class _CallPageState extends State<CallPage> {
+class _CallPageState extends State<CallPage> with WidgetsBindingObserver{
   static final _users = <int>[];
   final _infoStrings = <String>[];
   bool muted = true;
   final bool isflag = true;
-   Firestore firestore = Firestore.instance;
+  Firestore firestore = Firestore.instance;
   Grade grade = Grade.empty();
   int id = 4001;
   int broadcasterUid = 3001;
@@ -36,6 +38,23 @@ class _CallPageState extends State<CallPage> {
   // int id;
 
   @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    switch (state) {
+      case AppLifecycleState.resumed:
+        print("app in resumed");
+        break;
+      case AppLifecycleState.inactive:
+        this.dispose();
+        break;
+      case AppLifecycleState.paused:
+        this.dispose();
+        break;
+      case AppLifecycleState.detached:
+        this.dispose();
+        break;
+    }
+  }
+  @override
   void dispose() {
     // clear users
     _users.clear();
@@ -44,6 +63,8 @@ class _CallPageState extends State<CallPage> {
     AgoraRtcEngine.destroy();
     super.dispose();
   }
+
+
 
   @override
   void initState() {
@@ -107,10 +128,10 @@ class _CallPageState extends State<CallPage> {
     };
 
     AgoraRtcEngine.onJoinChannelSuccess = (
-      String channel,
-      int uid,
-      int elapsed,
-    ) {
+        String channel,
+        int uid,
+        int elapsed,
+        ) {
       participantUid = uid;
       firestore.collection('live').document('user').get().then((value) {
         print('FIREBASE>>>>><<<<< FIREBASE <<<<>>>>>');
@@ -122,7 +143,7 @@ class _CallPageState extends State<CallPage> {
         }
         else
           participants.add(uid);
-          firestore.collection('live').document('user').updateData({'users': FieldValue.arrayUnion(participants)}).then((value) {
+        firestore.collection('live').document('user').updateData({'users': FieldValue.arrayUnion(participants)}).then((value) {
           print('PARTICIPANTS : $participants');
           setState(() {
             final info = 'onJoinChannel: $channel, uid: $uid';
@@ -180,11 +201,11 @@ class _CallPageState extends State<CallPage> {
     };
 
     AgoraRtcEngine.onFirstRemoteVideoFrame = (
-      int uid,
-      int width,
-      int height,
-      int elapsed,
-    ) {
+        int uid,
+        int width,
+        int height,
+        int elapsed,
+        ) {
       setState(() {
         final info = 'firstRemoteVideo: $uid ${width}x $height';
         _infoStrings.add(info);
@@ -276,7 +297,7 @@ class _CallPageState extends State<CallPage> {
       // print(widget.uid);
       // AgoraRtcEngine.setupLocalVideo(_viewId, VideoRenderMode.Fit);
       // AgoraRtcEngine.startPreview();
-       //widget.uid  --> Broadcaster Uid
+      //widget.uid  --> Broadcaster Uid
       // AgoraRtcEngine.startPreview();
       // AgoraRtcEngine.joinChannel(null, 'flutter', null, 0);
     }));
@@ -286,63 +307,12 @@ class _CallPageState extends State<CallPage> {
   /// Toolbar layout
   Widget _toolbar() {
     return Container(
-      alignment: Alignment.bottomCenter,
-      padding: const EdgeInsets.symmetric(vertical: 48),
+      color: Colors.white70,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         // crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          // RawMaterialButton(
-          //   onPressed: _onToggleMute,
-          //   child: Icon(
-          //     muted ? Icons.mic_off : Icons.mic,
-          //     color: muted ? Colors.white : Colors.blueAccent,
-          //     size: 20.0,
-          //   ),
-          //   shape: CircleBorder(),
-          //   elevation: 2.0,
-          //   fillColor: muted ? Colors.blueAccent : Colors.white,
-          //   padding: const EdgeInsets.all(12.0),
-          // ),
-          // Flexible(
-          //   flex: 2,
-          //   child: GestureDetector(
-          //     onLongPress: _onToggleMute,
-          //     onLongPressEnd: (_) {
-          //       _onToggleMute();
-          //     },
-          //     child: Container(
-          //       // height: 50,
-          //       // width: 50,
-          //       decoration: BoxDecoration(
-          //         shape: BoxShape.circle,
-          //         color: muted ? Colors.blueAccent : Colors.white,
-          //       ),
-          //       padding: const EdgeInsets.all(12.0),
-          //       child: Icon(
-          //         muted ? Icons.mic_off : Icons.mic,
-          //         color: muted ? Colors.red : Colors.white,
-          //         size: 20.0,
-          //       ),
-          //     ),
-          //   ),
-          // ),
-          Flexible(
-            flex: 2,
-            child: RaisedButton(
-                shape: CircleBorder(side: BorderSide(color: Colors.black12)),
-                color: Theme.of(context).primaryColor.withOpacity(0.4),
-                onPressed: () {
-                  // setState(() {
-                  //   checkParticipants = !checkParticipants;
-                  // });
-                },
-                child: Icon(
-                  Icons.chat,
-                  color: Colors.white,
-                  size: 20.0,
-                )),
-          ),
+
           Flexible(
             flex: 2,
             child: GestureDetector(
@@ -374,34 +344,34 @@ class _CallPageState extends State<CallPage> {
               ),
             ),
           ),
-          Flexible(
-            flex: 2,
-            child: RaisedButton(
-                shape: CircleBorder(side: BorderSide(color: Colors.black12)),
-                color: Theme.of(context).primaryColor.withOpacity(0.4),
-                onPressed: _onSwitchCamera,
-                child: Icon(
-                  Icons.switch_camera,
-                  color: Colors.white,
-                  size: 20.0,
-                )),
-          ),
-          Flexible(
-            flex: 2,
-            child: RaisedButton(
-                shape: CircleBorder(side: BorderSide(color: Colors.black12)),
-                color: Theme.of(context).primaryColor.withOpacity(0.4),
-                onPressed: () {
-                  // setState(() {
-                  //   checkParticipants = !checkParticipants;
-                  // });
-                },
-                child: Icon(
-                  Icons.group,
-                  color: Colors.white,
-                  size: 20.0,
-                )),
-          ),
+//          Flexible(
+//            flex: 2,
+//            child: RaisedButton(
+//                shape: CircleBorder(side: BorderSide(color: Colors.black12)),
+//                color: Theme.of(context).primaryColor.withOpacity(0.4),
+//                onPressed: _onSwitchCamera,
+//                child: Icon(
+//                  Icons.switch_camera,
+//                  color: Colors.white,
+//                  size: 20.0,
+//                )),
+//          ),
+//          Flexible(
+//            flex: 2,
+//            child: RaisedButton(
+//                shape: CircleBorder(side: BorderSide(color: Colors.black12)),
+//                color: Theme.of(context).primaryColor.withOpacity(0.4),
+//                onPressed: () {
+//                  // setState(() {
+//                  //   checkParticipants = !checkParticipants;
+//                  // });
+//                },
+//                child: Icon(
+//                  Icons.group,
+//                  color: Colors.white,
+//                  size: 20.0,
+//                )),
+//          ),
         ],
       ),
     );
@@ -439,7 +409,7 @@ class _CallPageState extends State<CallPage> {
                         ),
                         decoration: BoxDecoration(
                           color:
-                              Theme.of(context).primaryColor.withOpacity(0.3),
+                          Theme.of(context).primaryColor.withOpacity(0.3),
                           borderRadius: BorderRadius.circular(5),
                         ),
                         child: Text(
@@ -466,6 +436,7 @@ class _CallPageState extends State<CallPage> {
     //     'userid': FieldValue.arrayRemove([userid])
     //   });
     // });
+
     firestore.collection('live').document('user').updateData({'users': FieldValue.arrayRemove([participantUid])});
     Navigator.pop(context);
   }
@@ -481,6 +452,8 @@ class _CallPageState extends State<CallPage> {
     AgoraRtcEngine.switchCamera();
   }
 
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -495,30 +468,64 @@ class _CallPageState extends State<CallPage> {
             children: <Widget>[
               // SizedBox(height: 8),
               // _viewRows(),
-              GestureDetector(
-                  onLongPress: _onToggleMute,
-
-                  onLongPressEnd: (_) {
-                    _onToggleMute();
-                  },
-                  behavior: HitTestBehavior.translucent,
-                  child: _viewVideo()),
+              _viewVideo(),
               _panel(),
-              _toolbar(),
-              DigiCampusAppbar(
-                icon: Icons.close,
-                onDrawerTapped: () {
-                  // DocumentReference documentReference = firestore
-                  //     .collection('classroom_${grade.id}')
-                  //     .document('live_session');
-                  // firestore.runTransaction((transaction) async {
-                  //   await transaction.update(documentReference, {
-                  //     'userid': FieldValue.arrayRemove([userid])
-                  //   });
-                  // });
-                  Navigator.of(context).pop();
-                },
+              Positioned(
+                top: MediaQuery.of(context).padding.top,
+                child: Container(
+                  child: IconButton(
+                    onPressed: () => _onCallEnd(context),
+//                  backgroundColor: Colors.white30,
+                    icon: Icon(Icons.add_to_home_screen,color: Colors.red,),
+                  ),
+                ),
               ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: GestureDetector(
+                    onTap: _onToggleMute,
+                    child: Container(
+                      padding: EdgeInsets.all(8),
+                      height: 80,
+                      width: 80,
+//                      decoration: BoxDecoration(
+//                        border: Border.all(color: muted ?Theme.of(context).primaryColor:Colors.red,width: 2),
+//                        borderRadius: BorderRadius.circular(1000),
+//                        color:  muted ? Colors.white54:Colors.white70
+//                      ),
+                      child: Center(
+                        child: Image.asset('assets/images/raised_hand.png',
+                          color: muted ?Theme.of(context).primaryColor:Colors.red,fit: BoxFit.fitHeight,),
+//                        child: Icon(RaiseHand.raised_hand,size: 40,color: muted ?Theme.of(context).primaryColor:Colors.red,),
+
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Text(muted?'Tap to speak':'Your mic is on',
+                  style: TextStyle(fontSize: 8,color: muted ?Colors.white70:Colors.red),),
+              )
+
+//              Align(alignment: Alignment.bottomCenter,child: _toolbar()),
+//              DigiCampusAppbar(
+//                icon: Icons.close,
+//                onDrawerTapped: () {
+//                  // DocumentReference documentReference = firestore
+//                  //     .collection('classroom_${grade.id}')
+//                  //     .document('live_session');
+//                  // firestore.runTransaction((transaction) async {
+//                  //   await transaction.update(documentReference, {
+//                  //     'userid': FieldValue.arrayRemove([userid])
+//                  //   });
+//                  // });
+//                  Navigator.of(context).pop();
+//                },
+//              ),
             ],
           ),
         ),

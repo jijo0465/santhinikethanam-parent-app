@@ -333,7 +333,7 @@ class _DiscussionsScreenState extends State<DiscussionsScreen> {
                     // child: listItem(_items[0]['disussion'])
                   ))
                   : Container(child: Text('No Discussions yet!!'))
-                )],
+                ],
               );
             }
           }),

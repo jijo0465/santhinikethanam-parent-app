@@ -114,9 +114,6 @@ flutter:
     - assets/images/1001.jpg
     - assets/images/1002.jpg
     - assets/images/1003.jpg
-    - assets/images/2001.png
-    - assets/images/2002.png
-    - assets/images/2003.png
     - assets/images/school.jpg
     - assets/images/digi_campus_logo.png
     - assets/images/ucevents.png
@@ -128,6 +125,8 @@ flutter:
     - assets/images/tutorial1.jpg
     - assets/images/tutorial2.jpg
     - assets/images/tutorial3.jpg
+    - assets/images/raised_hand.png
+    - assets/images/school_logo.jpeg
 
 
   # An image asset can refer to one or more resolution-specific "variants", see
@@ -158,6 +157,10 @@ flutter:
     - family:  MyFlutterApp
       fonts:
         - asset: assets/fonts/MyFlutterApp.ttf
+
+    - family:  RaiseHand
+      fonts:
+        - asset: assets/fonts/raisehand.ttf
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
