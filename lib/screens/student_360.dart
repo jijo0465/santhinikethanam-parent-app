@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:nima/nima_actor.dart';
-import 'package:parent_app/components/digi_alert.dart';
 import 'package:parent_app/components/digicampus_appbar.dart';
-import 'package:syncfusion_flutter_gauges/gauges.dart';
+import 'package:parent_app/components/digi_alert.dart';
+import 'package:parent_app/screens/icons.dart';
 import 'package:syncfusion_flutter_core/core.dart';
 import 'package:parent_app/components/digi_gauge.dart';
 
@@ -21,6 +21,7 @@ class Student360Screen extends StatelessWidget {
           Column(
             children: <Widget>[
               !showSubscribeAlert? DigiCampusAppbar(
+                title:'Student 360',
                 icon: Icons.close,
                 onDrawerTapped: () {
                   Navigator.of(context).pop();
@@ -117,7 +118,7 @@ class Student360Screen extends StatelessWidget {
                           ),
                         ),
                       ),
-                      showSubscribeAlert?DigiAlert():Container()
+
                       
                     ],
                   ),
@@ -125,6 +126,7 @@ class Student360Screen extends StatelessWidget {
               ),
             ],
           ),
+          showSubscribeAlert?DigiAlert(title: 'Student 360',text: 'AI-based insights are in sight! Just subscribe.',icon: DigiIcons.student360_alt,):Container()
         ],
       ),
     );

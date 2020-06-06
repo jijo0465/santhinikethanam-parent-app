@@ -1,10 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:parent_app/components/digi_alert.dart';
 import 'package:parent_app/components/digi_screen_title.dart';
 import 'package:parent_app/components/digi_subject_bar.dart';
 import 'package:parent_app/components/digi_graph_chart.dart';
 import 'package:parent_app/components/digi_time_line.dart';
 import 'package:parent_app/components/digicampus_appbar.dart';
+import 'package:parent_app/screens/icons.dart';
 import 'package:parent_app/screens/student_details_screen.dart';
 import 'package:parent_app/states/student_state.dart';
 // import 'package:percent_indicator/percent_indicator.dart';
@@ -272,23 +274,26 @@ class _ResultScreenState extends State<ResultScreen> {
                       onDrawerTapped: () {
                         Navigator.of(context).pop();
                       },
-                      onTrailingTapped: () {
-                        isLoading = true;
-                        Navigator.push(
-                          context,
-                          PageRouteBuilder(
-                            transitionDuration: Duration(milliseconds: 400),
-                            pageBuilder: (_, __, ___) => StudentDetailsScreen(),
-                          ),
-                        ).then((value) {
-                          setState(() {
-                            isLoading = false;
-                          });
-                        });
-                      },
+//                      onTrailingTapped: () {
+//                        isLoading = true;
+//                        Navigator.push(
+//                          context,
+//                          PageRouteBuilder(
+//                            transitionDuration: Duration(milliseconds: 400),
+//                            pageBuilder: (_, __, ___) => StudentDetailsScreen(),
+//                          ),
+//                        ).then((value) {
+//                          setState(() {
+//                            isLoading = false;
+//                          });
+//                        });
+//                      },
                     );
                   }),
+                  DigiAlert(title: 'Academics',text: 'On course to success? Subscribe to know.',icon: DigiIcons.noun_analytics_1014757,)
                 ],
-              ));
+              ),
+
+    );
   }
 }

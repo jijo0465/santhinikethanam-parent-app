@@ -1,7 +1,9 @@
+import 'package:chewie/chewie.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/services.dart';
 import 'package:parent_app/components/digicampus_appbar.dart';
 import 'package:parent_app/models/grade.dart';
 import 'package:parent_app/models/student.dart';
@@ -41,42 +43,75 @@ class _DiscussionsScreenState extends State<DiscussionsScreen> {
   Color color = Colors.grey;
   StorageReference ref;
   String url;
+  ValueNotifier<Duration> playtime = ValueNotifier(Duration(seconds: 0));
+  bool showPlayerControls = true;
+  bool isFullScreen = false;
+  ChewieController _chewieController;
+
 
 
   @override
   void initState() {
+
+    Future.delayed(Duration(seconds: 3)).then((value){
+//      setState(() {
+//        showPlayerControls = false;
+//      });
+    });
+
     // TODO: implement initState
     widgetIndex = 0;
     grade.setId(id);
-    _getVideoUrl();
     _playerController =
-    VideoPlayerController.network(url)
+    VideoPlayerController.asset('assets/videos/smartschool.mp4')
       ..initialize().then((_) {
         // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
         setState(() {
           _playerController.play();
         });
       });
+    _chewieController = ChewieController(
+      allowedScreenSleep: false,
+      allowFullScreen: true,
+      fullScreenByDefault: false,
+      deviceOrientationsAfterFullScreen: [
+        DeviceOrientation.landscapeRight,
+        DeviceOrientation.landscapeLeft,
+        DeviceOrientation.portraitUp,
+        DeviceOrientation.portraitDown,
+      ],
+      videoPlayerController: _playerController,
+      autoInitialize: false,
+      autoPlay: false,
+      showControls: true,
+//       customControls: getPlayerControls()
+    );
+    _chewieController.addListener(() {
+      if (_chewieController.isFullScreen) {
+        SystemChrome.setPreferredOrientations([
+          DeviceOrientation.landscapeRight,
+          DeviceOrientation.landscapeLeft,
+        ]);
+      }
+    });
+
+    _playerController.addListener(() async {
+      await Future.delayed(Duration(seconds: 1));
+      playtime.value = await _playerController.position;
+    });
+
     super.initState();
   }
 
   @override
   void dispose() {
+    // TODO: implement dispose
     discussionListWidget.clear();
     _playerController.dispose();
-
+    _chewieController.dispose();
     super.dispose();
   }
 
-  _getVideoUrl() async {
-    ref = FirebaseStorage.instance.ref().child("videos/8/05-06-2020/1");
-    url = (await ref.getDownloadURL()).toString();
-    if(url!=null)
-      print(url);
-    else
-      print('URL doesnt exist');
-    print(url);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -86,44 +121,63 @@ class _DiscussionsScreenState extends State<DiscussionsScreen> {
       resizeToAvoidBottomInset: true,
       resizeToAvoidBottomPadding: false,
         body: Column(children: <Widget>[
-          DigiCampusAppbar(
-        icon: Icons.close,
-        onDrawerTapped: () => Navigator.of(context).pop(),
-      ),
-      SingleChildScrollView(
-              child: Container(
-          height: 250,
-          width: double.infinity,
-          child: Stack(
-            children: <Widget>[
-              Center(
-                child: _playerController.value.initialized
-                    ? AspectRatio(
-                        aspectRatio: _playerController.value.aspectRatio,
-                        child: VideoPlayer(_playerController),
-                      )
-                    : Container(),
-              ),
-              Center(
-          child: FloatingActionButton(
-            onPressed: () {
-              setState(() {
-                _playerController.value.isPlaying
-                    ? _playerController.pause()
-                    : _playerController.play();
-              });
-            },
-            child: Icon(
-              _playerController.value.isPlaying
-                  ? Icons.pause
-                  : Icons.play_arrow,
+          Container(
+            color: Theme.of(context).primaryColor,
+            height: MediaQuery.of(context).padding.top,
+          ),
+          Container(
+
+//            width: isFullScreen?MediaQuery.of(context).size.width:MediaQuery.of(context).size.height,
+//            height: isFullScreen?MediaQuery.of(context).size.width:MediaQuery.of(context).size.height*0.3,
+            color: Colors.black,
+            child: Column(
+              children: [
+                GestureDetector(
+                  onTap: (){
+//                          setState(() {
+//                            showPlayerControls = !showPlayerControls;
+//                          });
+                  },
+                  child: Container(
+
+                    color: Colors.black,
+//                      width: double.infinity,
+//                      height: isFullScree
+//                      n?double.infinity:MediaQuery.of(context).size.height*0.3,
+                    child: AspectRatio(
+                      aspectRatio: _playerController.value.aspectRatio,
+                      child: Stack(
+                        children: <Widget>[
+                          Center(
+                            child: _playerController.value.initialized
+                                ? AspectRatio(
+                              aspectRatio: _playerController.value.aspectRatio,
+                              child: GestureDetector(
+                                onTap: (){
+                                  setState(() {
+                                    showPlayerControls = !showPlayerControls;
+                                  });
+                                },
+                                child: Chewie(
+
+                                  controller: _chewieController,
+                                ),
+                              ),
+                            )
+                                : Container(),
+                          ),
+//                                !showPlayerControls?Container():
+//                                getPlayerControls(),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+
+              ],
             ),
           ),
-        )
-            ],
-          ),
-        ),
-      ),
+//
       SizedBox(height: 12),
       Text(
         'Discussions',

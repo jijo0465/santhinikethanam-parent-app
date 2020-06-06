@@ -3,12 +3,15 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:parent_app/components/digi_alert.dart';
 import 'package:parent_app/components/digi_appbar.dart';
 import 'package:parent_app/components/digi_drawer.dart';
 import 'package:parent_app/components/digi_menu_card.dart';
+import 'package:parent_app/components/digicampus_appbar.dart';
 import 'package:parent_app/components/home_header.dart';
 import 'package:parent_app/components/my_school_card.dart';
 import 'package:parent_app/models/student.dart';
+import 'package:parent_app/screens/icons.dart';
 import 'package:parent_app/screens/login_screen.dart';
 import 'package:parent_app/screens/student_details_screen.dart';
 import 'package:parent_app/states/login_state.dart';
@@ -139,79 +142,9 @@ class _MySchoolScreenState extends State<MySchoolScreen> {
               child: Container(
                 child: Column(
                   children: <Widget>[
-                    ClipPath(
-                        clipper: BackgroundClipper(),
-                        child: Container(
-                          height: _height + MediaQuery.of(context).padding.top,
-                          color: Color(0xff00739e),
-                          child: Column(
-                            children: <Widget>[
-                              SizedBox(
-                                  height: MediaQuery.of(context).padding.top),
-                              Expanded(
-                                child: Container(
-                                  child: Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: <Widget>[
-                                      SizedBox(
-                                        width: 8,
-                                      ),
-                                      GestureDetector(
-                                        behavior: HitTestBehavior.translucent,
-                                        onTap: () {
-                                          Navigator.of(context).pop();
-                                        },
-                                        child: Container(
-                                            width: _height / 1.6,
-                                            child: Icon(
-                                              Icons.home,
-                                              size: 40,
-                                              color: Colors.white,
-                                            )),
-                                      ),
-                                      Expanded(
-                                        child: Container(
-                                            alignment: Alignment.center,
-                                            child: Text(
-                                              'Santhinikethanam',
-                                              style: TextStyle(
-                                                  fontSize: 19,
-                                                  color: Colors.white,
-                                                  fontWeight: FontWeight.w600),
-                                            )),
-                                      ),
-                                      Hero(
-                                        tag: studentState.selectedstudent.id
-                                            .toString(),
-                                        child: GestureDetector(
-                                          onTap: () {
-                                            setState(() {
-                                              isStudentSelected = true;
-                                            });
-                                          },
-                                          child: Container(
-                                            child: ClipOval(
-                                                child: Image.asset(
-                                                    studentState.selectedstudent
-                                                        .photoUrl,
-                                                    fit: BoxFit.fill)),
-                                            height: _height / 1.6,
-                                            width: _height / 1.6,
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: 8,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              // SizedBox(height: 30)
-                            ],
-                          ),
-                        )),
+                    DigiCampusAppbar(title:'Santhinikethanam',icon: Icons.close,onDrawerTapped: (){
+                      Navigator.of(context).pop();
+                    },),
                     SizedBox(height: 12),
                     Expanded(
                       child: SingleChildScrollView(
@@ -328,6 +261,7 @@ class _MySchoolScreenState extends State<MySchoolScreen> {
             Container(
               color: isStudentSelected ? Colors.black.withOpacity(0.6) : null,
             ),
+            DigiAlert(title: 'Santhinikethanam',text: 'Subscribe for the complete digital school experience!', icon: DigiIcons.school_alt,)
             // Container(
             //     width: MediaQuery.of(context).size.width,
             //     child: Row(children: <Widget>[

@@ -88,9 +88,6 @@ class ParentApp extends StatelessWidget {
             '/live': (context) => LiveScreen(),
             '/notes': (context) => KnowledgeBaseScreen(),
             '/call': (context) => CallPage(),
-            // 'login': (context) => PhoneLoginScreen(),
-            // 'owner_form': (context)=> OwnerFormScreen(),
-            // 'buyer_form': (context)=> BuyerFormScreen(),
           },
         ));
   }

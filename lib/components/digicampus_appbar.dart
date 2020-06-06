@@ -1,19 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:parent_app/models/student.dart';
-import 'package:parent_app/states/student_state.dart';
-import 'package:provider/provider.dart';
 
 class DigiCampusAppbar extends StatelessWidget {
   final VoidCallback onDrawerTapped;
-  final VoidCallback onTrailingTapped;
+  final String title;
   final IconData icon;
-  final Widget trailing;
-  const DigiCampusAppbar(
-      {Key key,
-      this.onDrawerTapped,
-      this.icon,
-      this.trailing,
-      this.onTrailingTapped})
+  const DigiCampusAppbar({Key key, this.onDrawerTapped, this.icon, this.title})
       : super(key: key);
 
   @override
@@ -26,25 +17,24 @@ class DigiCampusAppbar extends StatelessWidget {
           width: double.infinity,
           decoration: BoxDecoration(
               gradient: LinearGradient(
-            begin: Alignment.topRight,
-            end: Alignment.bottomLeft,
-            colors: [color.withOpacity(0.8), color, color.withOpacity(0.8)],
-            // tileMode: TileMode.repeated,
-          )),
+                begin: Alignment.topRight,
+                end: Alignment.bottomLeft,
+                colors: [color.withOpacity(0.8), color, color.withOpacity(0.8)],
+                // tileMode: TileMode.repeated,
+              )),
         ),
         Container(
           alignment: Alignment.center,
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(left: 30),
-                child: GestureDetector(
-                  onTap: onDrawerTapped,
-                  child: Container(
-                    child: Icon(icon, color: Colors.white),
-                  ),
-                ),
+              Container(
+                width: 60,
+                child: IconButton(
+                  padding:EdgeInsets.only(left: 12,right: 12),
+                  icon:Icon(icon, color: Colors.white,size: 22,),onPressed:
+                onDrawerTapped
+                  ,),
               ),
               // Text(
               //   'DigiCampus',
@@ -54,49 +44,39 @@ class DigiCampusAppbar extends StatelessWidget {
               //       fontSize: 20,
               //       fontWeight: FontWeight.w600),
               // ),
-              Container(
-                  height: 28,
-                  width: 28,
-                  child: Image.asset('assets/images/digi_campus_logo.png',
-                      fit: BoxFit.fill)),
-              GestureDetector(
-                child: Padding(
-                  padding: const EdgeInsets.only(right: 28),
-                  child: trailing == null
-                      ? Consumer<StudentState>(
-                          builder: (context, studentState, _) {
-                          return Hero(
-                              tag: studentState.selectedstudent.id.toString(),
-                              child: Container(
-                                  height: 30,
-                                  width: 30,
-                                  child: ClipOval(
-                                    child: Image.asset(
-                                      'assets/images/${studentState.selectedstudent.id}.jpg',
-                                      fit: BoxFit.fill,
-                                    ),
-                                  )));
-                        })
-                      : trailing,
+              Expanded(
+                child: Container(
+                  alignment: Alignment.center,
+//                  child: Image.asset('assets/images/digi_campus_logo.png',
+//                      fit: BoxFit.fill)),
+                  child: Text('$title',style: TextStyle(color: Colors.white,fontSize: 14),),
+//              Padding(
+//                padding: const EdgeInsets.only(right: 30),
+//                child: Container(
+//                    height: 30,
+//                    width: 30,
+//                    child: IconButton(
+//                        icon: Icon(Icons.notification_important,color: Colors.white,),
+//                        onPressed: (){})),
+//              ),
+
                   // Icon(
                   //   Icons.notification_important,
                   //   color: Colors.white,
                   // ),
                 ),
-                onTap: onTrailingTapped,
-              )
+              ),
+              SizedBox(width: 60,)
             ],
           ),
           decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topRight,
-                end: Alignment.bottomLeft,
-                colors: [color.withOpacity(0.8), color, color.withOpacity(0.8)],
-                // tileMode: TileMode.repeated,
-              ),
-              borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(34),
-                  bottomRight: Radius.circular(34))),
+            gradient: LinearGradient(
+              begin: Alignment.topRight,
+              end: Alignment.bottomLeft,
+              colors: [color.withOpacity(0.8), color, color.withOpacity(0.8)],
+              // tileMode: TileMode.repeated,
+            ),
+          ),
           height: 50,
           width: MediaQuery.of(context).size.width,
         ),

@@ -60,7 +60,7 @@ class _StudentDetailsScreenState extends State<StudentDetailsScreen> {
               children: <Widget>[
                 DigiCampusAppbar(
                   icon: Icons.home,
-                  trailing: Icon(Icons.notifications_active),
+//                  trailing: Icon(Icons.notifications_active),
                   onDrawerTapped: () {
                     Navigator.of(context).pop();
                   },

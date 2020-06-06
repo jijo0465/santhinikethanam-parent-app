@@ -21,7 +21,7 @@ class PageHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: Theme.of(context).primaryColor,
-      height: 60+MediaQuery.of(context).padding.top,
+      height: 50+MediaQuery.of(context).padding.top,
       width: MediaQuery.of(context).size.width,
       child: Column(
         mainAxisSize: MainAxisSize.max,
@@ -36,16 +36,16 @@ class PageHeader extends StatelessWidget {
               Container(
                 child: IconButton(
                   onPressed: onPressed,
-                  icon: Icon(Icons.dashboard),
+                  icon: Icon(Icons.dashboard,size: 22,),
                   color: Colors.white,
                 ),
               ),
               Container(
                   padding: EdgeInsets.only(left: 12),
                   child: Text(
-                    'Santhinikethanam School',
+                    'Santhinikethanam',
                     style: TextStyle(
-                        fontSize: 18,
+                        fontSize: 14,
                         color: Colors.white,
                         fontWeight: FontWeight.w600),
                   )),
@@ -55,14 +55,13 @@ class PageHeader extends StatelessWidget {
                   onPressed: () {
                     print('Pressed');
                   },
-                  icon: Icon(Icons.notifications),
+                  icon: Icon(Icons.notifications,size: 25,),
                   color: Colors.white,
                 ),
               )
             ],
           ),
-          
-          SizedBox(height: 4)
+
         ],
       ),
     );

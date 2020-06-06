@@ -3,25 +3,25 @@ import 'package:parent_app/components/digicampus_appbar.dart';
 import 'package:parent_app/screens/icons.dart';
 import 'dart:ui';
 
-class DigiAlert extends StatefulWidget{
 
 
-  _DigiAlertState createState() => _DigiAlertState();
-}
+class DigiAlert extends StatelessWidget {
+  final String title;
+  final String text;
+  final IconData icon;
 
-class _DigiAlertState extends State<DigiAlert> {
-  bool isOpen = false;
+  const DigiAlert({Key key, this.title, this.text, this.icon}) : super(key: key);
 
   Widget build(BuildContext context) {
     return Stack(
       children: [
         GestureDetector(
           behavior: HitTestBehavior.translucent,
-          onTap: () {
-            setState(() {
-              isOpen = !isOpen;
-            });
-          },
+//          onTap: () {
+//            setState(() {
+//              isOpen = !isOpen;
+//            });
+//          },
           child: Container(
             color: Colors.black.withOpacity(0.3),
             height: MediaQuery.of(context).size.height,
@@ -32,7 +32,7 @@ class _DigiAlertState extends State<DigiAlert> {
           alignment: Alignment.center,
           child:IntrinsicHeight(
             child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 6, sigmaY: 6),
+              filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
               child: Card(
                 color: Colors.white70,
                 shape: RoundedRectangleBorder(
@@ -50,14 +50,14 @@ class _DigiAlertState extends State<DigiAlert> {
                       SizedBox(height: 8),
                       Container(
                         alignment: Alignment.topLeft,
-                        child: Icon(DigiIcons.student360_alt,size: 40,color: Theme.of(context).primaryColor),
+                        child: Icon(icon,size: 40,color: Theme.of(context).primaryColor),
                       ),
                       SizedBox(height: 14,),
 
                       SizedBox(height: 16),
                       Container(
 //                        padding: EdgeInsets.only(left: 16),
-                        child: Text('AI-based insights are in sight! Just subscribe.',style: TextStyle(color: Theme.of(context).primaryColor),)
+                        child: Text(text,style: TextStyle(color: Theme.of(context).primaryColor),)
                       ),
                     ],
                   ),
@@ -67,6 +67,7 @@ class _DigiAlertState extends State<DigiAlert> {
           )
         ),
         DigiCampusAppbar(
+          title: title,
           icon: Icons.close,
           onDrawerTapped: () {
             Navigator.of(context).pop();
