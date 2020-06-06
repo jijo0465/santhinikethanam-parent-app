@@ -148,7 +148,7 @@ class _KnowledgeBaseScreenState extends State<KnowledgeBaseScreen> {
                 // key: _key,
                 // stream: firestore.collection('classroom_${grade.id}').snapshots(),
                 stream:
-                    firestore.collection('classroom_${grade.id}').snapshots(),
+                    firestore.collection('class_8').snapshots(),
                 builder: (BuildContext context,
                     AsyncSnapshot<QuerySnapshot> snapshot) {
                   if (!snapshot.hasData)
@@ -160,16 +160,16 @@ class _KnowledgeBaseScreenState extends State<KnowledgeBaseScreen> {
                   else {
                     _subjects = snapshot.data.documents;
                     for (int i = 0; i < _subjects.length; i++)
-                      if (_subjects[i].documentID == 'subject_$subjectIndex')
+                      if (_subjects[i].documentID == 'student_subject_$subjectIndex')
                         subjectItem = _subjects[i];
                     // chapterLength = subjectItem['chapter'].length;
                     // return viewList(subjectItem);
                     return Column(
                       children:
-                          List.generate(subjectItem['chapter'].length, (index) {
+                          List.generate(subjectItem.data.length, (index) {
                         // print(subjectItem['chapter'].length);
                         // print('${subjectItem['chapter'][index]['name']}');
-                        return subjectItem.documentID == 'subject_$subjectIndex'
+                        return subjectItem.documentID == 'student_subject_$subjectIndex'
                             ? ExpandablePanel(
                                 controller: controller,
                                 hasIcon: false,

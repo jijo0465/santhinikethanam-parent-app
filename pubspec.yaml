@@ -65,7 +65,8 @@ dependencies:
   expandable: ^4.1.4
   agora_rtc_engine: ^1.0.12
   permission_handler: ^5.0.0+hotfix.6
-#  youtube_player_flutter: ^6.1.1
+  flutter_youtube: ^2.0.0
+  wakelock: ^0.1.4+1
 
 dev_dependencies:
   flutter_test:

@@ -32,7 +32,7 @@ class HomePage extends DrawerContent {
 
 class _HomePageState extends State<HomePage> {
   int navState = 0;
-  double _height = 280.0;
+  double _height = 260.0;
   bool stateChanged = false;
   bool isLoading = true;
   Student selectedStudent;
@@ -47,6 +47,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+//    _height = MediaQuery.of(context).size.height*0.35;
     StudentState state = Provider.of<StudentState>(context, listen: true);
     state.addListener(() {
       setSelectedStudent(state.selectedstudent);
@@ -293,7 +294,7 @@ class _HomePageState extends State<HomePage> {
                                           ],
                                         ),
                                       ),
-                                      SizedBox(height: 64)
+                                      SizedBox(height: 42)
                                     ],
                                   ),
                                 )),

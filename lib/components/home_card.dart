@@ -40,7 +40,7 @@ class HomeCard extends StatelessWidget {
                     child: Container(
                         alignment: Alignment.bottomLeft,
                         child: Text(
-                          isImportant ? 'Enter\nLive Class' : text,
+                          text,
                           style: TextStyle(
                               fontSize: 12,
                               color: isImportant
