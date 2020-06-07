@@ -225,7 +225,7 @@ class _HomePageState extends State<HomePage> {
                                                   MaterialPageRoute(
                                                     builder: (context) =>
                                                         CallPage(
-                                                      id: selectedStudent.id,
+                                                      name: selectedStudent.name,
                                                     ),
                                                   ),
                                                 );

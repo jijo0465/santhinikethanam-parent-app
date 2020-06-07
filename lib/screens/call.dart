@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:parent_app/components/raise_hand.dart';
 import 'package:parent_app/models/grade.dart';
+import 'package:parent_app/models/student.dart';
 import 'package:provider/provider.dart';
 import 'package:parent_app/components/digicampus_appbar.dart';
 import 'package:parent_app/components/live_call_settings.dart';
@@ -14,10 +15,10 @@ import 'package:wakelock/wakelock.dart';
 class CallPage extends StatefulWidget {
   /// non-modifiable channel name of the page
   // final String channelName;
-  final int id;
+  final String name;
 
   /// Creates a call page with given channel name.
-  const CallPage({Key key, this.id}) : super(key: key);
+  const CallPage({Key key, this.name}) : super(key: key);
 
   @override
   _CallPageState createState() => _CallPageState();
@@ -30,10 +31,11 @@ class _CallPageState extends State<CallPage> with WidgetsBindingObserver{
   final bool isflag = true;
   Firestore firestore = Firestore.instance;
   Grade grade = Grade.empty();
-  int id = 4001;
+  int id = 10;
   int broadcasterUid = 3001;
-  int participantUid;
+  String participantName;
   List<int> participants= [];
+  Student selectedStudent;
   // int userid;
   // int id;
 
@@ -132,7 +134,7 @@ class _CallPageState extends State<CallPage> with WidgetsBindingObserver{
         int uid,
         int elapsed,
         ) {
-      participantUid = uid;
+      participantName = selectedStudent.name;
       firestore.collection('live').document('user').get().then((value) {
         print('FIREBASE>>>>><<<<< FIREBASE <<<<>>>>>');
         if(value['users'] != null)  {
@@ -282,13 +284,35 @@ class _CallPageState extends State<CallPage> with WidgetsBindingObserver{
 
   /// VideoView layout
   Widget _viewVideo() {
-    return Container(child: AgoraRtcEngine.createNativeView((viewId) {
-      firestore.collection('live').document('broadcast').get().then((DocumentSnapshot value) {
-        broadcasterUid = value.data['uid'];
-        print('USER BROADCAST ID-------->>>> : $broadcasterUid');
-        AgoraRtcEngine.setupRemoteVideo(viewId, VideoRenderMode.Fit,
-            broadcasterUid);
-      });
+    firestore.collection('live').document('grade_${grade.id}').get().then((DocumentSnapshot value) {
+      if(value.data['liveBroadcastChannelId']!=null) {
+        broadcasterUid = value['liveBroadcastChannelId'];
+        print('CHANNEL : --> $broadcasterUid');
+        return Container(
+            child: AgoraRtcEngine.createNativeView((viewId) {
+            print('USER BROADCAST ID-------->>>> : $broadcasterUid');
+            AgoraRtcEngine.setupRemoteVideo(viewId, VideoRenderMode.Fit,
+                broadcasterUid);
+      }));
+      }
+      else
+        print('CHANNEL : --> NULL');
+        return Container(
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          color: Colors.grey[600],
+          child: Card(
+            margin: EdgeInsets.all(20),
+            elevation: 12,
+            color: Colors.white30,
+            child: Center(
+              child: Text('Class not started!'),
+            ),
+          )
+        );
+    });
+
+
 //      print('USER BROADCAST ID-------->>>>>${_users.first}');
 //      AgoraRtcEngine.setupRemoteVideo(viewId, VideoRenderMode.Fit,
 //          _users.first);
@@ -300,7 +324,7 @@ class _CallPageState extends State<CallPage> with WidgetsBindingObserver{
       //widget.uid  --> Broadcaster Uid
       // AgoraRtcEngine.startPreview();
       // AgoraRtcEngine.joinChannel(null, 'flutter', null, 0);
-    }));
+//    }));
     // return AgoraRenderWidget(broadcasterUid, local: true, preview: true);
   }
 
@@ -437,7 +461,7 @@ class _CallPageState extends State<CallPage> with WidgetsBindingObserver{
     //   });
     // });
 
-    firestore.collection('live').document('user').updateData({'users': FieldValue.arrayRemove([participantUid])});
+    firestore.collection('live').document('grade_${grade.id}').updateData({'': FieldValue.arrayRemove([{participantName}])});
     Navigator.pop(context);
   }
 
@@ -456,6 +480,8 @@ class _CallPageState extends State<CallPage> with WidgetsBindingObserver{
 
   @override
   Widget build(BuildContext context) {
+    StudentState state = Provider.of<StudentState>(context, listen: true);
+    selectedStudent = state.selectedstudent;
     return Scaffold(
       backgroundColor: Colors.black,
       body: WillPopScope(

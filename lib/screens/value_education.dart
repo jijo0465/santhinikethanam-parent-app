@@ -286,16 +286,20 @@ class _ValueEducationScreenState extends State<ValueEducationScreen> {
 //                      video.channelTitle,
 //                      style: TextStyle(fontWeight: FontWeight.w700)),
 //                ),
-                Flexible(
+                Expanded(
                   flex: 3,
-                  child: Text(
-                    video.title,
-                    textAlign: TextAlign.start,
-                    style: TextStyle(
+                  child: Container(
+                    margin: EdgeInsets.only(bottom: 6),
+                    alignment: Alignment.center,
+                    child: Text(
+                      video.title,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
 
-                        color: Colors.black,
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.w500
+                          color: Colors.black,
+                          fontSize: 14.0,
+                          fontWeight: FontWeight.w600
+                      ),
                     ),
                   ),
                 ),

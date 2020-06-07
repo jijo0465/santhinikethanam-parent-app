@@ -115,7 +115,7 @@ class _StudentDetailsScreenState extends State<StudentDetailsScreen> {
                         }
                       });
                       return Container(
-                        height: 150,
+                        height: 240,
                         child: PageView.builder(
                             onPageChanged: (int pg) {
                               StudentState state =
@@ -159,13 +159,13 @@ class _StudentDetailsScreenState extends State<StudentDetailsScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     SizedBox(height: 60),
-                                    Container(
-
-                                      child: Text(
-                                        'Student ID : S-${studentState.selectedstudent.id}',
-                                        style: TextStyle(fontSize: 16, color: Colors.white),
-                                      ),
-                                    ),
+//                                    Container(
+//
+//                                      child: Text(
+//                                        'Student ID : S-${studentState.selectedstudent.studentId}',
+//                                        style: TextStyle(fontSize: 16, color: Colors.white),
+//                                      ),
+//                                    ),
                                     SizedBox(height: 6),
                                     DigiKeyValueDisplay(
                                         textKey: 'Name',
