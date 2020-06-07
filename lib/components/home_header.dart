@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
@@ -89,73 +90,72 @@ class HomeHeader extends StatelessWidget {
                                 child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: <Widget>[
-                                      Expanded(
-                                        flex: 1,
-                                        child: Container(
-                                            padding: EdgeInsets.only(left: 12),
-                                            child: Column(
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              crossAxisAlignment: CrossAxisAlignment.end,
-                                              children: <Widget>[
-                                                Text(
-                                                  studentState.selectedstudent.name,
-                                                  style: TextStyle(
-                                                      decoration: TextDecoration.none,
-                                                      fontSize: 17,
-                                                      color: Colors.white),
-                                                ),
-                                                Text(
-                                                  'Id : 224578',
-                                                  style: TextStyle(
-                                                      decoration: TextDecoration.none,
-                                                      fontSize: 11,
-                                                      color: Colors.white),
-                                                ),
-                                              ],
-                                            )
-                                            ),
-                                      ),
-                                          SizedBox(width: 12,),
+                                      Container(
+                                        width: 120,
+                                          padding: EdgeInsets.only(left: 12),
+                                          child: Column(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            crossAxisAlignment: CrossAxisAlignment.end,
+                                            children: <Widget>[
+                                              Text(
+                                                studentState.selectedstudent.name,
+                                                style: TextStyle(
+                                                    decoration: TextDecoration.none,
+                                                    fontSize: 17,
+                                                    color: Colors.white),
+                                              ),
+                                              Text(
+                                                'Id : ${studentState.selectedstudent.studentId}',
+                                                style: TextStyle(
+                                                    decoration: TextDecoration.none,
+                                                    fontSize: 11,
+                                                    color: Colors.white),
+                                              ),
+                                            ],
+                                          )
+                                          ),
+                                          SizedBox(width: 4,),
                                       Hero(
                                         tag: studentState.selectedstudent.id.toString(),
                                         child: GestureDetector(
                                           onTap: onStudentTapped,
                                           child: Container(
                                             child: ClipOval(
-                                                child: Image.asset(
+                                                child: studentState.selectedstudent.photoUrl==null||
+                                                    studentState.selectedstudent.photoUrl==''?
+                                                Image.asset('assets/images/user.png',color: Colors.black87,):
+                                                Image.network(
                                                     studentState.selectedstudent.photoUrl,
                                                     fit: BoxFit.fill)),
-                                            height: height/2.5,
-                                            width: height/2.5,
+                                            height: height/2.5*1-log(height),
+                                            width: height/2.5*1-log(height),
                                           ),
                                         ),
                                       ),
-                                      SizedBox(width: 12,),
-                                      Expanded(
-                                        flex: 1,
-                                        child: Container(
-                                            child: Column(
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: <Widget>[
-                                                Text(
-                                                  'V B',
-                                                  style: TextStyle(
-                                                      decoration: TextDecoration.none,
-                                                      fontSize: 17,
-                                                      color: Colors.white),
-                                                ),
-                                                Text(
-                                                  'Present : 80%',
-                                                  style: TextStyle(
-                                                      decoration: TextDecoration.none,
-                                                      fontSize: 11,
-                                                      color: Colors.white),
-                                                ),
-                                              ],
-                                            )
-                                            ),
-                                      )
+                                      SizedBox(width: 4,),
+                                      Container(
+                                        width: 120,
+                                          child: Column(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: <Widget>[
+                                              Text(
+                                                '${studentState.selectedstudent.grade.standardInRoman}  ${studentState.selectedstudent.grade.division}',
+                                                style: TextStyle(
+                                                    decoration: TextDecoration.none,
+                                                    fontSize: 17,
+                                                    color: Colors.white),
+                                              ),
+                                              Text(
+                                                'Present : 80%',
+                                                style: TextStyle(
+                                                    decoration: TextDecoration.none,
+                                                    fontSize: 11,
+                                                    color: Colors.white),
+                                              ),
+                                            ],
+                                          )
+                                          )
                                     ],
                                   ),
                               );

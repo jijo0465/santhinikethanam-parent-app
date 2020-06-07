@@ -35,9 +35,9 @@ class HomePage extends DrawerContent {
 
 class _HomePageState extends State<HomePage> {
   int navState = 0;
-  double _height = 260.0;
+  double _height = 240.0;
   bool stateChanged = false;
-  bool isLoading = true;
+  bool isLoading = false;
   Student selectedStudent;
   PageController _pageController;
   bool showSubscribeAlert = false;
@@ -51,9 +51,9 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     StudentState state = Provider.of<StudentState>(context, listen: true);
-    state.addListener(() {
-      setSelectedStudent(state.selectedstudent);
-    });
+//    state.addListener(() {
+//      setSelectedStudent(state.selectedstudent);
+//    });
     selectedStudent = state.selectedstudent;
 
     return Scaffold(

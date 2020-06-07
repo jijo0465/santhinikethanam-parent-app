@@ -127,6 +127,7 @@ flutter:
     - assets/images/tutorial3.jpg
     - assets/images/raised_hand.png
     - assets/images/school_logo.jpeg
+    - assets/images/user.png
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

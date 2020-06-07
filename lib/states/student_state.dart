@@ -7,10 +7,10 @@ class StudentState with ChangeNotifier {
   Student _selectedStudent;
 
   StudentState.instance() {
-    DigiLocalSql().getAllStudents().then((value) {
-      _students = value;
-      setAllStudents(_students);
-    });
+//    DigiLocalSql().getAllStudents().then((value) {
+//      _students = value;
+//      setAllStudents(_students);
+//    });
   }
 
   List<Student> get allstudents => _students;
