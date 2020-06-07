@@ -354,7 +354,7 @@ class _DiscussionsScreenState extends State<DiscussionsScreen> {
         firestore.collection('classroom_${grade.id}').document('Session_1');
     firestore.runTransaction((transaction) async {
       await transaction.update(
-          documentReference, {'disussion': FieldValue.arrayUnion(comment)});
+          documentReference, {'discussion': FieldValue.arrayUnion(comment)});
     });
     // documentReference.get().then((doc){
     //   if(doc.exists){

@@ -83,7 +83,7 @@ class _CallPageState extends State<CallPage> {
     AgoraRtcEngine.muteLocalAudioStream(muted);
     await AgoraRtcEngine.joinChannel(
         null,
-        'live',
+        'class_7',
         null,
         0);
 
@@ -110,17 +110,17 @@ class _CallPageState extends State<CallPage> {
       int elapsed,
     ) {
       participantUid = uid;
-      firestore.collection('live').document('user').get().then((value) {
+      firestore.collection('live').document('grade_7').get().then((value) {
         print('FIREBASE>>>>><<<<< FIREBASE <<<<>>>>>');
-        if(value['users'] != null)  {
-          for(int i=0; i<value['users'].length; i++)  {
+        if(value['liveBroadcastUserId']['users'] != null)  {
+          for(int i=0; i<value['liveBroadcastUserId']['users'].length; i++)  {
             participants.insert(i,value['users'][i]);
           }
           participants.add(uid);
         }
         else
           participants.add(uid);
-          firestore.collection('live').document('user').updateData({'users': FieldValue.arrayUnion(participants)}).then((value) {
+          firestore.collection('live').document('class_${grade.id}').updateData({'liveBroadcastUserId': {'users': FieldValue.arrayUnion(participants)}}).then((value) {
           print('PARTICIPANTS : $participants');
           setState(() {
             final info = 'onJoinChannel: $channel, uid: $uid';
@@ -260,8 +260,8 @@ class _CallPageState extends State<CallPage> {
   /// VideoView layout
   Widget _viewVideo() {
     return Container(child: AgoraRtcEngine.createNativeView((viewId) {
-      firestore.collection('live').document('broadcast').get().then((DocumentSnapshot value) {
-        broadcasterUid = value.data['uid'];
+      firestore.collection('live').document('grade_7').get().then((DocumentSnapshot value) {
+        broadcasterUid = value['liveBroadcastChannelId'];
         print('USER BROADCAST ID-------->>>> : $broadcasterUid');
         AgoraRtcEngine.setupRemoteVideo(viewId, VideoRenderMode.Fit,
             broadcasterUid);
