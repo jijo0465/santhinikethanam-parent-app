@@ -30,7 +30,10 @@ class DigiCampusAppbar extends StatelessWidget {
             children: <Widget>[
               Container(
                 width: 60,
-                child: IconButton(
+                child: icon==null?Container(
+                  height: 20,
+                  child: Image.asset('assets/images/digi_campus_logo.png'),
+                ):IconButton(
                   padding:EdgeInsets.only(left: 12,right: 12),
                   icon:Icon(icon, color: Colors.white,size: 22,),onPressed:
                 onDrawerTapped
@@ -49,7 +52,7 @@ class DigiCampusAppbar extends StatelessWidget {
                   alignment: Alignment.center,
 //                  child: Image.asset('assets/images/digi_campus_logo.png',
 //                      fit: BoxFit.fill)),
-                  child: Text('$title',style: TextStyle(color: Colors.white,fontSize: 14),),
+                  child: Text('$title',style: TextStyle(color: Colors.white,fontSize: 16),),
 //              Padding(
 //                padding: const EdgeInsets.only(right: 30),
 //                child: Container(

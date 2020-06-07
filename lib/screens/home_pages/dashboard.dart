@@ -3,6 +3,9 @@ import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:parent_app/components/digi_alert.dart';
+import 'package:parent_app/components/digi_appbar.dart';
+import 'package:parent_app/components/digicampus_appbar.dart';
+import 'package:parent_app/screens/student_profile_screen.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:parent_app/components/digi_drawer.dart';
 import 'package:parent_app/components/digi_navbar.dart';
@@ -32,13 +35,13 @@ class HomePage extends DrawerContent {
 
 class _HomePageState extends State<HomePage> {
   int navState = 0;
-  double _height = 270.0;
+  double _height = 260.0;
   bool stateChanged = false;
-  bool isLoading = true;
+  bool isLoading = false;
   Student selectedStudent;
   PageController _pageController;
   bool showSubscribeAlert = false;
-
+  double roundnessFactor = 40.0;
   @override
   void initState() {
     _pageController = PageController(initialPage: 0, keepPage: true);
@@ -48,9 +51,9 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     StudentState state = Provider.of<StudentState>(context, listen: true);
-    state.addListener(() {
-      setSelectedStudent(state.selectedstudent);
-    });
+//    state.addListener(() {
+//      setSelectedStudent(state.selectedstudent);
+//    });
     selectedStudent = state.selectedstudent;
 
     return Scaffold(
@@ -71,17 +74,18 @@ class _HomePageState extends State<HomePage> {
                           selectedStudent = studentState.selectedstudent;
                           return Stack(
                             children: <Widget>[
-//                              Container(
-//                                decoration: BoxDecoration(
-//                                    gradient: LinearGradient(colors: [
-//                                  Colors.grey[300],
-//                                  Colors.grey[100],
-//                                  Colors.grey[300]
-//                                ])),
-//                              ),
+                              Container(
+                                decoration: BoxDecoration(
+                                    gradient: LinearGradient(colors: [
+                                  Colors.grey[300],
+                                  Colors.grey[100],
+                                  Colors.grey[300]
+                                ])),
+                              ),
                               Container(
                                   child: Column(children: <Widget>[
                                 HomeHeader(
+                                  roundnessFactor: roundnessFactor,
                                   onStudentTapped: () {
                                     isLoading = true;
                                     Navigator.push(
@@ -103,18 +107,21 @@ class _HomePageState extends State<HomePage> {
                                     print(_height);
                                     if (_height < 600) {
                                       setState(() {
+                                        roundnessFactor = 40;
                                         _height = 300;
                                       });
                                     }
                                   },
                                   onDrag: (dragUpdateDetails) {
-                                    // print(dragUpdateDetails.globalPosition.distance);
+
+                                     print(dragUpdateDetails.globalPosition.distance);
                                     // print(dragUpdateDetails.globalPosition.dy);
                                     if (dragUpdateDetails.delta.dy > 0) {
                                       if (dragUpdateDetails
                                               .globalPosition.distance >
                                           MediaQuery.of(context).size.height *
                                               0.7) {
+//                                        roundnessFactor = 40;
                                         Navigator.push(
                                           context,
                                           PageRouteBuilder(
@@ -122,6 +129,7 @@ class _HomePageState extends State<HomePage> {
                                                 Duration(milliseconds: 400),
                                             pageBuilder: (_, __, ___) =>
                                                 StudentDetailsScreen(),
+//                                          StudentProfileScreen()
                                           ),
                                         ).then((value) {
                                           // setState(() {
@@ -130,6 +138,7 @@ class _HomePageState extends State<HomePage> {
                                         });
                                       } else {
                                         setState(() {
+                                          roundnessFactor = roundnessFactor - dragUpdateDetails.delta.dy;
                                           _height +=
                                               dragUpdateDetails.delta.dy *
                                                   log(dragUpdateDetails
@@ -203,7 +212,7 @@ class _HomePageState extends State<HomePage> {
                                                       .video_camera_solid,
                                                   size: 35,
                                                   color: Colors.white),
-                                              text: 'Live Class',
+                                              text: 'Enter Live Class',
                                               isImportant: true,
                                               color: Colors.red[400],
                                               onPressed: () async {
@@ -216,7 +225,7 @@ class _HomePageState extends State<HomePage> {
                                                   MaterialPageRoute(
                                                     builder: (context) =>
                                                         CallPage(
-                                                      id: selectedStudent.id,
+                                                      name: selectedStudent.name,
                                                     ),
                                                   ),
                                                 );
@@ -293,7 +302,7 @@ class _HomePageState extends State<HomePage> {
                                           ],
                                         ),
                                       ),
-                                      SizedBox(height: 64)
+                                      SizedBox(height: 16)
                                     ],
                                   ),
                                 )),
@@ -306,9 +315,10 @@ class _HomePageState extends State<HomePage> {
                       ChatScreen()
                     ],
                   ),
-                  PageHeader(
-                    onPressed: widget.onPressed,
-                  ),
+//                  PageHeader(
+//                    onPressed: widget.onPressed,
+//                  ),
+                  DigiCampusAppbar(icon: null,onDrawerTapped: widget.onPressed,title: 'Santhinikethanam',),
                   Positioned(
                       bottom: 4,
                       child: DigiBottomNavBar(

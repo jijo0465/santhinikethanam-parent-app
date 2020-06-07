@@ -319,6 +319,7 @@ class _HomePageState extends State<HomePage> {
                             if (_height < 600) {
                               setState(() {
                                 _height = 240;
+
                               });
                             }
                           },
@@ -507,7 +508,7 @@ class _HomePageState extends State<HomePage> {
                                     ),
                                   ),
                                 ),
-                                SizedBox(height: 12),
+                                SizedBox(height: 4),
                                 // Container(
                                 //     padding: EdgeInsets.only(left: 12),
                                 //     alignment: Alignment.centerLeft,

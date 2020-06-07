@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
@@ -11,6 +12,7 @@ class HomeHeader extends StatelessWidget {
   final ValueChanged<DragEndDetails> onDragEnd;
   final ValueChanged<DragUpdateDetails> onDrag;
   final double height;
+  final double roundnessFactor;
   final VoidCallback onStudentTapped;
   const HomeHeader(
       {Key key,
@@ -18,7 +20,8 @@ class HomeHeader extends StatelessWidget {
       this.onDragEnd,
       this.onDrag,
       this.height,
-      this.onStudentTapped})
+      this.onStudentTapped,
+        this.roundnessFactor})
       : super(key: key);
 
   @override
@@ -29,7 +32,7 @@ class HomeHeader extends StatelessWidget {
         onVerticalDragEnd: onDragEnd,
         onVerticalDragUpdate: onDrag,
         child: ClipPath(
-            clipper: BackgroundClipper(),
+            clipper: BackgroundClipper(roundnessFactor),
             child: AnimatedContainer(
               height: height,
               width: double.infinity,
@@ -46,7 +49,7 @@ class HomeHeader extends StatelessWidget {
                     mainAxisSize: MainAxisSize.max,
                     // mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
-                      SizedBox(height: 60+MediaQuery.of(context).padding.top),
+                      SizedBox(height: 30+MediaQuery.of(context).padding.top),
                       // Row(
                       //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       //   children: <Widget>[
@@ -87,57 +90,66 @@ class HomeHeader extends StatelessWidget {
                                 child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: <Widget>[
-                                      Expanded(
-                                        flex: 1,
-                                        child: Container(
-                                            padding: EdgeInsets.only(left: 12),
-                                            child: Column(
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              crossAxisAlignment: CrossAxisAlignment.end,
-                                              children: <Widget>[
-                                                Text(
-                                                  studentState.selectedstudent.name,
+                                      Container(
+                                        width: 120,
+                                          padding: EdgeInsets.only(left: 12),
+                                          child: Column(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            crossAxisAlignment: CrossAxisAlignment.end,
+                                            children: <Widget>[
+                                              Container(
+                                                width: double.infinity,
+                                                alignment: Alignment.centerRight,
+                                                child: Text(
+
+                                                  studentState.selectedstudent.name
+                                                  ,
+                                                  textAlign: TextAlign.end,
                                                   style: TextStyle(
+
                                                       decoration: TextDecoration.none,
                                                       fontSize: 17,
                                                       color: Colors.white),
                                                 ),
-                                                Text(
-                                                  'Id : 224578',
-                                                  style: TextStyle(
-                                                      decoration: TextDecoration.none,
-                                                      fontSize: 11,
-                                                      color: Colors.white),
-                                                ),
-                                              ],
-                                            )
-                                            ),
-                                      ),
-                                          SizedBox(width: 12,),
+                                              ),
+//                                              Text(
+//                                                'Id : ${studentState.selectedstudent.studentId}',
+//                                                style: TextStyle(
+//                                                    decoration: TextDecoration.none,
+//                                                    fontSize: 11,
+//                                                    color: Colors.white),
+//                                              ),
+                                            ],
+                                          )
+                                          ),
+                                          SizedBox(width: 4,),
                                       Hero(
                                         tag: studentState.selectedstudent.id.toString(),
                                         child: GestureDetector(
                                           onTap: onStudentTapped,
                                           child: Container(
                                             child: ClipOval(
-                                                child: Image.asset(
+                                                child: studentState.selectedstudent.photoUrl==null||
+                                                    studentState.selectedstudent.photoUrl==''?
+                                                Image.asset('assets/images/user.png',color: Colors.black87,):
+                                                Image.network(
                                                     studentState.selectedstudent.photoUrl,
                                                     fit: BoxFit.fill)),
-                                            height: height/2.5,
-                                            width: height/2.5,
+                                            height: height/2.5*1-log(height),
+                                            width: height/2.5*1-log(height),
                                           ),
                                         ),
                                       ),
-                                      SizedBox(width: 12,),
+                                      SizedBox(width: 4,),
                                       Expanded(
-                                        flex: 1,
                                         child: Container(
+//                                        width: 120,
                                             child: Column(
                                               mainAxisAlignment: MainAxisAlignment.center,
                                               crossAxisAlignment: CrossAxisAlignment.start,
                                               children: <Widget>[
                                                 Text(
-                                                  'V B',
+                                                  '${studentState.selectedstudent.grade.standardInRoman}  ${studentState.selectedstudent.grade.division}',
                                                   style: TextStyle(
                                                       decoration: TextDecoration.none,
                                                       fontSize: 17,
@@ -181,9 +193,11 @@ class HomeHeader extends StatelessWidget {
 }
 
 class BackgroundClipper extends CustomClipper<Path> {
+  double roundnessFactor ;
+
+  BackgroundClipper(this.roundnessFactor);
   @override
   Path getClip(Size size) {
-    var roundnessFactor = 40.0;
     var path = Path();
     path.moveTo(0, 0);
     path.lineTo(0, size.height);

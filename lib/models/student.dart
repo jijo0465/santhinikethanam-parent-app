@@ -1,9 +1,11 @@
+import 'package:parent_app/models/grade.dart';
+
 class Student {
   int id;
-  int _studentId;
+  String _studentId;
   int age;
   double rewards;
-  Map<int, String> grade;
+  Grade grade;
   String name;
   String parentName;
   String classTeacher;
@@ -19,24 +21,27 @@ class Student {
       this.name,
       //this.parentName,
       //this.classTeacher,
-      //this.grade,
-      this.dateOfBirth,
-      this.bloodGroup,
-      this.photoUrl);
+      this.grade,
+//      this.dateOfBirth,
+//      this.bloodGroup,
+//      this.photoUrl
+      );
 
   factory Student.fromMap(Map<String, dynamic> value) {
     // print(value.toString());
     Student student = Student(
         //value['id'],
-        value['student_id'],
-        value['student_id'],
+        value['id'],
+        value['studentId'],
         value['name'],
+        Grade.fromMap(value['grade'])
         //value['parentName'],
         //value['classTeacher'],
         //value['grade'],
-        value['date_of_birth'],
-        value['blood_group'],
-        value['photo_url']);
+//        value['date_of_birth'],
+//        value['blood_group'],
+//        value['photo_url']
+    );
         //student.studentId = student.id;
     // student.id=value['id'];
     // student.id=value['student_id'];
@@ -51,4 +56,8 @@ class Student {
     // student.photoUrl=value['photo_url'];
     return student;
   }
+  Map toJson() => {
+    'name': name,
+    'grade': grade,
+  };
 }

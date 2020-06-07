@@ -49,15 +49,16 @@ class DigiAlert extends StatelessWidget {
                     children: [
                       SizedBox(height: 8),
                       Container(
-                        alignment: Alignment.topLeft,
-                        child: Icon(icon,size: 40,color: Theme.of(context).primaryColor),
+                        alignment: Alignment.center,
+                        child: Icon(icon,size: 60,color: Theme.of(context).primaryColor),
                       ),
-                      SizedBox(height: 14,),
 
                       SizedBox(height: 16),
-                      Container(
+                      Flexible(
+                        child: Container(
 //                        padding: EdgeInsets.only(left: 16),
-                        child: Text(text,style: TextStyle(color: Theme.of(context).primaryColor),)
+                          child: Text(text,style: TextStyle(color: Theme.of(context).primaryColor),)
+                        ),
                       ),
                     ],
                   ),
