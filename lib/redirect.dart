@@ -61,7 +61,7 @@ class _RedirectState extends State<Redirect> {
           return LoadingScreen();
           break;
         case Status.Authenticated:
-          Navigator.of(context).maybePop();
+//          Navigator.of(context).pop();
           return DigiHome();
           break;
       }

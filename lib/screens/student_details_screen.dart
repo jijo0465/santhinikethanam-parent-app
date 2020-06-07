@@ -220,7 +220,6 @@ class _StudentDetailsScreenState extends State<StudentDetailsScreen> {
                                             color: Colors.white.withOpacity(0.9),
                                             onPressed: ()async{
                                               Navigator.of(context).pop();
-                                              LoginState.instance().signOut();
                                             },
                                             child: Text('Back'),),
                                         ),

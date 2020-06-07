@@ -29,7 +29,7 @@ class _DiscussionsScreenState extends State<DiscussionsScreen> {
   // var _key;
   // ListModel<int> _list;
   final TextEditingController _textFieldController =
-      new TextEditingController();
+  new TextEditingController();
   Student _selectedStudent;
   List<Widget> discussionListWidget = [];
   List<DocumentSnapshot> _items;
@@ -106,17 +106,17 @@ class _DiscussionsScreenState extends State<DiscussionsScreen> {
     onVideo = false;
 //    _getVideoUrl().then((value) {
 //      if(value!=null)
-      _playerController =
-      VideoPlayerController.network(url)
-        ..initialize().then((_) {
-          // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
-          setState(() {
-            _playerController.play();
-            onVideo = true;
-            print('VIDEO : $onVideo');
-          });
-          playButtonNotifier.value = false;
+    _playerController =
+    VideoPlayerController.network(url)
+      ..initialize().then((_) {
+        // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
+        setState(() {
+          _playerController.play();
+          onVideo = true;
+          print('VIDEO : $onVideo');
         });
+        playButtonNotifier.value = false;
+      });
 //    });
 
     super.initState();
@@ -146,198 +146,198 @@ class _DiscussionsScreenState extends State<DiscussionsScreen> {
     StudentState state = Provider.of<StudentState>(context, listen: true);
     _selectedStudent = state.selectedstudent;
     return Scaffold(
-      resizeToAvoidBottomInset: true,
-      resizeToAvoidBottomPadding: false,
+        resizeToAvoidBottomInset: true,
+        resizeToAvoidBottomPadding: false,
         body: Column(children: <Widget>[
-          DigiCampusAppbar(
-        icon: Icons.close,
-        onDrawerTapped: () => Navigator.of(context).pop(),
-      ),
-      StreamBuilder<QuerySnapshot>(
-          // key: _key,
-          stream: firestore.collection('classroom_${grade.id}').snapshots(),
-          builder:
-              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-            if (!snapshot.hasData)
-              return Center(
-                child: CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation<Color>(
-                      Theme.of(context).primaryColor))
-                );
-            else {
-              _items = snapshot.data.documents;
-              url = listItem(_items);
-              return  Column(
-                children: [
-                  SingleChildScrollView(
-                    child: Container(
-                      height: MediaQuery.of(context).size.height*0.3,
-                      width: double.infinity,
-                      child: Stack(
-                        children: <Widget>[
-                          Center(
-                            child: _playerController.value.initialized
-                                ? GestureDetector(
-                              behavior: HitTestBehavior.translucent,
-                              onTap: (){playButtonNotifier.value = true;
-                              Future.delayed(Duration(seconds: 4)).then((value) {
-                                if(_playerController.value.isPlaying)
-                                  playButtonNotifier.value = false;
-                              });},
-                              child: Container(
-                                height: 250,
-                                child: AspectRatio(
-                                  aspectRatio: _playerController.value.aspectRatio,
-                                  child: Chewie(
+//          DigiCampusAppbar(
+//        icon: Icons.close,
+//        onDrawerTapped: () => Navigator.of(context).pop(),
+//      ),
+          StreamBuilder<QuerySnapshot>(
+            // key: _key,
+              stream: firestore.collection('classroom_${grade.id}').snapshots(),
+              builder:
+                  (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                if (!snapshot.hasData)
+                  return Center(
+                      child: CircularProgressIndicator(
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                              Theme.of(context).primaryColor))
+                  );
+                else {
+                  _items = snapshot.data.documents;
+                  url = listItem(_items);
+                  return  Column(
+                    children: [
+                      SingleChildScrollView(
+                        child: Container(
+                          height: MediaQuery.of(context).size.height*0.3,
+                          width: double.infinity,
+                          child: Stack(
+                            children: <Widget>[
+                              Center(
+                                child: _playerController.value.initialized
+                                    ? GestureDetector(
+                                  behavior: HitTestBehavior.translucent,
+                                  onTap: (){playButtonNotifier.value = true;
+                                  Future.delayed(Duration(seconds: 4)).then((value) {
+                                    if(_playerController.value.isPlaying)
+                                      playButtonNotifier.value = false;
+                                  });},
+                                  child: Container(
+                                    height: 250,
+                                    child: AspectRatio(
+                                      aspectRatio: _playerController.value.aspectRatio,
+                                      child: Chewie(
 
-    controller: _chewieController,
-    ),
-                                ),
-                              ),
-                            )
-                                : Container(),
-                          ),
-                          ValueListenableBuilder<bool>(
-                            valueListenable: playButtonNotifier,
-                            builder: (context, val, _){
-                              return !val
-                                  ?Container()
-                                  :Container(
-                                child: Center(
-                                  child: FloatingActionButton(
-                                    onPressed: () {
-//                          setState(() {
-                                      if(_playerController.value.isPlaying) {
-                                        setState(() {
-                                          _playerController.pause();
-                                        });
-                                        playButtonNotifier.value = true;
-                                      }
-                                      else{
-                                        setState(() {
-                                          _playerController.play();
-                                        });
-                                        Future.delayed(Duration(seconds: 4)).then((value) {
-                                          playButtonNotifier.value = false;
-                                        });
-                                      }
-                                      _playerController.value.isPlaying
-                                          ? _playerController.pause()
-                                          : _playerController.play();
-//                          });
-                                    },
-                                    child: Icon(
-                                      _playerController.value.isPlaying
-                                          ? Icons.pause
-                                          : Icons.play_arrow,
+                                        controller: _chewieController,
+                                      ),
                                     ),
                                   ),
-                                ),
-                              );
-                            },
-                          ),
+                                )
+                                    : Container(),
+                              ),
+                              ValueListenableBuilder<bool>(
+                                valueListenable: playButtonNotifier,
+                                builder: (context, val, _){
+                                  return !val
+                                      ?Container()
+                                      :Container(
+                                    child: Center(
+                                      child: FloatingActionButton(
+                                        onPressed: () {
+//                          setState(() {
+                                          if(_playerController.value.isPlaying) {
+                                            setState(() {
+                                              _playerController.pause();
+                                            });
+                                            playButtonNotifier.value = true;
+                                          }
+                                          else{
+                                            setState(() {
+                                              _playerController.play();
+                                            });
+                                            Future.delayed(Duration(seconds: 4)).then((value) {
+                                              playButtonNotifier.value = false;
+                                            });
+                                          }
+                                          _playerController.value.isPlaying
+                                              ? _playerController.pause()
+                                              : _playerController.play();
+//                          });
+                                        },
+                                        child: Icon(
+                                          _playerController.value.isPlaying
+                                              ? Icons.pause
+                                              : Icons.play_arrow,
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),
 
-                        ],
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 12),
-                  Container(
-                    padding: EdgeInsets.all(12),
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      'Raise Doubts',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 12,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
-                      Container(
-                        height: 40,
-                        width: MediaQuery.of(context).size.width - 60,
-                        // decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
-                        child: TextField(
-                          onChanged: (text) {
-                            if (text == '') {
-                              setState(() {
-                                color = Colors.grey;
-                              });
-                            } else {
-                              setState(() {
-                                color = Colors.deepOrange[300];
-                              });
-                            }
-                          },
-                          controller: _textFieldController,
-                          // textAlignVertical: TextAlignVertical.center,
-                          textAlign: TextAlign.start,
-                          cursorColor: Colors.blue,
-                          decoration: InputDecoration(
-                            hintText: 'add to discussions...',
-                            contentPadding: EdgeInsets.symmetric(horizontal: 12),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            suffixIcon: IconButton(
-                              onPressed: () {
-                                _addToDiscussions(_textFieldController.text,widget.grade,widget.date,widget.period);
-                                _textFieldController.clear();
-                              },
-                              icon: Icon(Icons.camera_alt),
-                              color: Colors.blue,
-                            ),
+                            ],
                           ),
-
-                          // autofocus: true,
-                          // onSubmitted: (text) {
-                          //   // print(text);
-                          //   _addToDiscussions(text);
-                          //   _textFieldController.clear();
-                          //   // text = '';
-                          // },
                         ),
                       ),
+                      SizedBox(height: 12),
                       Container(
-                          height: 40,
-                          width: 40,
-                          decoration: BoxDecoration(
-                              shape: BoxShape.circle, color: Colors.grey[300]),
-                          child: GestureDetector(
-                            child: Icon(Icons.send, color: color),
-                            behavior: HitTestBehavior.translucent,
-                            onTap: () {
-                              _addToDiscussions(_textFieldController.text,widget.grade,widget.date,widget.period);
-                              _textFieldController.clear();
-                              setState(() {
-                                color = Colors.grey;
-                              });
-                            },
+                        padding: EdgeInsets.all(12),
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          'Raise Doubts',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 12,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                          Container(
+                            height: 40,
+                            width: MediaQuery.of(context).size.width - 60,
+                            // decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
+                            child: TextField(
+                              onChanged: (text) {
+                                if (text == '') {
+                                  setState(() {
+                                    color = Colors.grey;
+                                  });
+                                } else {
+                                  setState(() {
+                                    color = Colors.deepOrange[300];
+                                  });
+                                }
+                              },
+                              controller: _textFieldController,
+                              // textAlignVertical: TextAlignVertical.center,
+                              textAlign: TextAlign.start,
+                              cursorColor: Colors.blue,
+                              decoration: InputDecoration(
+                                hintText: 'add to discussions...',
+                                contentPadding: EdgeInsets.symmetric(horizontal: 12),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                suffixIcon: IconButton(
+                                  onPressed: () {
+                                    _addToDiscussions(_textFieldController.text,widget.grade,widget.date,widget.period);
+                                    _textFieldController.clear();
+                                  },
+                                  icon: Icon(Icons.camera_alt),
+                                  color: Colors.blue,
+                                ),
+                              ),
+
+                              // autofocus: true,
+                              // onSubmitted: (text) {
+                              //   // print(text);
+                              //   _addToDiscussions(text);
+                              //   _textFieldController.clear();
+                              //   // text = '';
+                              // },
+                            ),
+                          ),
+                          Container(
+                              height: 40,
+                              width: 40,
+                              decoration: BoxDecoration(
+                                  shape: BoxShape.circle, color: Colors.grey[300]),
+                              child: GestureDetector(
+                                child: Icon(Icons.send, color: color),
+                                behavior: HitTestBehavior.translucent,
+                                onTap: () {
+                                  _addToDiscussions(_textFieldController.text,widget.grade,widget.date,widget.period);
+                                  _textFieldController.clear();
+                                  setState(() {
+                                    color = Colors.grey;
+                                  });
+                                },
+                              ))
+                        ],
+                      ),
+                      SizedBox(height: 12),
+                      (discussionListWidget.isNotEmpty)
+                          ? Expanded(
+                          child: SingleChildScrollView(
+                              child: Column(
+                                  children: discussionListWidget.toList())
+                            // child: listItem(_items[0]['disussion'])
                           ))
+                          : Container(child: Text('No Discussions yet!!'))
                     ],
-                  ),
-                  SizedBox(height: 12),
-                  (discussionListWidget.isNotEmpty)
-                  ? Expanded(
-                  child: SingleChildScrollView(
-                      child: Column(
-                          children: discussionListWidget.toList())
-                    // child: listItem(_items[0]['disussion'])
-                  ))
-                  : Container(child: Text('No Discussions yet!!'))
-                ],
-              );
-            }
-          }),
-    ]));
+                  );
+                }
+              }),
+        ]));
   }
 
   String listItem(List<DocumentSnapshot> items) {
@@ -403,14 +403,14 @@ class _DiscussionsScreenState extends State<DiscussionsScreen> {
       {'comment': text, 'date': DateTime.now().toUtc(),'url':'https://neatoday.org/wp-content/uploads/2016/08/young_student-e1472643979755.jpg'}
     ];
     DocumentReference documentReference =
-        firestore.collection('classroom_${grade.id}').document('${widget.date}');
+    firestore.collection('classroom_${grade.id}').document('${widget.date}');
     firestore.runTransaction((transaction) async {
 //      if(documentReference != null)
 //      await transaction.set(
 //          documentReference, {'${widget.period}': FieldValue.arrayUnion(comment)});
 //      else
-        await transaction.set(
-            documentReference, {'heee': FieldValue.arrayUnion(comment)});
+      await transaction.set(
+          documentReference, {'heee': FieldValue.arrayUnion(comment)});
     });
     // documentReference.get().then((doc){
     //   if(doc.exists){

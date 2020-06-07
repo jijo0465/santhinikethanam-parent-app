@@ -118,8 +118,6 @@ class _MySchoolScreenState extends State<MySchoolScreen> {
           child: Consumer<StudentState>(builder: (context, studentState, _) {
         studentsList.addAll(studentState.allstudents);
         selectedStudent = studentState.selectedstudent;
-        print(
-            '1: ${studentsList[0].id}, ${studentsList[1].id}, ${studentsList[2].id},');
         if (isStudentSelected == false) {
           for (i = 0; i < studentState.allstudents.length; i++) {
             if (studentState.allstudents[i].id == studentState.selectedstudent.id) {

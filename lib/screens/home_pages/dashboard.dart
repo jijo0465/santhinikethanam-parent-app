@@ -35,7 +35,7 @@ class HomePage extends DrawerContent {
 
 class _HomePageState extends State<HomePage> {
   int navState = 0;
-  double _height = 240.0;
+  double _height = 260.0;
   bool stateChanged = false;
   bool isLoading = false;
   Student selectedStudent;
@@ -212,7 +212,7 @@ class _HomePageState extends State<HomePage> {
                                                       .video_camera_solid,
                                                   size: 35,
                                                   color: Colors.white),
-                                              text: 'Live Class',
+                                              text: 'Enter Live Class',
                                               isImportant: true,
                                               color: Colors.red[400],
                                               onPressed: () async {
@@ -302,7 +302,7 @@ class _HomePageState extends State<HomePage> {
                                           ],
                                         ),
                                       ),
-                                      SizedBox(height: 42)
+                                      SizedBox(height: 16)
                                     ],
                                   ),
                                 )),

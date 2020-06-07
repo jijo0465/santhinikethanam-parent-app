@@ -97,20 +97,28 @@ class HomeHeader extends StatelessWidget {
                                             mainAxisAlignment: MainAxisAlignment.center,
                                             crossAxisAlignment: CrossAxisAlignment.end,
                                             children: <Widget>[
-                                              Text(
-                                                studentState.selectedstudent.name,
-                                                style: TextStyle(
-                                                    decoration: TextDecoration.none,
-                                                    fontSize: 17,
-                                                    color: Colors.white),
+                                              Container(
+                                                width: double.infinity,
+                                                alignment: Alignment.centerRight,
+                                                child: Text(
+
+                                                  studentState.selectedstudent.name
+                                                  ,
+                                                  textAlign: TextAlign.end,
+                                                  style: TextStyle(
+
+                                                      decoration: TextDecoration.none,
+                                                      fontSize: 17,
+                                                      color: Colors.white),
+                                                ),
                                               ),
-                                              Text(
-                                                'Id : ${studentState.selectedstudent.studentId}',
-                                                style: TextStyle(
-                                                    decoration: TextDecoration.none,
-                                                    fontSize: 11,
-                                                    color: Colors.white),
-                                              ),
+//                                              Text(
+//                                                'Id : ${studentState.selectedstudent.studentId}',
+//                                                style: TextStyle(
+//                                                    decoration: TextDecoration.none,
+//                                                    fontSize: 11,
+//                                                    color: Colors.white),
+//                                              ),
                                             ],
                                           )
                                           ),
@@ -133,29 +141,31 @@ class HomeHeader extends StatelessWidget {
                                         ),
                                       ),
                                       SizedBox(width: 4,),
-                                      Container(
-                                        width: 120,
-                                          child: Column(
-                                            mainAxisAlignment: MainAxisAlignment.center,
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: <Widget>[
-                                              Text(
-                                                '${studentState.selectedstudent.grade.standardInRoman}  ${studentState.selectedstudent.grade.division}',
-                                                style: TextStyle(
-                                                    decoration: TextDecoration.none,
-                                                    fontSize: 17,
-                                                    color: Colors.white),
-                                              ),
-                                              Text(
-                                                'Present : 80%',
-                                                style: TextStyle(
-                                                    decoration: TextDecoration.none,
-                                                    fontSize: 11,
-                                                    color: Colors.white),
-                                              ),
-                                            ],
-                                          )
-                                          )
+                                      Expanded(
+                                        child: Container(
+//                                        width: 120,
+                                            child: Column(
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: <Widget>[
+                                                Text(
+                                                  '${studentState.selectedstudent.grade.standardInRoman}  ${studentState.selectedstudent.grade.division}',
+                                                  style: TextStyle(
+                                                      decoration: TextDecoration.none,
+                                                      fontSize: 17,
+                                                      color: Colors.white),
+                                                ),
+                                                Text(
+                                                  'Present : 80%',
+                                                  style: TextStyle(
+                                                      decoration: TextDecoration.none,
+                                                      fontSize: 11,
+                                                      color: Colors.white),
+                                                ),
+                                              ],
+                                            )
+                                            ),
+                                      )
                                     ],
                                   ),
                               );

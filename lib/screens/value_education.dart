@@ -280,23 +280,26 @@ class _ValueEducationScreenState extends State<ValueEducationScreen> {
           Expanded(
             child: Column(
               children: <Widget>[
-                Flexible(
-                  flex: 1,
-                  child: Text(
-                      video.channelTitle,
-                      style: TextStyle(fontWeight: FontWeight.w700)),
-                ),
+//                Flexible(
+//                  flex: 1,
+//                  child: Text(
+//                      video.channelTitle,
+//                      style: TextStyle(fontWeight: FontWeight.w700)),
+//                ),
                 Flexible(
                   flex: 3,
                   child: Text(
                     video.title,
+                    textAlign: TextAlign.start,
                     style: TextStyle(
+
                         color: Colors.black,
                         fontSize: 16.0,
                         fontWeight: FontWeight.w500
                     ),
                   ),
                 ),
+
               ],
             ),
           ),
@@ -322,48 +325,49 @@ class _ValueEducationScreenState extends State<ValueEducationScreen> {
       body: Column(
         children: <Widget>[
           DigiCampusAppbar(
+            title: 'Value Education',
             icon: Icons.close,
             onDrawerTapped: () => Navigator.of(context).pop(),
           ),
           SizedBox(height: 12),
-          ClipPath(
-              clipper: BackgroundClipper(),
-              child: Container(
-                  color: Theme.of(context).primaryColor,
-                  height: 120 - MediaQuery.of(context).padding.top,
-                  width: double.infinity,
-                  child: Column(
-                      children: <Widget>[
-                        Expanded(
-                            child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                children: <Widget>[
-                                  Container(
-                                      width: MediaQuery.of(context).size.width * 0.8,
-                                      height: 35,
-                                      decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius: BorderRadius.circular(30)),
-                                      child: TextFormField(
-                                          decoration: InputDecoration(
-                                              hintText: "search",
-                                              border: OutlineInputBorder(
-                                                  borderRadius: BorderRadius.circular(30.0),
-                                                  borderSide: const BorderSide(color: Colors.blue))))),
-                                  IconButton(
-                                      icon: Icon(
-                                        Icons.search,
-                                        color: Colors.black,
-                                      ),
-                                      onPressed: () {
-//                          setState(() {
-//                            val = !val;
-//                          });
-                                      }),
-                                ])),
-                        SizedBox(height: 40)
-                      ])
-              )),
+//          ClipPath(
+//              clipper: BackgroundClipper(),
+//              child: Container(
+//                  color: Theme.of(context).primaryColor,
+//                  height: 120 - MediaQuery.of(context).padding.top,
+//                  width: double.infinity,
+//                  child: Column(
+//                      children: <Widget>[
+//                        Expanded(
+//                            child: Row(
+//                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+//                                children: <Widget>[
+//                                  Container(
+//                                      width: MediaQuery.of(context).size.width * 0.8,
+//                                      height: 35,
+//                                      decoration: BoxDecoration(
+//                                          color: Colors.white,
+//                                          borderRadius: BorderRadius.circular(30)),
+//                                      child: TextFormField(
+//                                          decoration: InputDecoration(
+//                                              hintText: "search",
+//                                              border: OutlineInputBorder(
+//                                                  borderRadius: BorderRadius.circular(30.0),
+//                                                  borderSide: const BorderSide(color: Colors.blue))))),
+//                                  IconButton(
+//                                      icon: Icon(
+//                                        Icons.search,
+//                                        color: Colors.black,
+//                                      ),
+//                                      onPressed: () {
+////                          setState(() {
+////                            val = !val;
+////                          });
+//                                      }),
+//                                ])),
+//                        SizedBox(height: 40)
+//                      ])
+//              )),
           Expanded(
               child: Container(
                 child: _playlist != null
