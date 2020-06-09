@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:parent_app/components/digi_alert.dart';
@@ -42,6 +43,7 @@ class _HomePageState extends State<HomePage> {
   PageController _pageController;
   bool showSubscribeAlert = false;
   double roundnessFactor = 40.0;
+  Firestore firestore = Firestore.instance;
   @override
   void initState() {
     _pageController = PageController(initialPage: 0, keepPage: true);
@@ -66,6 +68,7 @@ class _HomePageState extends State<HomePage> {
             : Stack(
                 children: <Widget>[
                   PageView(
+                    physics: NeverScrollableScrollPhysics(),
                     controller: _pageController,
                     children: <Widget>[
                       Container(
@@ -220,15 +223,27 @@ class _HomePageState extends State<HomePage> {
                                                     .request();
                                                 await Permission.microphone
                                                     .request();
+                                                await Permission.storage.request();
+                                                DocumentSnapshot ds = await firestore.collection('live').document('grade_${state.selectedstudent.grade.standard}').get();
+                                                if(ds['liveBroadcastChannelId']!=null){
+//                                                  await Permission.
+                                                  print(ds['liveBroadcastChannelId']);
                                                 Navigator.push(
                                                   context,
                                                   MaterialPageRoute(
                                                     builder: (context) =>
                                                         CallPage(
+                                                          grade:studentState.selectedstudent.grade.standard,
+                                                          broadcastUid: ds['liveBroadcastChannelId'],
                                                       name: selectedStudent.name,
                                                     ),
                                                   ),
-                                                );
+                                                );}
+                                                else
+                                                  Scaffold.of(context).showSnackBar(SnackBar(
+
+                                                    content: Text('Teacher has not entered class'),
+                                                  ));
                                                 // Navigator.pushNamed(
                                                 //     context, '/call');
                                               },

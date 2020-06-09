@@ -50,37 +50,7 @@ class HomeHeader extends StatelessWidget {
                     // mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
                       SizedBox(height: 30+MediaQuery.of(context).padding.top),
-                      // Row(
-                      //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      //   children: <Widget>[
-                      //     Container(
-                      //       child: IconButton(
-                      //         onPressed: onPressed,
-                      //         icon: Icon(Icons.dashboard),
-                      //         color: Colors.white,
-                      //       ),
-                      //     ),
-                      //     Container(
-                      //         padding: EdgeInsets.only(left: 12),
-                      //         child: Text(
-                      //           'Christ Nagar',
-                      //           style: TextStyle(
-                      //               fontSize: 15,
-                      //               color: Colors.white,
-                      //               fontWeight: FontWeight.w600),
-                      //         )),
-                      //     Container(
-                      //       padding: EdgeInsets.only(right: 12),
-                      //       child: IconButton(
-                      //         onPressed: () {
-                      //           print('Pressed');
-                      //         },
-                      //         icon: Icon(Icons.notifications),
-                      //         color: Colors.white,
-                      //       ),
-                      //     )
-                      //   ],
-                      // ),
+
                       Expanded(
                         child: Consumer<StudentState>(
                             builder: (context, studentState, _) {
@@ -90,53 +60,38 @@ class HomeHeader extends StatelessWidget {
                                 child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: <Widget>[
-                                      Container(
-                                        width: 120,
-                                          padding: EdgeInsets.only(left: 12),
-                                          child: Column(
-                                            mainAxisAlignment: MainAxisAlignment.center,
-                                            crossAxisAlignment: CrossAxisAlignment.end,
-                                            children: <Widget>[
-                                              Container(
-                                                width: double.infinity,
-                                                alignment: Alignment.centerRight,
-                                                child: Text(
+                                      Expanded(
+                                        child: Container(
+                                          alignment: Alignment.centerRight,
+                                          child: Text(
+                                            studentState.selectedstudent.name
+                                            ,
+                                            textAlign: TextAlign.end,
+                                            style: TextStyle(
 
-                                                  studentState.selectedstudent.name
-                                                  ,
-                                                  textAlign: TextAlign.end,
-                                                  style: TextStyle(
-
-                                                      decoration: TextDecoration.none,
-                                                      fontSize: 17,
-                                                      color: Colors.white),
-                                                ),
-                                              ),
-//                                              Text(
-//                                                'Id : ${studentState.selectedstudent.studentId}',
-//                                                style: TextStyle(
-//                                                    decoration: TextDecoration.none,
-//                                                    fontSize: 11,
-//                                                    color: Colors.white),
-//                                              ),
-                                            ],
-                                          )
+                                                decoration: TextDecoration.none,
+                                                fontSize: 15,
+                                                color: Colors.white),
                                           ),
+                                        ),
+                                      ),
                                           SizedBox(width: 4,),
-                                      Hero(
-                                        tag: studentState.selectedstudent.id.toString(),
-                                        child: GestureDetector(
-                                          onTap: onStudentTapped,
-                                          child: Container(
-                                            child: ClipOval(
-                                                child: studentState.selectedstudent.photoUrl==null||
-                                                    studentState.selectedstudent.photoUrl==''?
-                                                Image.asset('assets/images/user.png',color: Colors.black87,):
-                                                Image.network(
-                                                    studentState.selectedstudent.photoUrl,
-                                                    fit: BoxFit.fill)),
-                                            height: height/2.5*1-log(height),
-                                            width: height/2.5*1-log(height),
+                                      Expanded(
+                                        child: Hero(
+                                          tag: studentState.selectedstudent.id.toString(),
+                                          child: GestureDetector(
+                                            onTap: onStudentTapped,
+                                            child: Container(
+                                              child: ClipOval(
+                                                  child: studentState.selectedstudent.photoUrl==null||
+                                                      studentState.selectedstudent.photoUrl==''?
+                                                  Image.asset('assets/images/user.png',color: Colors.black87,):
+                                                  Image.network(
+                                                      studentState.selectedstudent.photoUrl,
+                                                      fit: BoxFit.fill)),
+                                              height: height/2.5*1-log(height),
+                                              width: height/2.5*1-log(height),
+                                            ),
                                           ),
                                         ),
                                       ),
@@ -156,7 +111,7 @@ class HomeHeader extends StatelessWidget {
                                                       color: Colors.white),
                                                 ),
                                                 Text(
-                                                  'Present : 80%',
+                                                  'Present : 0%',
                                                   style: TextStyle(
                                                       decoration: TextDecoration.none,
                                                       fontSize: 11,

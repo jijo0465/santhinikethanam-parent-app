@@ -17,8 +17,8 @@ class ClassroomScreen extends StatefulWidget {
 
 class _ClassroomScreenState extends State<ClassroomScreen> {
   ScrollController _scrollController = new ScrollController();
-  DateTime launchDate = DateTime(2020,6,1);
-  DateTime today = DateTime.now();
+  DateTime launchDate = DateTime(2020,6,8);
+  DateTime today = DateTime.now().add(Duration(days: 1));
 //  StorageReference ref;
   // ScrollController _controller2;
   // double iconOffset;
@@ -58,7 +58,7 @@ class _ClassroomScreenState extends State<ClassroomScreen> {
   Widget dateTiles(int i) {
     DateFormat _dateFormat = DateFormat.yMMMd();
     DateFormat _dateFormatDay = DateFormat.E();
-    var date = DateTime.now().subtract(Duration(days: i));
+    var date = today.subtract(Duration(days: i));
 //    int hrs = 11;
     String grade = '6';
     // print(hrs);
@@ -71,12 +71,12 @@ class _ClassroomScreenState extends State<ClassroomScreen> {
         'day': 'Monday',
         'periods': [{'pdno': 1, 'subject': 'English', 'startTime': '10:00', 'endTime': '10:30'},
           {'pdno': 2, 'subject': 'Malayalam', 'startTime': '10:45', 'endTime': '11:15'},
-          {'pdno': 3, 'subject': 'Hindi', 'startTime': '11:30', 'endTime': '12:00'}],
+          {'pdno': 3, 'subject': 'Geography', 'startTime': '11:30', 'endTime': '12:00'}],
       },
       {
         'day': 'Tuesday',
         'periods': [{'pdno': 1, 'subject': 'Maths', 'startTime': '10:00', 'endTime': '10:30'},
-          {'pdno': 2, 'subject': 'Chemistry', 'startTime': '10:45', 'endTime': '11:15'},
+          {'pdno': 2, 'subject': 'Malayalam', 'startTime': '10:45', 'endTime': '11:15'},
           {'pdno': 3, 'subject': 'English', 'startTime': '11:30', 'endTime': '12:00'}],
       },
       {
@@ -87,8 +87,8 @@ class _ClassroomScreenState extends State<ClassroomScreen> {
       },
       {
         'day': 'Thursday',
-        'periods': [{'pdno': 1, 'subject': 'Malayalam', 'startTime': '10:00', 'endTime': '10:30'},
-          {'pdno': 2, 'subject': 'Physics', 'startTime': '10:45', 'endTime': '11:15'},
+        'periods': [{'pdno': 1, 'subject': 'Physics', 'startTime': '10:00', 'endTime': '10:30'},
+          {'pdno': 2, 'subject': 'Malayalam', 'startTime': '10:45', 'endTime': '11:15'},
           {'pdno': 3, 'subject': 'Social', 'startTime': '11:30', 'endTime': '12:00'}],
       },
       {
@@ -102,64 +102,64 @@ class _ClassroomScreenState extends State<ClassroomScreen> {
       {
         'day': 'Monday',
         'periods': [{'pdno': 1, 'subject': 'Maths', 'startTime': '10:00', 'endTime': '10:30'},
-          {'pdno': 2, 'subject': 'English', 'startTime': '10:45', 'endTime': '11:15'},
-          {'pdno': 3, 'subject': 'Science', 'startTime': '11:30', 'endTime': '12:00'}],
+          {'pdno': 2, 'subject': 'Social', 'startTime': '10:45', 'endTime': '11:15'},
+          {'pdno': 3, 'subject': 'Physics', 'startTime': '11:30', 'endTime': '12:00'}],
       },
       {
         'day': 'Tuesday',
-        'periods': [{'pdno': 1, 'subject': 'Science', 'startTime': '10:00', 'endTime': '10:30'},
-          {'pdno': 2, 'subject': 'Social', 'startTime': '10:45', 'endTime': '11:15'},
-          {'pdno': 3, 'subject': 'Hindi', 'startTime': '11:30', 'endTime': '12:00'}],
+        'periods': [{'pdno': 1, 'subject': 'IT', 'startTime': '10:00', 'endTime': '10:30'},
+          {'pdno': 2, 'subject': 'Chemistry', 'startTime': '10:45', 'endTime': '11:15'},
+          {'pdno': 3, 'subject': 'Malayalam', 'startTime': '11:30', 'endTime': '12:00'}],
       },
       {
         'day': 'Wednesday',
-        'periods': [{'pdno': 1, 'subject': 'Maths', 'startTime': '10:00', 'endTime': '10:30'},
-          {'pdno': 2, 'subject': 'Social', 'startTime': '10:45', 'endTime': '11:15'},
-          {'pdno': 3, 'subject': 'Science', 'startTime': '11:30', 'endTime': '12:00'}],
+        'periods': [{'pdno': 1, 'subject': 'Biology', 'startTime': '10:00', 'endTime': '10:30'},
+          {'pdno': 2, 'subject': 'English', 'startTime': '10:45', 'endTime': '11:15'},
+          {'pdno': 3, 'subject': 'Maths', 'startTime': '11:30', 'endTime': '12:00'}],
       },
       {
         'day': 'Thursday',
-        'periods': [{'pdno': 1, 'subject': 'Hindi', 'startTime': '10:00', 'endTime': '10:30'},
-          {'pdno': 2, 'subject': 'Maths', 'startTime': '10:45', 'endTime': '11:15'},
-          {'pdno': 3, 'subject': 'Science', 'startTime': '11:30', 'endTime': '12:00'}],
+        'periods': [{'pdno': 1, 'subject': 'English', 'startTime': '10:00', 'endTime': '10:30'},
+          {'pdno': 2, 'subject': 'Chemistry', 'startTime': '10:45', 'endTime': '11:15'},
+          {'pdno': 3, 'subject': 'Malayalam', 'startTime': '11:30', 'endTime': '12:00'}],
       },
       {
         'day': 'Friday',
-        'periods': [{'pdno': 1, 'subject': 'Maths', 'startTime': '10:00', 'endTime': '10:30'},
-          {'pdno': 2, 'subject': 'Malayalam', 'startTime': '10:45', 'endTime': '11:15'},
-          {'pdno': 3, 'subject': 'English', 'startTime': '11:30', 'endTime': '12:00'}],
+        'periods': [{'pdno': 1, 'subject': 'Social', 'startTime': '10:00', 'endTime': '10:30'},
+          {'pdno': 2, 'subject': 'Physics', 'startTime': '10:45', 'endTime': '11:15'},
+          {'pdno': 3, 'subject': 'Maths', 'startTime': '11:30', 'endTime': '12:00'}],
       },
     ];
 
     List<Map<String, dynamic>> timeTableList3 = [
       {
         'day': 'Monday',
-        'periods': [{'pdno': 1, 'subject': 'Maths', 'startTime': '10:00', 'endTime': '10:30'},
-          {'pdno': 2, 'subject': 'English', 'startTime': '10:45', 'endTime': '11:15'},
-          {'pdno': 3, 'subject': 'Science', 'startTime': '11:30', 'endTime': '12:00'}],
+        'periods': [{'pdno': 1, 'subject': 'Maths', 'startTime': '10:00', 'endTime': '10:30'},                  //MAths,Hindi,Malayalam
+          {'pdno': 2, 'subject': 'Hindi', 'startTime': '10:45', 'endTime': '11:15'},
+          {'pdno': 3, 'subject': 'Malayalam', 'startTime': '11:30', 'endTime': '12:00'}],
       },
       {
         'day': 'Tuesday',
-        'periods': [{'pdno': 1, 'subject': 'Science', 'startTime': '10:00', 'endTime': '10:30'},
-          {'pdno': 2, 'subject': 'Social', 'startTime': '10:45', 'endTime': '11:15'},
-          {'pdno': 3, 'subject': 'Hindi', 'startTime': '11:30', 'endTime': '12:00'}],
+        'periods': [{'pdno': 1, 'subject': 'History', 'startTime': '10:00', 'endTime': '10:30'},              //History,English,Physics
+          {'pdno': 2, 'subject': 'English', 'startTime': '10:45', 'endTime': '11:15'},
+          {'pdno': 3, 'subject': 'Physics', 'startTime': '11:30', 'endTime': '12:00'}],
       },
       {
         'day': 'Wednesday',
-        'periods': [{'pdno': 1, 'subject': 'Maths', 'startTime': '10:00', 'endTime': '10:30'},
-          {'pdno': 2, 'subject': 'Social', 'startTime': '10:45', 'endTime': '11:15'},
-          {'pdno': 3, 'subject': 'Science', 'startTime': '11:30', 'endTime': '12:00'}],
+        'periods': [{'pdno': 1, 'subject': 'Chemistry', 'startTime': '10:00', 'endTime': '10:30'},                //Chemistry,Maths,IT
+          {'pdno': 2, 'subject': 'Maths', 'startTime': '10:45', 'endTime': '11:15'},
+          {'pdno': 3, 'subject': 'IT', 'startTime': '11:30', 'endTime': '12:00'}],
       },
       {
         'day': 'Thursday',
-        'periods': [{'pdno': 1, 'subject': 'Hindi', 'startTime': '10:00', 'endTime': '10:30'},
-          {'pdno': 2, 'subject': 'Maths', 'startTime': '10:45', 'endTime': '11:15'},
-          {'pdno': 3, 'subject': 'Science', 'startTime': '11:30', 'endTime': '12:00'}],
+        'periods': [{'pdno': 1, 'subject': 'Malayalam', 'startTime': '10:00', 'endTime': '10:30'},                 //Malayalam,English,Hindi
+          {'pdno': 2, 'subject': 'English', 'startTime': '10:45', 'endTime': '11:15'},
+          {'pdno': 3, 'subject': 'Hindi', 'startTime': '11:30', 'endTime': '12:00'}],
       },
       {
         'day': 'Friday',
-        'periods': [{'pdno': 1, 'subject': 'Maths', 'startTime': '10:00', 'endTime': '10:30'},
-          {'pdno': 2, 'subject': 'Malayalam', 'startTime': '10:45', 'endTime': '11:15'},
+        'periods': [{'pdno': 1, 'subject': 'Maths', 'startTime': '10:00', 'endTime': '10:30'},                           //Maths,Biology,English
+          {'pdno': 2, 'subject': 'Biology', 'startTime': '10:45', 'endTime': '11:15'},
           {'pdno': 3, 'subject': 'English', 'startTime': '11:30', 'endTime': '12:00'}],
       },
     ];
@@ -244,8 +244,8 @@ class _ClassroomScreenState extends State<ClassroomScreen> {
                               child: Container(
                                 decoration: BoxDecoration(
                                     gradient: LinearGradient(colors: [
-                                      Colors.greenAccent[100],
-                                      Colors.greenAccent[400]
+                                      Colors.grey[100],
+                                      Colors.grey[400]
                                     ])),
                                 child: Row(
                                     children: List.generate(dayTable['periods'].length, (index) {
@@ -267,9 +267,9 @@ class _ClassroomScreenState extends State<ClassroomScreen> {
                                                 decoration: BoxDecoration(
                                                     gradient: i == 0
                                                         ? LinearGradient(colors: [
-                                                      Colors.deepOrange[
+                                                      Colors.grey[
                                                       (index + 1) * 100],
-                                                      Colors.deepOrange[
+                                                      Colors.grey[
                                                       100 + ((index + 1) * 100)]
                                                     ])
                                                         : null),

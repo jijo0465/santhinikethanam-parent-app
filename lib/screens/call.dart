@@ -16,9 +16,10 @@ class CallPage extends StatefulWidget {
   /// non-modifiable channel name of the page
   // final String channelName;
   final String name;
-
+  final int broadcastUid;
+  final int grade;
   /// Creates a call page with given channel name.
-  const CallPage({Key key, this.name}) : super(key: key);
+  const CallPage({Key key, this.name, this.broadcastUid, this.grade}) : super(key: key);
 
   @override
   _CallPageState createState() => _CallPageState();
@@ -30,11 +31,8 @@ class _CallPageState extends State<CallPage> with WidgetsBindingObserver{
   bool muted = true;
   final bool isflag = true;
    Firestore firestore = Firestore.instance;
-  Grade grade = Grade.empty();
-  int id = 10;
-  int broadcasterUid = 3001;
   String participantName;
-  List<int> participants= [];
+  List<String> participants= [];
   // int userid;
   // int id;
 
@@ -69,7 +67,14 @@ class _CallPageState extends State<CallPage> with WidgetsBindingObserver{
   void initState() {
     super.initState();
     Wakelock.enable();
-    grade.setId(id);
+//    grade.setId(id);
+//    firestore.collection('live').document('grade_${grade.id}').get().then((DocumentSnapshot value) {
+//      if(value['liveBroadcastChannelId']!=null) {
+//        setState(() {
+//          broadcasterUid = value['liveBroadcastChannelId'];
+//        });
+//
+//        print('CHANNEL : --> $broadcasterUid');}});
     // print('${StudentState.instance().selectedstudent.id}');
     // StudentState state = Provider.of<StudentState>(context, listen: true);
     // id = state.selectedstudent.id;
@@ -105,7 +110,7 @@ class _CallPageState extends State<CallPage> with WidgetsBindingObserver{
     AgoraRtcEngine.muteLocalAudioStream(muted);
     await AgoraRtcEngine.joinChannel(
         null,
-        'live',
+        'class_${widget.grade}',
         null,
         0);
 
@@ -131,18 +136,18 @@ class _CallPageState extends State<CallPage> with WidgetsBindingObserver{
       int uid,
       int elapsed,
     ) {
-      participantUid = uid;
-      firestore.collection('live').document('grade_7').get().then((value) {
+      participantName = widget.name;
+      firestore.collection('live').document('grade_${widget.grade}').get().then((value) {
         print('FIREBASE>>>>><<<<< FIREBASE <<<<>>>>>');
         if(value['liveBroadcastUserId']['users'] != null)  {
           for(int i=0; i<value['liveBroadcastUserId']['users'].length; i++)  {
             participants.insert(i,value['users'][i]);
           }
-          participants.add(uid);
+          participants.add(participantName);
         }
         else
-          participants.add(uid);
-          firestore.collection('live').document('class_${grade.id}').updateData({'liveBroadcastUserId': {'users': FieldValue.arrayUnion(participants)}}).then((value) {
+          participants.add(participantName);
+          firestore.collection('live').document('grade_${widget.grade}').updateData({'liveBroadcastUserId': {'users': FieldValue.arrayUnion(participants)}}).then((value) {
           print('PARTICIPANTS : $participants');
           setState(() {
             final info = 'onJoinChannel: $channel, uid: $uid';
@@ -281,33 +286,14 @@ class _CallPageState extends State<CallPage> with WidgetsBindingObserver{
 
   /// VideoView layout
   Widget _viewVideo() {
-    firestore.collection('live').document('grade_${grade.id}').get().then((DocumentSnapshot value) {
-      if(value.data['liveBroadcastChannelId']!=null) {
-        broadcasterUid = value['liveBroadcastChannelId'];
-        print('CHANNEL : --> $broadcasterUid');
         return Container(
             child: AgoraRtcEngine.createNativeView((viewId) {
-            print('USER BROADCAST ID-------->>>> : $broadcasterUid');
+            print('USER BROADCAST ID-------->>>> : $widget.broadcastUid');
             AgoraRtcEngine.setupRemoteVideo(viewId, VideoRenderMode.Fit,
-                broadcasterUid);
+                widget.broadcastUid);
       }));
-      }
-      else
-        print('CHANNEL : --> NULL');
-        return Container(
-          height: MediaQuery.of(context).size.height,
-          width: MediaQuery.of(context).size.width,
-          color: Colors.grey[600],
-          child: Card(
-            margin: EdgeInsets.all(20),
-            elevation: 12,
-            color: Colors.white30,
-            child: Center(
-              child: Text('Class not started!'),
-            ),
-          )
-        );
-    });
+
+//    });
 
 
 //      print('USER BROADCAST ID-------->>>>>${_users.first}');
@@ -321,7 +307,7 @@ class _CallPageState extends State<CallPage> with WidgetsBindingObserver{
        //widget.uid  --> Broadcaster Uid
       // AgoraRtcEngine.startPreview();
       // AgoraRtcEngine.joinChannel(null, 'flutter', null, 0);
-    }));
+//    }));
     // return AgoraRenderWidget(broadcasterUid, local: true, preview: true);
   }
 
@@ -458,7 +444,7 @@ class _CallPageState extends State<CallPage> with WidgetsBindingObserver{
     //   });
     // });
 
-    firestore.collection('live').document('grade_${grade.id}').updateData({'': FieldValue.arrayRemove([{participantName}])});
+    firestore.collection('live').document('grade_${widget.grade}').updateData({'': FieldValue.arrayRemove([{participantName}])});
     Navigator.pop(context);
   }
 
@@ -485,7 +471,7 @@ class _CallPageState extends State<CallPage> with WidgetsBindingObserver{
         child: Center(
           child: Stack(
             children: <Widget>[
-              // SizedBox(height: 8),
+               SizedBox(height: 8),
               // _viewRows(),
               _viewVideo(),
               _panel(),

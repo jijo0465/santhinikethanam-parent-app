@@ -76,6 +76,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     height: 50,
                     width: MediaQuery.of(context).size.width*0.75,
                     child: TextFormField(
+                      keyboardType: TextInputType.number,
                       textAlign: TextAlign.center,
                       onChanged: (value) => _password = value,
                       decoration: InputDecoration(
