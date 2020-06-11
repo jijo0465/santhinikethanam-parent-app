@@ -9,6 +9,8 @@ import 'package:parent_app/services/digi_attendance.dart';
 import 'package:parent_app/states/login_state.dart';
 import 'package:parent_app/states/student_state.dart';
 import 'package:provider/provider.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
 
 class StudentDetailsScreen extends StatefulWidget {
   final int pageNo = 0;
@@ -28,6 +30,16 @@ class _StudentDetailsScreenState extends State<StudentDetailsScreen> {
   PageController _pageController;
 
   Student selectedStudent;
+  File  _image;
+  final picker = ImagePicker();
+
+  Future getImage() async {
+    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+
+    setState(() {
+      _image = File(pickedFile.path);
+    });
+  }
 
   // Student().fromMap('{"id":1001,"name":"Karthyaayini","parentName":"Ajith"}');
   @override
@@ -144,6 +156,10 @@ class _StudentDetailsScreenState extends State<StudentDetailsScreen> {
                             }),
                       );
                     }),
+                    GestureDetector(child: Text('Edit Photo',style: TextStyle(color: Colors.white),),
+                    onTap:getImage,
+
+                    ),
                     SizedBox(height: 12),
                     Expanded(
                       child: Container(
