@@ -96,8 +96,9 @@ class _CallPageState extends State<CallPage> with WidgetsBindingObserver{
     await _initAgoraRtcEngine();
     _addAgoraEventHandlers();
     await AgoraRtcEngine.enableWebSdkInteroperability(true);
-    await AgoraRtcEngine.setChannelProfile(ChannelProfile.LiveBroadcasting);
+//    await AgoraRtcEngine.setChannelProfile(ChannelProfile.LiveBroadcasting);
     await AgoraRtcEngine.setClientRole(ClientRole.Audience);
+    await AgoraRtcEngine.enableLocalVideo(false);
     await AgoraRtcEngine.setParameters(
         '''{\"che.video.lowBitRateStreamParameter\":{\"width\":320,\"height\":180,\"frameRate\":15,\"bitRate\":140}}''');
     // await AgoraRtcEngine.joinChannel(null, widget.channelName, null, 0);

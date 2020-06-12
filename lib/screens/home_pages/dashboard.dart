@@ -46,12 +46,14 @@ class _HomePageState extends State<HomePage> {
   Firestore firestore = Firestore.instance;
   @override
   void initState() {
+    _height = 260.0;
     _pageController = PageController(initialPage: 0, keepPage: true);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+
     StudentState state = Provider.of<StudentState>(context, listen: true);
 //    state.addListener(() {
 //      setSelectedStudent(state.selectedstudent);
@@ -115,7 +117,7 @@ class _HomePageState extends State<HomePage> {
                                       });
                                     }
                                   },
-                                  onDrag: (dragUpdateDetails) {
+                                  onDrag: (dragUpdateDetails) async {
 
                                      print(dragUpdateDetails.globalPosition.distance);
                                     // print(dragUpdateDetails.globalPosition.dy);
@@ -135,9 +137,10 @@ class _HomePageState extends State<HomePage> {
 //                                          StudentProfileScreen()
                                           ),
                                         ).then((value) {
-                                          // setState(() {
-                                          //   pageNo = StudentDetailsScreen.pageNo;
-                                          // });
+                                           setState(() {
+                                             roundnessFactor = 40;
+                                             _height = 260.0;
+                                           });
                                         });
                                       } else {
                                         setState(() {

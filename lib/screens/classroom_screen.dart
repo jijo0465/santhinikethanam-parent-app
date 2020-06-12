@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dash_chat/dash_chat.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +20,8 @@ class _ClassroomScreenState extends State<ClassroomScreen> {
   ScrollController _scrollController = new ScrollController();
   DateTime launchDate = DateTime(2020,6,8);
   DateTime today = DateTime.now().add(Duration(days: 1));
+  Firestore firestore = Firestore.instance;
+  String videoUrl;
 //  StorageReference ref;
   // ScrollController _controller2;
   // double iconOffset;
@@ -56,11 +59,12 @@ class _ClassroomScreenState extends State<ClassroomScreen> {
   }
 
   Widget dateTiles(int i) {
+    StudentState state = Provider.of<StudentState>(context, listen: true);
     DateFormat _dateFormat = DateFormat.yMMMd();
     DateFormat _dateFormatDay = DateFormat.E();
     var date = today.subtract(Duration(days: i));
 //    int hrs = 11;
-    String grade = '6';
+    String grade = '8';
     // print(hrs);
     // int mts = date.minute;
     String formattedDay = _dateFormatDay.format(date);
@@ -258,8 +262,15 @@ class _ClassroomScreenState extends State<ClassroomScreen> {
                                           GestureDetector(
                                             behavior: HitTestBehavior.translucent,
                                             onTap: (){
-                                              Navigator.of(context).push(MaterialPageRoute(builder: (context) =>
-                                                  DiscussionsScreen(date: saveFormattedDate, grade: grade,period: dayTable['periods'][index]['pdno'])));
+                                              print(state.selectedstudent.grade.standard);
+                                              firestore.collection('grade_${state.selectedstudent.grade.standard}').document(saveFormattedDate).get().then((value) {
+                                                print(value.documentID);
+                                                print(value.data.length);
+                                                videoUrl = value['period_${dayTable['periods'][index]['pdno']}']['videoUrl'];
+                                                print(videoUrl);
+                                                Navigator.of(context).push(MaterialPageRoute(builder: (context) =>
+                                                    DiscussionsScreen(date: saveFormattedDate, grade: grade,period: dayTable['periods'][index]['pdno'],url: videoUrl)));
+                                              });
                                             },
                                             child: Container(
                                                 height: 80,

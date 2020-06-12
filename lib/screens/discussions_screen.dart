@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
+import 'package:http/http.dart';
 import 'package:parent_app/components/digi_alert.dart';
 import 'package:parent_app/components/digicampus_appbar.dart';
 import 'package:parent_app/models/grade.dart';
@@ -18,9 +19,10 @@ class DiscussionsScreen extends StatefulWidget {
   // final Student student;
   final String date;
   final String grade;
+  final String url;
   final int period;
 
-  const DiscussionsScreen({Key key, this.date, this.grade, this.period}) : super(key: key);
+  const DiscussionsScreen({Key key, this.date, this.grade, this.period, this.url}) : super(key: key);
 
   @override
   _DiscussionsScreenState createState() => _DiscussionsScreenState();
@@ -48,24 +50,26 @@ class _DiscussionsScreenState extends State<DiscussionsScreen> {
   ValueNotifier<Duration> playtime = ValueNotifier(Duration(seconds: 0));
   bool showPlayerControls = true;
   bool isFullScreen = false;
+//  bool isVideoLoaded;
   ChewieController _chewieController;
-
-
 
   @override
   void initState() {
 
-    Future.delayed(Duration(seconds: 3)).then((value){
+//    Future.delayed(Duration(seconds: 3)).then((value){
 //      setState(() {
 //        showPlayerControls = false;
 //      });
-    });
-
+//    });
     // TODO: implement initState
+//    isVideoLoaded = false;
     widgetIndex = 0;
     grade.setId(id);
+//    setState(() {
+//      isVideoLoaded = true;
+//    });
     _playerController =
-    VideoPlayerController.asset('assets/videos/smartschool.mp4')
+    VideoPlayerController.network(widget.url)
       ..initialize().then((_) {
         // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
         setState(() {
@@ -101,7 +105,21 @@ class _DiscussionsScreenState extends State<DiscussionsScreen> {
       await Future.delayed(Duration(seconds: 1));
       playtime.value = await _playerController.position;
     });
-
+//    getVideoUrl();
+//    _playerController = VideoPlayerController();
+//    getVideoUrl().then((value) {
+//      url = value;
+//      setState(() {
+//        isVideoLoaded = true;
+//      });
+//    });
+//    firestore.collection('grade_${widget.grade}').document(widget.date).get().then((value) {
+//      if(value.data != null) {
+//        url = value['period_${widget.period}']['videoUrl'];
+//
+//      }
+//    });
+//    if(url != null)
     super.initState();
   }
 
@@ -130,7 +148,6 @@ class _DiscussionsScreenState extends State<DiscussionsScreen> {
                 height: MediaQuery.of(context).padding.top,
               ),
               Container(
-
 //            width: isFullScreen?MediaQuery.of(context).size.width:MediaQuery.of(context).size.height,
 //            height: isFullScreen?MediaQuery.of(context).size.width:MediaQuery.of(context).size.height*0.3,
                 color: Colors.black,
@@ -143,7 +160,6 @@ class _DiscussionsScreenState extends State<DiscussionsScreen> {
 //                          });
                       },
                       child: Container(
-
                         color: Colors.black,
 //                      width: double.infinity,
 //                      height: isFullScree
@@ -181,7 +197,6 @@ class _DiscussionsScreenState extends State<DiscussionsScreen> {
                   ],
                 ),
               ),
-//
       SizedBox(height: 12),
       Text(
             'Discussions',
@@ -296,10 +311,20 @@ class _DiscussionsScreenState extends State<DiscussionsScreen> {
                 }
               }),
     ]),
-            DigiAlert(title:'My Classroom', text: 'Classroom at fingertips',icon: DigiIcons.virtual_class)
+//            DigiAlert(title:'My Classroom', text: 'Classroom at fingertips',icon: DigiIcons.virtual_class)
           ],
         ));
   }
+//  getVideoUrl() async {
+//    String videoUrl;
+//    firestore.collection('grade_${widget.grade}').document(widget.date).get().then((value) {
+//      if(value.data != null) {
+//        videoUrl = value['period_${widget.period}']['videoUrl'];
+//        print('videoURL: $videoUrl');
+//        initialisePlayer(videoUrl);
+//      }
+//    });
+//  }
 
   listItem(List<DocumentSnapshot> item) {
     for (; widgetIndex < item[0]['disussion'].length; widgetIndex++) {
@@ -354,15 +379,17 @@ class _DiscussionsScreenState extends State<DiscussionsScreen> {
   }
 
   _addToDiscussions(String text) async {
-    var comment = [
-      {'comment': text, 'date': DateTime.now().toUtc(),'url':'https://neatoday.org/wp-content/uploads/2016/08/young_student-e1472643979755.jpg'}
-    ];
-    DocumentReference documentReference =
-        firestore.collection('classroom_${grade.id}').document('Session_1');
-    firestore.runTransaction((transaction) async {
-      await transaction.update(
-          documentReference, {'disussion': FieldValue.arrayUnion(comment)});
-    });
+    var comment =
+      {'comment': text, 'date': DateTime.now().toUtc(),'url':'https://neatoday.org/wp-content/uploads/2016/08/young_student-e1472643979755.jpg'};
+    firestore.collection('grade_${widget.grade}').document('${widget.date}').setData(
+        {'period_${widget.period}': {'pdno': '${widget.period}', 'discussion': FieldValue.arrayUnion([comment])}},merge: true
+    );
+//    DocumentReference documentReference =
+//        firestore.collection('classroom_${grade.id}').document('Session_1');
+//    firestore.runTransaction((transaction) async {
+//      await transaction.update(
+//          documentReference, {'disussion': FieldValue.arrayUnion(comment)});
+//    });
     // documentReference.get().then((doc){
     //   if(doc.exists){
     //     documentReference.updateData({'disussion':FieldValue.arrayUnion(comment)});
