@@ -59,5 +59,7 @@ class Student {
   Map toJson() => {
     'name': name,
     'grade': grade,
+    'studentId': studentId,
+    'id': id
   };
 }

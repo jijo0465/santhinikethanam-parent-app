@@ -22,6 +22,8 @@ class _ClassroomScreenState extends State<ClassroomScreen> {
   DateTime today = DateTime.now().add(Duration(days: 1));
   Firestore firestore = Firestore.instance;
   String videoUrl;
+  Grade gr = Grade.empty();
+  StudentState studentState;
 //  StorageReference ref;
   // ScrollController _controller2;
   // double iconOffset;
@@ -53,6 +55,12 @@ class _ClassroomScreenState extends State<ClassroomScreen> {
   // }
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
   void dispose() {
     _scrollController.dispose();
     super.dispose();
@@ -64,7 +72,7 @@ class _ClassroomScreenState extends State<ClassroomScreen> {
     DateFormat _dateFormatDay = DateFormat.E();
     var date = today.subtract(Duration(days: i));
 //    int hrs = 11;
-    String grade = '8';
+//    String grade = '8';
     // print(hrs);
     // int mts = date.minute;
     String formattedDay = _dateFormatDay.format(date);
@@ -167,8 +175,8 @@ class _ClassroomScreenState extends State<ClassroomScreen> {
           {'pdno': 3, 'subject': 'English', 'startTime': '11:30', 'endTime': '12:00'}],
       },
     ];
-    StudentState studentState = Provider.of<StudentState>(context, listen: true);
-    Grade gr =studentState.selectedstudent.grade;
+    studentState = Provider.of<StudentState>(context, listen: true);
+    gr =studentState.selectedstudent.grade;
     List<Map<String, dynamic>> timeTable = List();
     Map<String, dynamic> dayTable = Map();
     print(formattedDay);
@@ -257,58 +265,92 @@ class _ClassroomScreenState extends State<ClassroomScreen> {
 //                                      .child("videos/$grade/$saveFormattedDate/${timeTable['periods'][index]['pdno']}");
 //                              ref!=null;
                                       // print(timeTable['$index'].toString());
-                                      return Row(
-                                        children: <Widget>[
-                                          GestureDetector(
-                                            behavior: HitTestBehavior.translucent,
-                                            onTap: (){
-                                              print(state.selectedstudent.grade.standard);
-                                              firestore.collection('grade_${state.selectedstudent.grade.standard}').document(saveFormattedDate).get().then((value) {
-                                                print(value.documentID);
-                                                print(value.data.length);
-                                                videoUrl = value['period_${dayTable['periods'][index]['pdno']}']['videoUrl'];
-                                                print(videoUrl);
-                                                Navigator.of(context).push(MaterialPageRoute(builder: (context) =>
-                                                    DiscussionsScreen(date: saveFormattedDate, grade: grade,period: dayTable['periods'][index]['pdno'],url: videoUrl)));
+//                                      videoUrl = null;
+                                      return StreamBuilder<QuerySnapshot>(
+                                        stream: firestore.collection('grade_${studentState.selectedstudent.grade.standard}').snapshots(),
+                                        builder: (context, snapshot) {
+                                          bool isVideoUploaded = false;
+                                          if (!snapshot.hasData)
+                                            return Center(
+                                                child: CircularProgressIndicator(
+                                                    valueColor: AlwaysStoppedAnimation<Color>(
+                                                        Theme.of(context).primaryColor)));
+                                          else  {
+                                            List<DocumentSnapshot> _items = snapshot.data.documents;
+                                            if(_items.isNotEmpty)
+                                              _items.forEach((element) {
+                                                if(element.documentID == saveFormattedDate)
+                                                  if(element['period_${dayTable['periods'][index]['pdno']}']!=null)
+                                                  {
+                                                    print(element['period_${dayTable['periods'][index]['pdno']}']['videoUrl']);
+                                                    print('KEY --->> TRUE');
+                                                    videoUrl = element['period_${dayTable['periods'][index]['pdno']}']['videoUrl'];
+                                                    isVideoUploaded = true;
+                                                    print(saveFormattedDate);
+                                                    print(element['period_${dayTable['periods'][index]['pdno']}']);
+                                                  }
+                                                  else  isVideoUploaded = false;
                                               });
-                                            },
-                                            child: Container(
-                                                height: 80,
-                                                width: 100,
-                                                decoration: BoxDecoration(
-                                                    gradient: i == 0
-                                                        ? LinearGradient(colors: [
-                                                      Colors.grey[
-                                                      (index + 1) * 100],
-                                                      Colors.grey[
-                                                      100 + ((index + 1) * 100)]
-                                                    ])
-                                                        : null),
-                                                // color: Colors.deepOrange[100+(index*100)],
-                                                child: Align(
-                                                  alignment: Alignment.center,
-                                                  child: Column(
-                                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                                    children: <Widget>[
-                                                      Text(
-                                                        '${dayTable['periods'][index]['subject'].toString()}\n${dayTable['periods'][index]['startTime'].toString()}-${dayTable['periods'][index]['endTime'].toString()}' ,
-                                                        style: TextStyle(
-                                                          fontSize: 12,
-                                                        ),
-                                                        textAlign: TextAlign.center,
-                                                        overflow: TextOverflow.clip,
+                                          return Row(
+                                            children: <Widget>[
+                                              GestureDetector(
+                                                behavior: HitTestBehavior.translucent,
+                                                onTap: (){
+                                                  print(state.selectedstudent.grade.standard);
+//                                                  firestore.collection('grade_${state.selectedstudent.grade.standard}').document(saveFormattedDate).get().then((value) {
+//                                                    print(value.documentID);
+//                                                    print(value.data.length);
+//                                                    videoUrl = value['period_${dayTable['periods'][index]['pdno']}']['videoUrl'];
+//                                                    print(videoUrl);
+//                                                    Navigator.of(context).push(MaterialPageRoute(builder: (context) =>
+//                                                        DiscussionsScreen(date: saveFormattedDate, grade: studentState.selectedstudent.grade.standard.toString(),period: dayTable['periods'][index]['pdno'],url: videoUrl)));
+//                                                  });
+                                                  if(isVideoUploaded)
+                                                    {
+                                                      print('VIDEO : $videoUrl');
+                                                      Navigator.of(context).push(MaterialPageRoute(builder: (context) =>
+                                                          DiscussionsScreen(date: saveFormattedDate, grade: studentState.selectedstudent.grade.standard.toString(),period: dayTable['periods'][index]['pdno'],url: videoUrl)));
+                                                    }
+                                                },
+                                                child: Container(
+                                                    height: 80,
+                                                    width: 100,
+                                                    decoration: BoxDecoration(
+                                                        gradient: LinearGradient(colors: [
+                                                          !isVideoUploaded
+                                                              ?Colors.grey[(index + 1) * 100]
+                                                              :Colors.blueGrey[(index + 1) * 100],
+                                                          !isVideoUploaded
+                                                              ?Colors.grey[100 + ((index + 1) * 100)]
+                                                              :Colors.blueGrey[100 + ((index + 1) * 100)]
+                                                        ])),
+                                                    // color: Colors.deepOrange[100+(index*100)],
+                                                    child: Align(
+                                                      alignment: Alignment.center,
+                                                      child: Column(
+                                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                                        children: <Widget>[
+                                                          Text(
+                                                            '${dayTable['periods'][index]['subject'].toString()}\n${dayTable['periods'][index]['startTime'].toString()}-${dayTable['periods'][index]['endTime'].toString()}' ,
+                                                            style: TextStyle(
+                                                              fontSize: 12,
+                                                            ),
+                                                            textAlign: TextAlign.center,
+                                                            overflow: TextOverflow.clip,
+                                                          ),
+                                                        ],
                                                       ),
-                                                    ],
-                                                  ),
-                                                )),
-                                          ),
-                                          VerticalDivider(
-                                            thickness: 1,
-                                            width: 1,
-                                            color: Colors.white,
-                                          )
-                                        ],
+                                                    )),
+                                              ),
+                                              VerticalDivider(
+                                                thickness: 1,
+                                                width: 1,
+                                                color: Colors.white,
+                                              )
+                                            ],
+                                          );}
+                                        }
                                       );
                                     })),
                               ),

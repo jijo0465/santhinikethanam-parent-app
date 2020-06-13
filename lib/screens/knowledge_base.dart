@@ -22,6 +22,7 @@ class _KnowledgeBaseScreenState extends State<KnowledgeBaseScreen> {
   Grade grade = Grade.empty();
   List<DocumentSnapshot> _subjects;
   DocumentSnapshot subjectItem;
+  bool isActivated = false;
   static List<String> titleList = [
     'All',
     'Maths',
@@ -143,6 +144,7 @@ class _KnowledgeBaseScreenState extends State<KnowledgeBaseScreen> {
                     }),
                   ))),
           SizedBox(height: 12),
+          isActivated?
           Expanded(
             child: StreamBuilder<QuerySnapshot>(
                 // key: _key,
@@ -589,6 +591,15 @@ class _KnowledgeBaseScreenState extends State<KnowledgeBaseScreen> {
                     // : Container(child: Text('No Discussions yet!!'));
                   }
                 }),
+          ):Expanded(
+            child: Center(
+              child: Container(
+                margin: EdgeInsets.only(bottom: 60),
+                child: Text(
+                  'Not Subscribed!'
+                ),
+              ),
+            ),
           ),
           // Expanded(
           //   child: AnimatedList(

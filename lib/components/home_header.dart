@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:math';
 import 'dart:ui';
 
@@ -26,6 +27,7 @@ class HomeHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return Container(
       child: GestureDetector(
         behavior: HitTestBehavior.translucent,
@@ -54,6 +56,7 @@ class HomeHeader extends StatelessWidget {
                       Expanded(
                         child: Consumer<StudentState>(
                             builder: (context, studentState, _) {
+                              print(studentState.selectedstudent.photoUrl);
                           return studentState.selectedstudent == null
                               ? Container()
                               : IntrinsicHeight(
@@ -64,7 +67,7 @@ class HomeHeader extends StatelessWidget {
                                         child: Container(
                                           alignment: Alignment.centerRight,
                                           child: Text(
-                                            studentState.selectedstudent.name
+                                            titleCase(studentState.selectedstudent.name)
                                             ,
                                             textAlign: TextAlign.end,
                                             style: TextStyle(
@@ -86,9 +89,13 @@ class HomeHeader extends StatelessWidget {
                                                   child: studentState.selectedstudent.photoUrl==null||
                                                       studentState.selectedstudent.photoUrl==''?
                                                   Image.asset('assets/images/user.png',color: Colors.black87,):
-                                                  Image.network(
-                                                      studentState.selectedstudent.photoUrl,
-                                                      fit: BoxFit.fill)),
+
+                                                      Image(image: FileImage(File(studentState.selectedstudent.photoUrl)),fit: BoxFit.cover,)
+//                                                  File(studentState.selectedstudent.photoUrl)
+//                                                  Image.asset(
+//                                                      studentState.selectedstudent.photoUrl,
+//                                                      fit: BoxFit.cover)
+                                              ),
                                               height: height/2.5*1-log(height),
                                               width: height/2.5*1-log(height),
                                             ),
@@ -144,6 +151,17 @@ class HomeHeader extends StatelessWidget {
             )),
       ),
     );
+  }
+  String titleCase(String text) {
+    text = text.toLowerCase();
+    if (text.length <= 1) return text.toUpperCase();
+    var words = text.split(' ');
+    var capitalized = words.map((word) {
+      var first = word.substring(0, 1).toUpperCase();
+      var rest = word.substring(1);
+      return '$first$rest';
+    });
+    return capitalized.join(' ');
   }
 }
 

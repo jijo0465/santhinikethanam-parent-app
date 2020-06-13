@@ -36,9 +36,10 @@ class _RedirectState extends State<Redirect> {
         SharedPreferences.getInstance().then((prefs) async {
           _loginStatus = prefs.getBool('loggedIn');
           if (_loginStatus == true) {
-            String st = (await SharedPreferences.getInstance()).getString('student');
+            String st = prefs.getString('student');
             Map studentMap = json.decode(st);
             Student student = Student.fromMap(studentMap);
+            student.photoUrl = await prefs.get('photoPath');
             studentState.setStudent(student);
             List<Student> studentList = List<Student>();
             studentList.add(student);

@@ -95,63 +95,65 @@ class _HomeScreenState extends State<DigiHome> with TickerProviderStateMixin {
             //         ),
             //       ]),
             // ),
-            body: HiddenDrawer(
-              controller: drawerController,
-              header: Container(
-                child: Row(
-                  children: <Widget>[
-                    Expanded(
-                      flex: 66,
-                      child: Container(
-                        child: Column(
-                          children: <Widget>[
-                            Container(
-                              width: MediaQuery.of(context).size.width * 0.5,
-                              height: MediaQuery.of(context).size.width * 0.5,
-                              decoration: BoxDecoration(
-                                image: DecorationImage(
-                                  fit: BoxFit.fill,
-                                  image: AssetImage(
-                                    'assets/images/sir.jpg',
-                                  ),
-                                ),
-                                shape: BoxShape.circle,
-                              ),
-                            ),
-                            SizedBox(
-                              height: 6,
-                            ),
-                            Text(
-                              'Rachel green',
-                              style:
-                                  TextStyle(color: Colors.black, fontSize: 20),
-                            ),
-                            RaisedButton(
-                                child: Text('Signout'),
-                                onPressed: () {
-                                  value.signOut();
-                                })
-                          ],
-                        ),
-                      ),
-                    ),
-                    Expanded(flex: 34, child: Container())
-                  ],
-                ),
-              ),
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                    begin: Alignment.topRight,
-                    end: Alignment.bottomLeft,
-                    colors: [
-                      Theme.of(context).primaryColor.withOpacity(0.7),
-                      Theme.of(context).primaryColor.withOpacity(0.8),
-                      Theme.of(context).primaryColor
-                    ]
-                    // tileMode: TileMode.repeated,
-                    ),
-              ),
-            ),
+            body: HomePage(title: 'Digicampus',)
+//            HiddenDrawer(
+//
+//              controller: drawerController,
+//              header: Container(
+//                child: Row(
+//                  children: <Widget>[
+//                    Expanded(
+//                      flex: 66,
+//                      child: Container(
+//                        child: Column(
+//                          children: <Widget>[
+//                            Container(
+//                              width: MediaQuery.of(context).size.width * 0.5,
+//                              height: MediaQuery.of(context).size.width * 0.5,
+//                              decoration: BoxDecoration(
+//                                image: DecorationImage(
+//                                  fit: BoxFit.fill,
+//                                  image: AssetImage(
+//                                    'assets/images/sir.jpg',
+//                                  ),
+//                                ),
+//                                shape: BoxShape.circle,
+//                              ),
+//                            ),
+//                            SizedBox(
+//                              height: 6,
+//                            ),
+//                            Text(
+//                              'Rachel green',
+//                              style:
+//                                  TextStyle(color: Colors.black, fontSize: 20),
+//                            ),
+//                            RaisedButton(
+//                                child: Text('Signout'),
+//                                onPressed: () {
+//                                  value.signOut();
+//                                })
+//                          ],
+//                        ),
+//                      ),
+//                    ),
+//                    Expanded(flex: 34, child: Container())
+//                  ],
+//                ),
+//              ),
+//              decoration: BoxDecoration(
+//                gradient: LinearGradient(
+//                    begin: Alignment.topRight,
+//                    end: Alignment.bottomLeft,
+//                    colors: [
+//                      Theme.of(context).primaryColor.withOpacity(0.7),
+//                      Theme.of(context).primaryColor.withOpacity(0.8),
+//                      Theme.of(context).primaryColor
+//                    ]
+//                    // tileMode: TileMode.repeated,
+//                    ),
+//              ),
+//            ),
           );
         }
       },

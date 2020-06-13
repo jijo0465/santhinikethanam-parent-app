@@ -46,14 +46,18 @@ class _HomePageState extends State<HomePage> {
   Firestore firestore = Firestore.instance;
   @override
   void initState() {
-    _height = 260.0;
+
+    _height = 0.0;
+//    setHeight();
     _pageController = PageController(initialPage: 0, keepPage: true);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-
+    if(_height == 0.0){
+      setHeight(context);
+    }
     StudentState state = Provider.of<StudentState>(context, listen: true);
 //    state.addListener(() {
 //      setSelectedStudent(state.selectedstudent);
@@ -113,7 +117,7 @@ class _HomePageState extends State<HomePage> {
                                     if (_height < 600) {
                                       setState(() {
                                         roundnessFactor = 40;
-                                        _height = 300;
+                                        _height = MediaQuery.of(context).size.height*0.4;
                                       });
                                     }
                                   },
@@ -320,7 +324,7 @@ class _HomePageState extends State<HomePage> {
                                           ],
                                         ),
                                       ),
-                                      SizedBox(height: 16)
+                                      SizedBox(height: 40)
                                     ],
                                   ),
                                 )),
@@ -330,7 +334,7 @@ class _HomePageState extends State<HomePage> {
                         }),
                       ),
                       KnowledgeBaseScreen(),
-                      ChatScreen()
+                      ChatPage()
                     ],
                   ),
 //                  PageHeader(
@@ -338,11 +342,11 @@ class _HomePageState extends State<HomePage> {
 //                  ),
                   DigiCampusAppbar(icon: null,onDrawerTapped: widget.onPressed,title: 'Santhinikethanam',),
                   Positioned(
-                      bottom: 4,
+                      bottom: 0,
                       child: DigiBottomNavBar(
                         selected: navState,
                         onChanged: (value) async {
-                          await _pageController.animateToPage(value,
+                          _pageController.animateToPage(value,
                               duration: Duration(milliseconds: 400),
                               curve: Curves.linear);
                           setState(() {
@@ -362,5 +366,14 @@ class _HomePageState extends State<HomePage> {
         isLoading = false;
       });
     }
+  }
+
+  Future<void> setHeight(BuildContext context) async {
+
+    setState(() {
+      _height = MediaQuery.of(context).size.height*0.40;
+    });
+
+
   }
 }

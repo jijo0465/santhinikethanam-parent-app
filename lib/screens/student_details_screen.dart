@@ -1,5 +1,7 @@
 import 'dart:ui';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:parent_app/components/digicampus_appbar.dart';
@@ -10,7 +12,12 @@ import 'package:parent_app/states/login_state.dart';
 import 'package:parent_app/states/student_state.dart';
 import 'package:provider/provider.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:path/path.dart';
+import 'dart:math';
 import 'dart:io';
+
+import 'package:shared_preferences/shared_preferences.dart';
 
 class StudentDetailsScreen extends StatefulWidget {
   final int pageNo = 0;
@@ -28,18 +35,46 @@ class _StudentDetailsScreenState extends State<StudentDetailsScreen> {
   //bool isFirst=true;
   int page;
   PageController _pageController;
-
+  SharedPreferences _pref;
+  StudentState state;
   Student selectedStudent;
   File  _image;
   final picker = ImagePicker();
+  Firestore firestore = Firestore.instance;
 
   Future getImage() async {
     final pickedFile = await picker.getImage(source: ImageSource.gallery);
+    StorageReference storageReference;
+    if(pickedFile!=null)
+      _pref = await SharedPreferences.getInstance();
+        _image = File(pickedFile.path);
+    // getting a directory path for saving
+    final directory = await getApplicationDocumentsDirectory();
+    // copy the file to a new path
+    final File newImage = await _image.copy('${directory.path}/${getRandomString(5)}.png');
+    _pref.setString("photoPath", newImage.path);
+    state.setPhotoUrl(newImage.path);
+    print(state.selectedstudent.photoUrl);
+    if (_image!=null) {
+      storageReference =
+          FirebaseStorage.instance.ref().child("images/students/student_image/${state.allstudents[0].studentId}");
+    }
+    final StorageUploadTask uploadTask = storageReference.putFile(_image);
+    final StorageTaskSnapshot downloadUrl = (await uploadTask.onComplete);
+    final String url = (await downloadUrl.ref.getDownloadURL());
 
-    setState(() {
-      _image = File(pickedFile.path);
-    });
+
+    firestore.collection('students').document('${state.allstudents[0].studentId}').setData(
+        {'name': '${selectedStudent.name}', 'photo_url': url, 'uid': '${state.allstudents[0].studentId}','grade': '${selectedStudent.grade}'},merge: true
+    );
+    print("URL is $url");
+    print(newImage.path);
   }
+  String _chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+  Random _rnd = Random();
+  String getRandomString(int length) => String.fromCharCodes(Iterable.generate(
+
+      length, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
 
   // Student().fromMap('{"id":1001,"name":"Karthyaayini","parentName":"Ajith"}');
   @override
@@ -51,7 +86,7 @@ class _StudentDetailsScreenState extends State<StudentDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    StudentState state = Provider.of<StudentState>(context, listen: true);
+    state = Provider.of<StudentState>(context, listen: true);
     selectedStudent = state.selectedstudent;
     // String displayStudentId;
     return Scaffold(
@@ -142,12 +177,10 @@ class _StudentDetailsScreenState extends State<StudentDetailsScreen> {
                                 child: Center(
                                   child: Container(
                                     child: ClipOval(
-                                        child: studentState.allstudents.elementAt(index).photoUrl==null?Container(
+                                        child: studentState.selectedstudent.photoUrl==null?Container(
                                           child: Image.asset('assets/images/user.png',color: Colors.grey,),
                                         ):
-                                        Image.network(
-                                            studentState.allstudents.elementAt(index).photoUrl,
-                                            fit: BoxFit.fill)),
+                                        Image(image: FileImage(File(studentState.selectedstudent.photoUrl)),fit: BoxFit.cover,)),
                                     height: 150,
                                     width: 150,
                                   ),
@@ -158,7 +191,6 @@ class _StudentDetailsScreenState extends State<StudentDetailsScreen> {
                     }),
                     GestureDetector(child: Text('Edit Photo',style: TextStyle(color: Colors.white),),
                     onTap:getImage,
-
                     ),
                     SizedBox(height: 12),
                     Expanded(
@@ -168,6 +200,7 @@ class _StudentDetailsScreenState extends State<StudentDetailsScreen> {
                         //width:MediaQuery.of(context).size.width,
                         child: Consumer<StudentState>(
                             builder: (context,studentState,_) {
+                              print(studentState.selectedstudent.photoUrl);
                               return Container(
 //                          color: Colors.white,
                                 child: Column(

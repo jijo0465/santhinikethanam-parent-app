@@ -76,35 +76,37 @@ class _DiscussionsScreenState extends State<DiscussionsScreen> {
           _playerController.pause();
         });
       });
-    _chewieController = ChewieController(
-      allowedScreenSleep: false,
-      allowFullScreen: true,
-      fullScreenByDefault: false,
-      deviceOrientationsAfterFullScreen: [
-        DeviceOrientation.landscapeRight,
-        DeviceOrientation.landscapeLeft,
-        DeviceOrientation.portraitUp,
-        DeviceOrientation.portraitDown,
-      ],
-      videoPlayerController: _playerController,
-      autoInitialize: false,
-      autoPlay: false,
-      showControls: true,
-//       customControls: getPlayerControls()
-    );
-    _chewieController.addListener(() {
-      if (_chewieController.isFullScreen) {
-        SystemChrome.setPreferredOrientations([
-          DeviceOrientation.landscapeRight,
-          DeviceOrientation.landscapeLeft,
-        ]);
-      }
-    });
+//    _chewieController = ChewieController(
+//      allowedScreenSleep: false,
+//      allowFullScreen: false,
+//      fullScreenByDefault: false,
+//      deviceOrientationsAfterFullScreen: [
+//        DeviceOrientation.portraitUp,
+//        DeviceOrientation.portraitDown,
+//      ],
+//      videoPlayerController: _playerController,
+//      autoInitialize: false,
+//      placeholder: Container(child: Center(child: CupertinoActivityIndicator(),),),
+//      autoPlay: false,
+//      showControls: true,
+//      isLive: false,
+////      customControls: getPlayerControls()
+//
+////       customControls: getPlayerControls()
+//    );
+//    _chewieController.addListener(() {
+//      if (_chewieController.isFullScreen) {
+//        SystemChrome.setPreferredOrientations([
+//          DeviceOrientation.portraitUp,
+//          DeviceOrientation.portraitDown,
+//        ]);
+//      }
+//    });
 
-    _playerController.addListener(() async {
-      await Future.delayed(Duration(seconds: 1));
-      playtime.value = await _playerController.position;
-    });
+//    _playerController.addListener(() async {
+//      await Future.delayed(Duration(seconds: 1));
+//      playtime.value = await _playerController.position;
+//    });
 //    getVideoUrl();
 //    _playerController = VideoPlayerController();
 //    getVideoUrl().then((value) {
@@ -135,6 +137,25 @@ class _DiscussionsScreenState extends State<DiscussionsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    _chewieController = ChewieController(
+      aspectRatio: _playerController.value.aspectRatio,
+      allowedScreenSleep: false,
+      allowFullScreen: false,
+      fullScreenByDefault: false,
+      deviceOrientationsAfterFullScreen: [
+        DeviceOrientation.portraitUp,
+        DeviceOrientation.portraitDown,
+      ],
+      videoPlayerController: _playerController,
+      autoInitialize: false,
+      placeholder: Container(child: Center(child: CupertinoActivityIndicator(),),),
+      autoPlay: false,
+      showControls: true,
+      isLive: false,
+//      customControls: getPlayerControls()
+
+//       customControls: getPlayerControls()
+    );
     StudentState state = Provider.of<StudentState>(context, listen: true);
     _selectedStudent = state.selectedstudent;
     return Scaffold(
@@ -143,10 +164,10 @@ class _DiscussionsScreenState extends State<DiscussionsScreen> {
         body: Stack(
           children: [
             Column(children: <Widget>[
-              Container(
-                color: Theme.of(context).primaryColor,
-                height: MediaQuery.of(context).padding.top,
-              ),
+//              Container(
+//                color: Theme.of(context).primaryColor,
+//                height: MediaQuery.of(context).padding.top,
+//              ),
               Container(
 //            width: isFullScreen?MediaQuery.of(context).size.width:MediaQuery.of(context).size.height,
 //            height: isFullScreen?MediaQuery.of(context).size.width:MediaQuery.of(context).size.height*0.3,
@@ -162,154 +183,144 @@ class _DiscussionsScreenState extends State<DiscussionsScreen> {
                       child: Container(
                         color: Colors.black,
 //                      width: double.infinity,
-//                      height: isFullScree
+//                      height: MediaQuery.of(context).size.height*0.45,
 //                      n?double.infinity:MediaQuery.of(context).size.height*0.3,
-                        child: AspectRatio(
-                          aspectRatio: _playerController.value.aspectRatio,
-                          child: Stack(
-                            children: <Widget>[
-                              Center(
-                                child: _playerController.value.initialized
-                                    ? AspectRatio(
-                                  aspectRatio: _playerController.value.aspectRatio,
-                                  child: GestureDetector(
+                        child: Center(
+                              child: _playerController.value.initialized
+                                  ? GestureDetector(
                                     onTap: (){
                                       setState(() {
                                         showPlayerControls = !showPlayerControls;
                                       });
                                     },
-                                    child: Chewie(
-
-                                      controller: _chewieController,
+                                    child: Container(
+                                      height: MediaQuery.of(context).size.height,
+                                      child: Chewie(
+                                        controller: _chewieController,
+                                      ),
                                     ),
-                                  ),
-                                )
-                                    : Container(),
-                              ),
-//                                !showPlayerControls?Container():
-//                                getPlayerControls(),
-                            ],
-                          ),
-                        ),
+                                  )
+                                  : Container(),
+                            )
                       ),
                     ),
 
                   ],
                 ),
               ),
-      SizedBox(height: 12),
-      Text(
-            'Discussions',
-            textAlign: TextAlign.left,
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: 16,
-            ),
-      ),
-      SizedBox(
-            height: 12,
-      ),
-      Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              Container(
-                height: 40,
-                width: MediaQuery.of(context).size.width - 60,
-                // decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
-                child: TextField(
-                  onChanged: (text) {
-                    if (text == '') {
-                      setState(() {
-                        color = Colors.grey;
-                      });
-                    } else {
-                      setState(() {
-                        color = Colors.deepOrange[300];
-                      });
-                    }
-                  },
-                  controller: _textFieldController,
-                  // textAlignVertical: TextAlignVertical.center,
-                  textAlign: TextAlign.start,
-                  cursorColor: Colors.blue,
-                  decoration: InputDecoration(
-                    hintText: 'add to discussions...',
-                    contentPadding: EdgeInsets.symmetric(horizontal: 12),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    suffixIcon: IconButton(
-                      onPressed: () {
-                        _addToDiscussions(_textFieldController.text);
-                        _textFieldController.clear();
-                      },
-                      icon: Icon(Icons.camera_alt),
-                      color: Colors.blue,
-                    ),
-                  ),
-
-                  // autofocus: true,
-                  // onSubmitted: (text) {
-                  //   // print(text);
-                  //   _addToDiscussions(text);
-                  //   _textFieldController.clear();
-                  //   // text = '';
-                  // },
-                ),
-              ),
-              Container(
-                  height: 40,
-                  width: 40,
-                  decoration: BoxDecoration(
-                      shape: BoxShape.circle, color: Colors.grey[300]),
-                  child: GestureDetector(
-                    child: Icon(Icons.send, color: color),
-                    behavior: HitTestBehavior.translucent,
-                    onTap: () {
-                      _addToDiscussions(_textFieldController.text);
-                      _textFieldController.clear();
-                      setState(() {
-                        color = Colors.grey;
-                      });
-                    },
-                  ))
-            ],
-      ),
-      SizedBox(height: 12),
-      StreamBuilder<QuerySnapshot>(
-              // key: _key,
-              stream: firestore.collection('classroom_${grade.id}').snapshots(),
-              builder:
-                  (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                if (!snapshot.hasData)
-                  return Center(
-                    child: CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation<Color>(
-                          Theme.of(context).primaryColor),
-                    ),
-                  );
-                else {
-                  _items = snapshot.data.documents;
-//              listItem(_items);
-                  // print('item: ${_items[0]}');
-                  // setState(() {
-                  // AnimatedList.of(context).insertItem(0);
-                  // Future.delayed(Duration(milliseconds: 200))
-                  //     .then((value) => _listKey.currentState.insertItem(0));
-
-                  // });
-                  // return listItem(_items[0]);'
-                  // commentData.addAll(_items[0]['']['']);
-                  return (_items.isNotEmpty)
-                      ? Expanded(
-                          child: SingleChildScrollView(
-                              child: Column(
-                                  children: discussionListWidget.reversed.toList())
-                              // child: listItem(_items[0]['disussion'])
-                              ))
-                      : Container(child: Text('No Discussions yet!!'));
-                }
-              }),
+//      SizedBox(height: 12),
+//      Text(
+//            'Discussions',
+//            textAlign: TextAlign.left,
+//            style: TextStyle(
+//              color: Colors.black,
+//              fontSize: 16,
+//            ),
+//      ),
+//      SizedBox(
+//            height: 12,
+//      ),
+//      Row(
+//            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+//            children: <Widget>[
+//              Container(
+//                height: 40,
+//                width: MediaQuery.of(context).size.width - 60,
+//                // decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
+//                child: TextField(
+//                  onChanged: (text) {
+//                    if (text == '') {
+//                      setState(() {
+//                        color = Colors.grey;
+//                      });
+//                    } else {
+//                      setState(() {
+//                        color = Colors.deepOrange[300];
+//                      });
+//                    }
+//                  },
+//                  controller: _textFieldController,
+//                  // textAlignVertical: TextAlignVertical.center,
+//                  textAlign: TextAlign.start,
+//                  cursorColor: Colors.blue,
+//                  decoration: InputDecoration(
+//                    hintText: 'add to discussions...',
+//                    contentPadding: EdgeInsets.symmetric(horizontal: 12),
+//                    border: OutlineInputBorder(
+//                      borderRadius: BorderRadius.circular(20),
+//                    ),
+//                    suffixIcon: IconButton(
+//                      onPressed: () {
+//                        _addToDiscussions(_textFieldController.text);
+//                        _textFieldController.clear();
+//                      },
+//                      icon: Icon(Icons.camera_alt),
+//                      color: Colors.blue,
+//                    ),
+//                  ),
+//
+//                  // autofocus: true,
+//                  // onSubmitted: (text) {
+//                  //   // print(text);
+//                  //   _addToDiscussions(text);
+//                  //   _textFieldController.clear();
+//                  //   // text = '';
+//                  // },
+//                ),
+//              ),
+//              Container(
+//                  height: 40,
+//                  width: 40,
+//                  decoration: BoxDecoration(
+//                      shape: BoxShape.circle, color: Colors.grey[300]),
+//                  child: GestureDetector(
+//                    child: Icon(Icons.send, color: color),
+//                    behavior: HitTestBehavior.translucent,
+//                    onTap: () {
+//                      _addToDiscussions(_textFieldController.text);
+//                      _textFieldController.clear();
+//                      setState(() {
+//                        color = Colors.grey;
+//                      });
+//                    },
+//                  ))
+//            ],
+//      ),
+//      SizedBox(height: 12),
+//      StreamBuilder<QuerySnapshot>(
+//              // key: _key,
+//              stream: firestore.collection('classroom_${grade.id}').snapshots(),
+//              builder:
+//                  (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+//                if (!snapshot.hasData)
+//                  return Center(
+//                    child: CircularProgressIndicator(
+//                      valueColor: AlwaysStoppedAnimation<Color>(
+//                          Theme.of(context).primaryColor),
+//                    ),
+//                  );
+//                else {
+//                  _items = snapshot.data.documents;
+////              listItem(_items);
+//                  // print('item: ${_items[0]}');
+//                  // setState(() {
+//                  // AnimatedList.of(context).insertItem(0);
+//                  // Future.delayed(Duration(milliseconds: 200))
+//                  //     .then((value) => _listKey.currentState.insertItem(0));
+//
+//                  // });
+//                  // return listItem(_items[0]);'
+//                  // commentData.addAll(_items[0]['']['']);
+//                  return (_items.isNotEmpty)
+//                      ? Expanded(
+//                          child: SingleChildScrollView(
+//                              child: Column(
+//                                  children: discussionListWidget.reversed.toList())
+//                              // child: listItem(_items[0]['disussion'])
+//                              ))
+//                      : Container(child: Text('No Discussions yet!!'));
+//                }
+//              }),
     ]),
 //            DigiAlert(title:'My Classroom', text: 'Classroom at fingertips',icon: DigiIcons.virtual_class)
           ],
@@ -397,5 +408,106 @@ class _DiscussionsScreenState extends State<DiscussionsScreen> {
     //     documentReference.setData({'disussion':FieldValue.arrayUnion(comment)});
     //   }
     // });
+  }
+  Widget getPlayerControls(){
+    return Container(
+      child: Stack(
+        children: [
+          Align(
+            alignment: Alignment.bottomLeft,
+            child: ValueListenableBuilder<Duration>(
+              valueListenable: playtime,
+              builder: (context, val, _) {
+                print(_playerController.value.duration);
+                print(val);
+                return Text(
+                  '${val.inMinutes} : ${val.inSeconds % 60}',
+                  style: TextStyle(color: Colors.white),
+                );
+              },
+            ),
+          ),
+          Align(
+            alignment: Alignment.bottomRight,
+            child: ValueListenableBuilder<Duration>(
+              builder: (context, val, _) {
+                return Text(
+                  '${_playerController.value.duration.inHours}:${_playerController.value.duration.inMinutes}:${_playerController.value.duration.inSeconds % 60}',
+                  style: TextStyle(color: Colors.white),
+                );
+              },
+              valueListenable: playtime,
+            ),
+          ),
+          Align(
+              alignment: Alignment.topLeft,
+              child: IconButton(
+                  icon: Icon(
+                    Icons.arrow_back_ios,
+                    color: Colors.white,
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  })),
+          Center(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                IconButton(
+                    icon:
+                    Icon(Icons.fast_rewind, color: Colors.white),
+                    onPressed: () async {
+                      Duration duration = Duration(
+                          seconds: (await _playerController.position)
+                              .inSeconds -
+                              10);
+                      _playerController.seekTo(duration);
+                    }),
+                FloatingActionButton(
+//                  backgroundColor:
+//                  Theme.of(context).primaryColor.withOpacity(0.7),
+                  onPressed: () {
+                    setState(() {
+                      _playerController.value.isPlaying
+                          ? _playerController.pause()
+                          : _playerController.play();
+                    });
+                  },
+                  child: Icon(
+                    _playerController.value.isPlaying
+                        ? Icons.pause
+                        : Icons.play_arrow,
+                  ),
+                ),
+                IconButton(
+                    icon: Icon(
+                      Icons.fast_forward,
+                      color: Colors.white,
+                    ),
+                    onPressed: () async {
+                      Duration duration = Duration(
+                          seconds: (await _playerController.position)
+                              .inSeconds +
+                              10);
+                      _playerController.seekTo(duration);
+                    })
+              ],
+            ),
+          ),
+          Align(
+              alignment: Alignment.topRight,
+              child: IconButton(
+                  icon: Icon(
+                    Icons.fullscreen,
+                    size: 30,
+                    color: Colors.white,
+                  ),
+                  onPressed: () {
+                    _chewieController.toggleFullScreen();
+                  }))
+        ],
+      ),
+    );
+
   }
 }

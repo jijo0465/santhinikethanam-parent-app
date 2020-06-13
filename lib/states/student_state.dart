@@ -28,4 +28,9 @@ class StudentState with ChangeNotifier {
     // this.setStudent(students.first);
     notifyListeners();
   }
+
+  setPhotoUrl(String url)async{
+    this._selectedStudent.photoUrl = url;
+    notifyListeners();
+  }
 }
