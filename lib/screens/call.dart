@@ -140,14 +140,15 @@ class _CallPageState extends State<CallPage> with WidgetsBindingObserver{
       participantName = widget.name;
       firestore.collection('live').document('grade_${widget.grade}').get().then((value) {
         print('FIREBASE>>>>><<<<< FIREBASE <<<<>>>>>');
-        if(value['liveBroadcastUserId']['users'] != null)  {
-          for(int i=0; i<value['liveBroadcastUserId']['users'].length; i++)  {
-            participants.insert(i,value['users'][i]);
+        if(value.data['liveBroadcastUserId']['users'] != null)  {
+          for(int i=0; i<value.data['liveBroadcastUserId']['users'].length; i++)  {
+            participants.insert(i,value.data['liveBroadcastUserId']['users'][i]);
           }
           participants.add(participantName);
+          firestore.collection('live').document('grade_${widget.grade}').updateData({'liveBroadcastUserId': {'users': FieldValue.arrayUnion(participants)}});
         }
-        else
-          participants.add(participantName);
+        else{
+          participants.add(participantName);}
           firestore.collection('live').document('grade_${widget.grade}').updateData({'liveBroadcastUserId': {'users': FieldValue.arrayUnion(participants)}}).then((value) {
           print('PARTICIPANTS : $participants');
           setState(() {
@@ -438,16 +439,22 @@ class _CallPageState extends State<CallPage> with WidgetsBindingObserver{
     );
   }
 
-  void _onCallEnd(BuildContext context) {
-    // DocumentReference documentReference =
-    //     firestore.collection('classroom_${grade.id}').document('live_session');
-    // firestore.runTransaction((transaction) async {
-    //   await transaction.update(documentReference, {
-    //     'userid': FieldValue.arrayRemove([userid])
-    //   });
-    // });
+  Future<void> _onCallEnd(BuildContext context) async {
+    participants.remove(participantName);
+//     DocumentReference documentReference =
+//         firestore.collection('live').document('grade_${widget.grade}');
+//     firestore.runTransaction((transaction) async {
+//       await transaction.update(documentReference, {
+//         '': FieldValue.arrayRemove(participants)
+//       });
+//     });
+    DocumentSnapshot ds = await firestore.collection('live').document('grade_${widget.grade}').get();
+    List<dynamic> list = List.from(ds.data['liveBroadcastUserId']['users']);
+    list.remove(participantName);
+//    firestore.collection('live').document('grade_${widget.grade}').d({'liveBroadcastUserId': {'users': FieldValue.arrayRemove(participants)}});
 
-    firestore.collection('live').document('grade_${widget.grade}').updateData({'': FieldValue.arrayRemove([{participantName}])});
+    firestore.collection('live').document('grade_${widget.grade}').updateData({'liveBroadcastUserId': {'users': FieldValue.arrayUnion(list)}});
+//    firestore.collection('live').document('grade_${widget.grade}').updateData({'liveBroadcastUserId': {'users' :FieldValue.arrayRemove([participantName])}});
     Navigator.pop(context);
   }
 
