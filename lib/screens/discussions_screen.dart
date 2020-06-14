@@ -322,6 +322,19 @@ class _DiscussionsScreenState extends State<DiscussionsScreen> {
 //                }
 //              }),
     ]),
+            Positioned(
+              top: MediaQuery.of(context).padding.top,
+              left: 10,
+              child: GestureDetector(
+                behavior: HitTestBehavior.translucent,
+                child: Icon(Icons.chevron_left,
+                  color: Colors.redAccent,
+                  size: 30,),
+                onTap: (){
+                  Navigator.pop(context);
+                },
+              ),
+            ),
 //            DigiAlert(title:'My Classroom', text: 'Classroom at fingertips',icon: DigiIcons.virtual_class)
           ],
         ));
@@ -389,26 +402,26 @@ class _DiscussionsScreenState extends State<DiscussionsScreen> {
     }
   }
 
-  _addToDiscussions(String text) async {
-    var comment =
-      {'comment': text, 'date': DateTime.now().toUtc(),'url':'https://neatoday.org/wp-content/uploads/2016/08/young_student-e1472643979755.jpg'};
-    firestore.collection('grade_${widget.grade}').document('${widget.date}').setData(
-        {'period_${widget.period}': {'pdno': '${widget.period}', 'discussion': FieldValue.arrayUnion([comment])}},merge: true
-    );
-//    DocumentReference documentReference =
-//        firestore.collection('classroom_${grade.id}').document('Session_1');
-//    firestore.runTransaction((transaction) async {
-//      await transaction.update(
-//          documentReference, {'disussion': FieldValue.arrayUnion(comment)});
-//    });
-    // documentReference.get().then((doc){
-    //   if(doc.exists){
-    //     documentReference.updateData({'disussion':FieldValue.arrayUnion(comment)});
-    //   }else{
-    //     documentReference.setData({'disussion':FieldValue.arrayUnion(comment)});
-    //   }
-    // });
-  }
+//  _addToDiscussions(String text) async {
+//    var comment =
+//      {'comment': text, 'date': DateTime.now().toUtc(),'url':'https://neatoday.org/wp-content/uploads/2016/08/young_student-e1472643979755.jpg'};
+//    firestore.collection('grade_${widget.grade}').document('${widget.date}').setData(
+//        {'period_${widget.period}': {'pdno': '${widget.period}', 'discussion': FieldValue.arrayUnion([comment])}},merge: true
+//    );
+////    DocumentReference documentReference =
+////        firestore.collection('classroom_${grade.id}').document('Session_1');
+////    firestore.runTransaction((transaction) async {
+////      await transaction.update(
+////          documentReference, {'disussion': FieldValue.arrayUnion(comment)});
+////    });
+//    // documentReference.get().then((doc){
+//    //   if(doc.exists){
+//    //     documentReference.updateData({'disussion':FieldValue.arrayUnion(comment)});
+//    //   }else{
+//    //     documentReference.setData({'disussion':FieldValue.arrayUnion(comment)});
+//    //   }
+//    // });
+//  }
   Widget getPlayerControls(){
     return Container(
       child: Stack(

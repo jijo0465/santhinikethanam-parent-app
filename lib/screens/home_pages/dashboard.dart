@@ -143,7 +143,7 @@ class _HomePageState extends State<HomePage> {
                                         ).then((value) {
                                            setState(() {
                                              roundnessFactor = 40;
-                                             _height = 260.0;
+                                             _height = MediaQuery.of(context).size.height*0.4;
                                            });
                                         });
                                       } else {

@@ -196,6 +196,8 @@ class _CallPageState extends State<CallPage> with WidgetsBindingObserver{
         final info = 'userOffline: $uid';
         _infoStrings.add(info);
         _users.remove(uid);
+        if(uid == widget.broadcastUid)
+          _onCallEnd(context);
       });
 
       Future.delayed(Duration(seconds: 3)).then((value) {
