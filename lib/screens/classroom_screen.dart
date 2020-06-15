@@ -21,7 +21,7 @@ class _ClassroomScreenState extends State<ClassroomScreen> {
   DateTime launchDate = DateTime(2020,6,8);
   DateTime today = DateTime.now().add(Duration(days: 1));
   Firestore firestore = Firestore.instance;
-  String videoUrl;
+//  String videoUrl;
   Grade gr = Grade.empty();
   StudentState studentState;
 //  StorageReference ref;
@@ -270,6 +270,7 @@ class _ClassroomScreenState extends State<ClassroomScreen> {
                                         stream: firestore.collection('grade_${studentState.selectedstudent.grade.standard}').snapshots(),
                                         builder: (context, snapshot) {
                                           bool isVideoUploaded = false;
+                                          String videoUrl;
                                           if (!snapshot.hasData)
                                             return Center(
                                                 child: CircularProgressIndicator(
@@ -285,6 +286,7 @@ class _ClassroomScreenState extends State<ClassroomScreen> {
                                                     print(element['period_${dayTable['periods'][index]['pdno']}']['videoUrl']);
                                                     print('KEY --->> TRUE');
                                                     videoUrl = element['period_${dayTable['periods'][index]['pdno']}']['videoUrl'];
+                                                    if(videoUrl != null)
                                                     isVideoUploaded = true;
                                                     print(saveFormattedDate);
                                                     print(element['period_${dayTable['periods'][index]['pdno']}']);

@@ -350,57 +350,57 @@ class _DiscussionsScreenState extends State<DiscussionsScreen> {
 //    });
 //  }
 
-  listItem(List<DocumentSnapshot> item) {
-    for (; widgetIndex < item[0]['disussion'].length; widgetIndex++) {
-      commentData.insert(widgetIndex, {
-        'comment': item[0]['disussion'][widgetIndex]['comment'],
-        'date': item[0]['disussion'][widgetIndex]['date']
-      });
-
-      print(commentData[widgetIndex]['comment']);
-      // print('itemval: ${item[0]['disussion'][widgetIndex]['comment']}');
-      discussionListWidget.add(Column(children: <Widget>[
-        Container(
-          height: 50,
-          width: MediaQuery.of(context).size.width * 5 / 6,
-          child: Row(
-            children: <Widget>[
-              Container(
-                height: 40,
-                width: 40,
-                // margin: EdgeInsets.only(left: 20),
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  image: DecorationImage(
-                      image:
-                          // AssetImage(''),
-                          NetworkImage(
-                              item[0]['disussion'][widgetIndex]['url']),
-                      fit: BoxFit.fill),
-                ),
-              ),
-              Expanded(
-                  child: Container(
-                padding: EdgeInsets.only(left: 20, right: 20),
-                height: 50,
-                width: MediaQuery.of(context).size.width,
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(item[0]['disussion'][widgetIndex]['comment']),
-                ),
-              )),
-            ],
-          ),
-        ),
-        Divider(
-          indent: 5,
-          endIndent: 5,
-          color: Colors.black38,
-          // thickness: 2,
-        )
-      ]));
-    }
-  }
+//  listItem(List<DocumentSnapshot> item) {
+//    for (; widgetIndex < item[0]['disussion'].length; widgetIndex++) {
+//      commentData.insert(widgetIndex, {
+//        'comment': item[0]['disussion'][widgetIndex]['comment'],
+//        'date': item[0]['disussion'][widgetIndex]['date']
+//      });
+//
+//      print(commentData[widgetIndex]['comment']);
+//      // print('itemval: ${item[0]['disussion'][widgetIndex]['comment']}');
+//      discussionListWidget.add(Column(children: <Widget>[
+//        Container(
+//          height: 50,
+//          width: MediaQuery.of(context).size.width * 5 / 6,
+//          child: Row(
+//            children: <Widget>[
+//              Container(
+//                height: 40,
+//                width: 40,
+//                // margin: EdgeInsets.only(left: 20),
+//                decoration: BoxDecoration(
+//                  shape: BoxShape.circle,
+//                  image: DecorationImage(
+//                      image:
+//                          // AssetImage(''),
+//                          NetworkImage(
+//                              item[0]['disussion'][widgetIndex]['url']),
+//                      fit: BoxFit.fill),
+//                ),
+//              ),
+//              Expanded(
+//                  child: Container(
+//                padding: EdgeInsets.only(left: 20, right: 20),
+//                height: 50,
+//                width: MediaQuery.of(context).size.width,
+//                child: Align(
+//                  alignment: Alignment.centerLeft,
+//                  child: Text(item[0]['disussion'][widgetIndex]['comment']),
+//                ),
+//              )),
+//            ],
+//          ),
+//        ),
+//        Divider(
+//          indent: 5,
+//          endIndent: 5,
+//          color: Colors.black38,
+//          // thickness: 2,
+//        )
+//      ]));
+//    }
+//  }
 
 //  _addToDiscussions(String text) async {
 //    var comment =
@@ -454,6 +454,8 @@ class _DiscussionsScreenState extends State<DiscussionsScreen> {
           ),
           Align(
               alignment: Alignment.topLeft,
+
+
               child: IconButton(
                   icon: Icon(
                     Icons.arrow_back_ios,
