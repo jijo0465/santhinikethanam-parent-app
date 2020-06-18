@@ -166,7 +166,7 @@ class _ClassroomScreenState extends State<ClassroomScreen> {
         'day': 'Thursday',
         'periods': [{'pdno': 1, 'subject': 'Malayalam', 'startTime': '10:00', 'endTime': '10:30'},                 //Malayalam,English,Hindi
           {'pdno': 2, 'subject': 'English', 'startTime': '10:45', 'endTime': '11:15'},
-          {'pdno': 3, 'subject': 'Hindi', 'startTime': '11:30', 'endTime': '12:00'}],
+          {'pdno': 3, 'subject': 'IT', 'startTime': '11:30', 'endTime': '12:00'}],
       },
       {
         'day': 'Friday',
