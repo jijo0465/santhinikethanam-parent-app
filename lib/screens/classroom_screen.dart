@@ -78,101 +78,118 @@ class _ClassroomScreenState extends State<ClassroomScreen> {
     String formattedDay = _dateFormatDay.format(date);
     String formattedDate = _dateFormat.format(date);
     String saveFormattedDate = DateFormat('dd-MM-yyyy').format(date);
+    var startTime = ['10:00','10:45','11:30'];
+    var endTime = ['10:30','11:15','12:00'];
     List<Map<String, dynamic>> timeTableList1 = [
       {
+        'class':8,
         'day': 'Monday',
-        'periods': [{'pdno': 1, 'subject': 'English', 'startTime': '10:00', 'endTime': '10:30'},
-          {'pdno': 2, 'subject': 'Malayalam', 'startTime': '10:45', 'endTime': '11:15'},
-          {'pdno': 3, 'subject': 'Geography', 'startTime': '11:30', 'endTime': '12:00'}],
+        'periods': [{'pdno': 1, 'subject': 'English'},
+          {'pdno': 2, 'subject': 'Malayalam',},
+          {'pdno': 3, 'subject': 'IT',}],
       },
       {
         'day': 'Tuesday',
-        'periods': [{'pdno': 1, 'subject': 'Maths', 'startTime': '10:00', 'endTime': '10:30'},
-          {'pdno': 2, 'subject': 'Malayalam', 'startTime': '10:45', 'endTime': '11:15'},
-          {'pdno': 3, 'subject': 'English', 'startTime': '11:30', 'endTime': '12:00'}],
+        'class':8,
+        'periods': [{'pdno': 1, 'subject': 'Maths'},
+          {'pdno': 2, 'subject': 'Malayalam', },
+          {'pdno': 3, 'subject': 'English', }],
       },
       {
         'day': 'Wednesday',
-        'periods': [{'pdno': 1, 'subject': 'Social', 'startTime': '10:00', 'endTime': '10:30'},
-          {'pdno': 2, 'subject': 'Biology', 'startTime': '10:45', 'endTime': '11:15'},
-          {'pdno': 3, 'subject': 'Geography', 'startTime': '11:30', 'endTime': '12:00'}],
+        'class':8,
+        'periods': [{'pdno': 1, 'subject': 'Social'},
+          {'pdno': 2, 'subject': 'Biology'},
+          {'pdno': 3, 'subject': 'Geography'}],
       },
       {
         'day': 'Thursday',
-        'periods': [{'pdno': 1, 'subject': 'Physics', 'startTime': '10:00', 'endTime': '10:30'},
-          {'pdno': 2, 'subject': 'Malayalam', 'startTime': '10:45', 'endTime': '11:15'},
-          {'pdno': 3, 'subject': 'Social', 'startTime': '11:30', 'endTime': '12:00'}],
+        'class':8,
+        'periods': [{'pdno': 1, 'subject': 'Physics'},
+          {'pdno': 2, 'subject': 'Malayalam'},
+          {'pdno': 3, 'subject': 'Maths'}],
       },
       {
         'day': 'Friday',
-        'periods': [{'pdno': 1, 'subject': 'Physics', 'startTime': '10:00', 'endTime': '10:30'},
-          {'pdno': 2, 'subject': 'Politics', 'startTime': '10:45', 'endTime': '11:15'},
-          {'pdno': 3, 'subject': 'Biology', 'startTime': '11:30', 'endTime': '12:00'}],
+        'class':8,
+        'periods': [{'pdno': 1, 'subject': 'Physics'},
+          {'pdno': 2, 'subject': 'Politics'},
+          {'pdno': 3, 'subject': 'Biology'}],
       },
     ];
     List<Map<String, dynamic>> timeTableList2 = [
       {
+        'class':9,
         'day': 'Monday',
-        'periods': [{'pdno': 1, 'subject': 'Maths', 'startTime': '10:00', 'endTime': '10:30'},
-          {'pdno': 2, 'subject': 'Social', 'startTime': '10:45', 'endTime': '11:15'},
-          {'pdno': 3, 'subject': 'Physics', 'startTime': '11:30', 'endTime': '12:00'}],
+        'periods': [{'pdno': 1, 'subject': 'Maths'},
+          {'pdno': 2, 'subject': 'Social',},
+          {'pdno': 3, 'subject': 'Physics',}],
       },
       {
+        'class':9,
         'day': 'Tuesday',
-        'periods': [{'pdno': 1, 'subject': 'IT', 'startTime': '10:00', 'endTime': '10:30'},
-          {'pdno': 2, 'subject': 'Chemistry', 'startTime': '10:45', 'endTime': '11:15'},
-          {'pdno': 3, 'subject': 'Malayalam', 'startTime': '11:30', 'endTime': '12:00'}],
+        'periods': [{'pdno': 1, 'subject': 'IT'},
+          {'pdno': 2, 'subject': 'Chemistry',},
+          {'pdno': 3, 'subject': 'Malayalam',}],
       },
       {
+        'class':9,
         'day': 'Wednesday',
-        'periods': [{'pdno': 1, 'subject': 'Biology', 'startTime': '10:00', 'endTime': '10:30'},
-          {'pdno': 2, 'subject': 'English', 'startTime': '10:45', 'endTime': '11:15'},
-          {'pdno': 3, 'subject': 'Maths', 'startTime': '11:30', 'endTime': '12:00'}],
+        'periods': [{'pdno': 1, 'subject': 'Biology'},
+          {'pdno': 2, 'subject': 'English',},
+          {'pdno': 3, 'subject': 'Maths',}],
       },
       {
+        'class':9,
         'day': 'Thursday',
-        'periods': [{'pdno': 1, 'subject': 'English', 'startTime': '10:00', 'endTime': '10:30'},
-          {'pdno': 2, 'subject': 'Chemistry', 'startTime': '10:45', 'endTime': '11:15'},
-          {'pdno': 3, 'subject': 'Malayalam', 'startTime': '11:30', 'endTime': '12:00'}],
+        'periods': [{'pdno': 1, 'subject': 'English'},
+          {'pdno': 2, 'subject': 'Chemistry',},
+          {'pdno': 3, 'subject': 'Malayalam',}],
       },
       {
+        'class':9,
         'day': 'Friday',
-        'periods': [{'pdno': 1, 'subject': 'Social', 'startTime': '10:00', 'endTime': '10:30'},
-          {'pdno': 2, 'subject': 'Physics', 'startTime': '10:45', 'endTime': '11:15'},
-          {'pdno': 3, 'subject': 'Maths', 'startTime': '11:30', 'endTime': '12:00'}],
+        'periods': [{'pdno': 1, 'subject': 'Social'},
+          {'pdno': 2, 'subject': 'Physics',},
+          {'pdno': 3, 'subject': 'Maths',}],
       },
     ];
 
     List<Map<String, dynamic>> timeTableList3 = [
       {
+        'class':10,
         'day': 'Monday',
-        'periods': [{'pdno': 1, 'subject': 'Maths', 'startTime': '10:00', 'endTime': '10:30'},                  //MAths,Hindi,Malayalam
-          {'pdno': 2, 'subject': 'Hindi', 'startTime': '10:45', 'endTime': '11:15'},
-          {'pdno': 3, 'subject': 'Malayalam', 'startTime': '11:30', 'endTime': '12:00'}],
+        'periods': [{'pdno': 1, 'subject': 'Maths'},
+          {'pdno': 2, 'subject': 'Malayalam',},
+          {'pdno': 3, 'subject': 'Geography',}],
       },
       {
+        'class':10,
         'day': 'Tuesday',
-        'periods': [{'pdno': 1, 'subject': 'History', 'startTime': '10:00', 'endTime': '10:30'},              //History,English,Physics
-          {'pdno': 2, 'subject': 'English', 'startTime': '10:45', 'endTime': '11:15'},
-          {'pdno': 3, 'subject': 'Physics', 'startTime': '11:30', 'endTime': '12:00'}],
+        'periods': [{'pdno': 1, 'subject': 'History'},
+          {'pdno': 2, 'subject': 'English',},
+          {'pdno': 3, 'subject': 'Physics',}],
       },
       {
+        'class':10,
         'day': 'Wednesday',
-        'periods': [{'pdno': 1, 'subject': 'Chemistry', 'startTime': '10:00', 'endTime': '10:30'},                //Chemistry,Maths,IT
-          {'pdno': 2, 'subject': 'Maths', 'startTime': '10:45', 'endTime': '11:15'},
-          {'pdno': 3, 'subject': 'IT', 'startTime': '11:30', 'endTime': '12:00'}],
+        'periods': [{'pdno': 1, 'subject': 'Chemistry'},
+          {'pdno': 2, 'subject': 'Maths',},
+          {'pdno': 3, 'subject': 'IT',}],
       },
       {
+        'class':10,
         'day': 'Thursday',
-        'periods': [{'pdno': 1, 'subject': 'Malayalam', 'startTime': '10:00', 'endTime': '10:30'},                 //Malayalam,English,Hindi
-          {'pdno': 2, 'subject': 'English', 'startTime': '10:45', 'endTime': '11:15'},
-          {'pdno': 3, 'subject': 'IT', 'startTime': '11:30', 'endTime': '12:00'}],
+        'periods': [{'pdno': 1, 'subject': 'Malayalam'},
+          {'pdno': 2, 'subject': 'English',},
+          {'pdno': 3, 'subject': 'Geography',}],
       },
       {
+        'class':10,
         'day': 'Friday',
-        'periods': [{'pdno': 1, 'subject': 'Maths', 'startTime': '10:00', 'endTime': '10:30'},                           //Maths,Biology,English
-          {'pdno': 2, 'subject': 'Biology', 'startTime': '10:45', 'endTime': '11:15'},
-          {'pdno': 3, 'subject': 'English', 'startTime': '11:30', 'endTime': '12:00'}],
+        'periods': [{'pdno': 1, 'subject': 'Maths'},
+          {'pdno': 2, 'subject': 'Biology',},
+          {'pdno': 3, 'subject': 'English',}],
       },
     ];
     studentState = Provider.of<StudentState>(context, listen: true);
@@ -334,7 +351,7 @@ class _ClassroomScreenState extends State<ClassroomScreen> {
                                                         crossAxisAlignment: CrossAxisAlignment.center,
                                                         children: <Widget>[
                                                           Text(
-                                                            '${dayTable['periods'][index]['subject'].toString()}\n${dayTable['periods'][index]['startTime'].toString()}-${dayTable['periods'][index]['endTime'].toString()}' ,
+                                                            '${startTime[dayTable['periods'][index]['pdno']-1]} - ${endTime[dayTable['periods'][index]['pdno']-1]}',
                                                             style: TextStyle(
                                                               fontSize: 12,
                                                             ),
