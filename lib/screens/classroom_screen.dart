@@ -288,6 +288,7 @@ class _ClassroomScreenState extends State<ClassroomScreen> {
                                         builder: (context, snapshot) {
                                           bool isVideoUploaded = false;
                                           String videoUrl;
+                                          String subjectName;
                                           if (!snapshot.hasData)
                                             return Center(
                                                 child: CircularProgressIndicator(
@@ -307,6 +308,7 @@ class _ClassroomScreenState extends State<ClassroomScreen> {
                                                     isVideoUploaded = true;
                                                     print(saveFormattedDate);
                                                     print(element['period_${dayTable['periods'][index]['pdno']}']);
+                                                    subjectName = element['period_${dayTable['periods'][index]['pdno']}']['subject'];
                                                   }
                                                   else  isVideoUploaded = false;
                                               });
@@ -351,7 +353,7 @@ class _ClassroomScreenState extends State<ClassroomScreen> {
                                                         crossAxisAlignment: CrossAxisAlignment.center,
                                                         children: <Widget>[
                                                           Text(
-                                                            '${startTime[dayTable['periods'][index]['pdno']-1]} - ${endTime[dayTable['periods'][index]['pdno']-1]}',
+                                                            '${isVideoUploaded ?subjectName :dayTable['periods'][index]['subject']}\n${startTime[dayTable['periods'][index]['pdno']-1]} - ${endTime[dayTable['periods'][index]['pdno']-1]}',
                                                             style: TextStyle(
                                                               fontSize: 12,
                                                             ),
