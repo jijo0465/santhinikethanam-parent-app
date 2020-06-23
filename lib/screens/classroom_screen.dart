@@ -92,7 +92,7 @@ class _ClassroomScreenState extends State<ClassroomScreen> {
         'day': 'Tuesday',
         'class':8,
         'periods': [{'pdno': 1, 'subject': 'Maths'},
-          {'pdno': 2, 'subject': 'Malayalam', },
+          {'pdno': 2, 'subject': 'Hindi', },
           {'pdno': 3, 'subject': 'English', }],
       },
       {
@@ -287,6 +287,7 @@ class _ClassroomScreenState extends State<ClassroomScreen> {
                                         stream: firestore.collection('grade_${studentState.selectedstudent.grade.standard}').snapshots(),
                                         builder: (context, snapshot) {
                                           bool isVideoUploaded = false;
+                                          bool isVideoUrl = false;
                                           String videoUrl;
                                           String subjectName;
                                           if (!snapshot.hasData)
@@ -305,12 +306,17 @@ class _ClassroomScreenState extends State<ClassroomScreen> {
                                                     print('KEY --->> TRUE');
                                                     videoUrl = element['period_${dayTable['periods'][index]['pdno']}']['videoUrl'];
                                                     if(videoUrl != null)
-                                                    isVideoUploaded = true;
+                                                      {
+                                                      isVideoUrl = true;
+                                                      isVideoUploaded = true;}
                                                     print(saveFormattedDate);
                                                     print(element['period_${dayTable['periods'][index]['pdno']}']);
                                                     subjectName = element['period_${dayTable['periods'][index]['pdno']}']['subject'];
                                                   }
-                                                  else  isVideoUploaded = false;
+                                                  else  {
+                                                    isVideoUploaded = false;
+                                                    isVideoUrl = false;
+                                                  }
                                               });
                                           return Row(
                                             children: <Widget>[
@@ -353,7 +359,7 @@ class _ClassroomScreenState extends State<ClassroomScreen> {
                                                         crossAxisAlignment: CrossAxisAlignment.center,
                                                         children: <Widget>[
                                                           Text(
-                                                            '${isVideoUploaded ?subjectName :dayTable['periods'][index]['subject']}\n${startTime[dayTable['periods'][index]['pdno']-1]} - ${endTime[dayTable['periods'][index]['pdno']-1]}',
+                                                            '${isVideoUploaded ? subjectName :dayTable['periods'][index]['subject']}\n${startTime[dayTable['periods'][index]['pdno']-1]} - ${endTime[dayTable['periods'][index]['pdno']-1]}',
                                                             style: TextStyle(
                                                               fontSize: 12,
                                                             ),
