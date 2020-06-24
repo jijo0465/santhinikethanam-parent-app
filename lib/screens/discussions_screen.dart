@@ -50,6 +50,7 @@ class _DiscussionsScreenState extends State<DiscussionsScreen> {
   ValueNotifier<Duration> playtime = ValueNotifier(Duration(seconds: 0));
   bool showPlayerControls = true;
   bool isFullScreen = false;
+  bool isVideoLoaded = false;
 //  bool isVideoLoaded;
   ChewieController _chewieController;
 
@@ -71,8 +72,10 @@ class _DiscussionsScreenState extends State<DiscussionsScreen> {
     _playerController =
     VideoPlayerController.network(widget.url)
       ..initialize().then((_) {
+//        print('VIDEO STARTED');
         // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
         setState(() {
+          isVideoLoaded = true;
           _playerController.pause();
         });
       });
@@ -140,7 +143,7 @@ class _DiscussionsScreenState extends State<DiscussionsScreen> {
     _chewieController = ChewieController(
       aspectRatio: _playerController.value.aspectRatio,
       allowedScreenSleep: false,
-      allowFullScreen: false,
+      allowFullScreen: _playerController.value.aspectRatio>1 ?true :false,
       fullScreenByDefault: false,
       deviceOrientationsAfterFullScreen: [
         DeviceOrientation.portraitUp,
@@ -153,7 +156,6 @@ class _DiscussionsScreenState extends State<DiscussionsScreen> {
       showControls: true,
       isLive: false,
 //      customControls: getPlayerControls()
-
 //       customControls: getPlayerControls()
     );
     StudentState state = Provider.of<StudentState>(context, listen: true);
@@ -336,6 +338,10 @@ class _DiscussionsScreenState extends State<DiscussionsScreen> {
               ),
             ),
 //            DigiAlert(title:'My Classroom', text: 'Classroom at fingertips',icon: DigiIcons.virtual_class)
+    !isVideoLoaded?Center(
+    child: CircularProgressIndicator(
+    valueColor: AlwaysStoppedAnimation<Color>(
+    Theme.of(context).primaryColor))):Container()
           ],
         ));
   }

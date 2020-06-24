@@ -259,7 +259,7 @@ class _MySchoolScreenState extends State<MySchoolScreen> {
             Container(
               color: isStudentSelected ? Colors.black.withOpacity(0.6) : null,
             ),
-            DigiAlert(title: 'Santhinikethanam',text: 'Subscribe for the complete digital school experience!', icon: DigiIcons.school_alt,)
+//            DigiAlert(title: 'Santhinikethanam',text: 'Subscribe for the complete digital school experience!', icon: DigiIcons.school_alt,)
             // Container(
             //     width: MediaQuery.of(context).size.width,
             //     child: Row(children: <Widget>[

@@ -359,7 +359,7 @@ class _ClassroomScreenState extends State<ClassroomScreen> {
                                                         crossAxisAlignment: CrossAxisAlignment.center,
                                                         children: <Widget>[
                                                           Text(
-                                                            '${isVideoUploaded ? subjectName :dayTable['periods'][index]['subject']}\n${startTime[dayTable['periods'][index]['pdno']-1]} - ${endTime[dayTable['periods'][index]['pdno']-1]}',
+                                                            '${(isVideoUrl) ? subjectName :dayTable['periods'][index]['subject']}\n${startTime[dayTable['periods'][index]['pdno']-1]} - ${endTime[dayTable['periods'][index]['pdno']-1]}',
                                                             style: TextStyle(
                                                               fontSize: 12,
                                                             ),
