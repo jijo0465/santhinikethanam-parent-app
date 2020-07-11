@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dash_chat/dash_chat.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:parent_app/components/digi_key_value_display.dart';
@@ -67,8 +68,8 @@ class _HomeworksScreenState extends State<HomeworksScreen> {
   bool assignmentTapped = false;
   bool homeworksTapped = false;
   Grade grade = Grade.empty();
-  Comparator<dynamic> dateComparator = (a, b) =>
-      DateTime.parse(a['subdate']).compareTo(DateTime.parse(b['subdate']));
+//  Comparator<dynamic> dateComparator = (a, b) =>
+//      DateTime.parse(a['subdate']).compareTo(DateTime.parse(b['subdate']));
 
   @override
   void initState() {
@@ -100,14 +101,15 @@ class _HomeworksScreenState extends State<HomeworksScreen> {
       if(element.data.containsKey('homeworks'))
         {
           element.data['homeworks'].forEach((value){
-            String subDate = value['submissionDate'];
-            if(subDate.length == 8)
-              subDate = subDate.replaceRange(7, 7, '0');
-            if(subDate.length == 9)
-//            print(subDate.length);
-              subDate = subDate.replaceRange(5, 5, '0');
+//            String subDate = value['submissionDate'];
+//            if(subDate.length == 8)
+//              subDate = subDate.replaceRange(7, 7, '0');
+//            if(subDate.length == 9)
+////            print(subDate.length);
+//              subDate = subDate.replaceRange(5, 5, '0');
+          DateTime subDate = DateTime.fromMillisecondsSinceEpoch(value['submissionDate']);
               print('AFTER : $subDate');
-            if(DateTime.parse(subDate).difference(DateTime.now()).inDays >= 0) {
+            if(subDate.difference(DateTime.now()).inDays >= 0) {
               homeworks.add(value);
             }
           });
@@ -115,14 +117,15 @@ class _HomeworksScreenState extends State<HomeworksScreen> {
       if((element.data.containsKey('assignments')))
         {
           element.data['assignments'].forEach((value){
-            String subDate = value['submissionDate'];
-            if(subDate.length == 8)
-              subDate = subDate.replaceRange(7, 7, '0');
-            if(subDate.length == 9)
-//            print(subDate.length);
-              subDate = subDate.replaceRange(5, 5, '0');
+//            String subDate = value['submissionDate'];
+//            if(subDate.length == 8)
+//              subDate = subDate.replaceRange(7, 7, '0');
+//            if(subDate.length == 9)
+////            print(subDate.length);
+//              subDate = subDate.replaceRange(5, 5, '0');
+          DateTime subDate = DateTime.fromMillisecondsSinceEpoch(value['submissionDate']);
             print('AFTER : $subDate');
-            if(DateTime.parse(subDate).isAfter(DateTime.now())) {
+            if(subDate.isAfter(DateTime.now())) {
               assignments.add(value);
             }
           });
@@ -251,11 +254,12 @@ class _HomeworksScreenState extends State<HomeworksScreen> {
                                                                       .center,
                                                               children: <Widget>[
                                                                 Text(
-                                                                  "12",
+                                                                  DateTime.fromMillisecondsSinceEpoch(assignments[index]['date']).day.toString(),
                                                                   style: TextStyle(
                                                                       fontSize: 28),
                                                                 ),
-                                                                Text("Sep",style: TextStyle(fontSize: 16),)
+                                                                Text(DateFormat.MMM().format(DateTime.fromMillisecondsSinceEpoch(assignments[index]['date'])),
+                                                                  style: TextStyle(fontSize: 16),)
                                                               ],
                                                             ),
                                                           ),
@@ -280,7 +284,10 @@ class _HomeworksScreenState extends State<HomeworksScreen> {
                                                                       textKey:
                                                                           'Submission Date ',
                                                                       textValue:
-                                                                          ' ${assignments[index]['submissionDate']}'),
+                                                                          ' ${DateTime.fromMillisecondsSinceEpoch(assignments[index]['submissionDate']).day}-'
+                                                                              '${DateTime.fromMillisecondsSinceEpoch(assignments[index]['submissionDate']).month}-'
+                                                                              '${DateTime.fromMillisecondsSinceEpoch(assignments[index]['submissionDate']).year}'
+                                                                  ),
                                                                 ],
                                                               ),
                                                             ),
@@ -383,7 +390,10 @@ class _HomeworksScreenState extends State<HomeworksScreen> {
                                                     DigiKeyValueDisplay(
                                                         textKey: 'Submission\nDate ',
                                                         textValue:
-                                                            ' ${homeworks[index]['submissionDate']}'),
+                                                            ' ${DateTime.fromMillisecondsSinceEpoch(homeworks[index]['submissionDate']).day}-'
+                                                                '${DateTime.fromMillisecondsSinceEpoch(homeworks[index]['submissionDate']).month}-'
+                                                                '${DateTime.fromMillisecondsSinceEpoch(homeworks[index]['submissionDate']).year}'
+                                                    ),
                                                   ],
                                                 ),
                                               ),
