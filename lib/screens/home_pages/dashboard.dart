@@ -74,7 +74,7 @@ class _HomePageState extends State<HomePage> {
             : Stack(
                 children: <Widget>[
                   PageView(
-                    physics: NeverScrollableScrollPhysics(),
+//                    physics: NeverScrollableScrollPhysics(),
                     controller: _pageController,
                     children: <Widget>[
                       Container(

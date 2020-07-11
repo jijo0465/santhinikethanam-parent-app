@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
-//import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class KnowledgeDbPlayer extends StatefulWidget {
   final String url;
@@ -11,22 +11,37 @@ class KnowledgeDbPlayer extends StatefulWidget {
 }
 
 class _KnowledgeDbPlayerState extends State<KnowledgeDbPlayer> {
-//  YoutubePlayerController _controller;
+  YoutubePlayerController _controller;
+  PlayerState _playerState;
+  YoutubeMetaData _videoMetaData;
+  bool _isPlayerReady = false;
+  bool loading = true;
   @override
   void initState() {
-//    _controller = YoutubePlayerController(
-//      initialVideoId: YoutubePlayer.convertUrlToId(widget.url),
-      
-//    );
-    
+    _controller = YoutubePlayerController(
+      initialVideoId: widget.url,
+      flags: YoutubePlayerFlags(
+        autoPlay: true,
+      ),
+    )..addListener(listener);
     super.initState();
   }
 
-//  @override
-//  void dispose() {
-////    _controller.dispose();
-//    super.dispose();
-//  }
+  void listener() {
+    if (_isPlayerReady && mounted && !_controller.value.isFullScreen) {
+      setState(() {
+        _playerState = _controller.value.playerState;
+        _videoMetaData = _controller.metadata;
+        loading = false;
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,10 +50,18 @@ class _KnowledgeDbPlayerState extends State<KnowledgeDbPlayer> {
         child: Container(
           height: double.infinity,
           width: double.infinity,
-          child: 
-          VideoPlayer(
-            VideoPlayerController.asset('assets/videos/smartschool.mp4'),
-          ),
+          child: loading ?
+          YoutubePlayer(
+            controller: _controller,
+//            onReady: () => _controller.play(),
+//            showVideoProgressIndicator: true,
+          ):Center(
+            child: CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation<Color>(
+                Theme.of(context).primaryColor, // Red
+              ),
+            ),
+          )
         ),
       ),
     );

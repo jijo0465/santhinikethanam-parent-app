@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 
 class DigiSubjectBar extends StatelessWidget {
   final int index;
+  final String title;
   final VoidCallback onPressed;
   bool isSelected = false;
-  DigiSubjectBar({Key key, this.index, this.onPressed, this.isSelected})
+  DigiSubjectBar({Key key, this.index, this.onPressed, this.isSelected, this.title})
       : super(key: key);
 
   static List<Map<String, String>> subjects = [
@@ -56,8 +57,9 @@ class DigiSubjectBar extends StatelessWidget {
               shape: BoxShape.circle,
             ),
             alignment: Alignment.center,
-            child: Text(
-              DigiSubjectBar.subjects[index]['sub'],
+            child: Text(title != null
+              ? title
+              : DigiSubjectBar.subjects[index]['sub'],
               style: TextStyle(
                   color: (isSelected) ? Colors.white : textColor,
                   fontSize: 20,

@@ -56,7 +56,7 @@ dependencies:
   flutter_launcher_icons: ^0.7.5
   path_provider: ^1.6.10
   url_launcher: ^5.4.11
-#  youtube_player_flutter: ^6.1.1
+  youtube_player_flutter: ^6.1.1
 
 dev_dependencies:
   flutter_test:
